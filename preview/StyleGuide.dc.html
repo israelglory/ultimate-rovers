@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ultimate Rovers: Design system</title>
+<script src="./dc-preview.js"></script>
+</head>
+<body>
+<script type="text/x-dc-template" id="dc-template">
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&amp;family=Big+Shoulders+Display:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#0E2A8C}a:hover{color:#071341}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2000px; box-sizing: border-box; padding: 64px 72px; background: #F4F7FB; font-family: 'Archivo', system-ui, sans-serif; color: #0A1030; display: flex; flex-direction: column; gap: 56px">
+
+<div style="display: flex; align-items: center; gap: 24px">
+<img src="../assets/crest.png" alt="Ultimate Rovers crest" style="width: 84px; height: auto">
+<div>
+<h1 style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 72px; line-height: 0.9">Matchday Navy</h1>
+<p style="margin: 8px 0 0; color: #4A5578; font-size: 17px">Design system for the Ultimate Rovers website. Colours lifted from the crest, condensed display type, pitch-line motifs.</p>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px">
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Colour</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{colors}}" as="c" hint-placeholder-count="6">
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; overflow: hidden">
+<div style="{{c.sw}}"></div>
+<div style="padding: 10px 12px"><p style="margin: 0; font-weight: 700; font-size: 15px">{{c.name}}</p><p style="margin: 2px 0 0; font-size: 13px; color: #4A5578">{{c.hex}}</p><p style="margin: 6px 0 0; font-size: 13px; color: #2A3458">{{c.role}}</p></div>
+</div>
+</sc-for>
+</div>
+<p style="margin: 14px 0 0; font-size: 14px; color: #4A5578; line-height: 1.5">Cyan never carries text on white. On cyan, text is always Night. Body text on Chalk uses Ink or Slate, both above 7:1.</p>
+</section>
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Crest usage</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div style="background: #071341; border-radius: 12px; height: 190px; display: flex; align-items: center; justify-content: center"><img src="../assets/crest.png" alt="" style="width: 110px; height: auto"></div>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; height: 190px; display: flex; align-items: center; justify-content: center"><img src="../assets/crest.png" alt="" style="width: 110px; height: auto"></div>
+<div style="background: #5CE1E6; border-radius: 12px; height: 190px; display: flex; align-items: center; justify-content: center"><img src="../assets/crest.png" alt="" style="width: 110px; height: auto"></div>
+</div>
+<p style="margin: 14px 0 0; font-size: 14px; color: #4A5578; line-height: 1.5">Minimum size 32 px wide. Keep clear space of half the ball’s width on every side. Never stretch, recolour or place on busy photos.</p>
+</section>
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Type</h2>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Hero, 184/0.84</span><span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 88px; line-height: 0.84">ROVERS</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Page title, 104</span><span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 56px; line-height: 0.9">Fixtures &amp; results</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Section, 52</span><span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 40px; line-height: 1">Latest news</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Card title, 28</span><span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 28px; line-height: 1">SURNAME</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Lead, 18/1.6</span><span style="font-size: 18px; line-height: 1.6">Archivo for reading text and interface.</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="flex: 0 0 120px; font-size: 13px; color: #4A5578">Body, 15 to 16</span><span style="font-size: 15px">Buttons, labels, table cells and meta text.</span></div>
+</div>
+<p style="margin: 14px 0 0; font-size: 14px; color: #4A5578; line-height: 1.5">Big Shoulders Display 800 to 900 for headlines and numbers. Archivo 400 to 700 for everything else. Labels stay in sentence case.</p>
+</section>
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Components</h2>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #0E2A8C; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Primary on light</a>
+<a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border: 1px solid #0E2A8C; color: #0E2A8C; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Secondary</a>
+<span style="display: inline-flex; align-items: center; background: #071341; padding: 10px; border-radius: 10px"><a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Primary on dark</a></span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: #071341; padding: 12px; border-radius: 10px">
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: #5CE1E6; color: #071341; font-weight: 700; font-size: 14px">Selected filter</span>
+<span style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A55B5; color: #ffffff; font-weight: 600; font-size: 14px">Filter</span>
+<span style="display: inline-flex; align-items: center; background: #E3F9FA; color: #0A3E6B; font-weight: 600; font-size: 13px; padding: 4px 10px; border-radius: 999px">[League] tag</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; max-width: 360px">
+<label for="sg-in" style="font-weight: 600; font-size: 14px">Field label</label>
+<input id="sg-in" type="text" placeholder="Placeholder" style="min-height: 48px; padding: 0 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px">
+</div>
+<div style="display: flex; gap: 16px; align-items: center">
+<span style="background: #071341; color: #ffffff; border-radius: 8px; padding: 8px 16px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 28px">X : X</span>
+<span style="background: #F4F7FB; border: 1px solid #DCE3EF; border-radius: 8px; padding: 8px 14px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 26px; color: #0E2A8C">[HH:MM]</span>
+<span style="font-size: 14px; color: #4A5578">Score and kick-off chips</span>
+</div>
+</div>
+</section>
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Spacing and shape</h2>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; padding: 24px">
+<div style="display: flex; align-items: flex-end; gap: 14px">
+<sc-for list="{{space}}" as="s" hint-placeholder-count="8">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px"><div style="{{s.box}}"></div><span style="font-size: 13px; color: #4A5578">{{s.v}}</span></div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 20px; margin-top: 24px; align-items: center">
+<div style="width: 72px; height: 48px; border: 2px solid #0E2A8C; border-radius: 6px"></div><span style="font-size: 13px; color: #4A5578">6, buttons</span>
+<div style="width: 72px; height: 48px; border: 2px solid #0E2A8C; border-radius: 12px"></div><span style="font-size: 13px; color: #4A5578">12, cards</span>
+<div style="width: 72px; height: 48px; border: 2px solid #0E2A8C; border-radius: 16px"></div><span style="font-size: 13px; color: #4A5578">16, features</span>
+<div style="width: 72px; height: 48px; border: 2px solid #0E2A8C; border-radius: 999px"></div><span style="font-size: 13px; color: #4A5578">Full, chips</span>
+</div>
+</div>
+</section>
+
+<section>
+<h2 style="margin: 0 0 18px; font-size: 22px">Layout and motif</h2>
+<div style="background: #071341; color: #ffffff; border-radius: 12px; padding: 24px; display: flex; gap: 24px; align-items: center">
+<svg aria-hidden="true" viewBox="0 0 160 160" style="flex: 0 0 140px; width: 140px; height: auto"><circle cx="80" cy="80" r="70" fill="none" stroke="#5CE1E6" stroke-opacity="0.6" stroke-width="2"></circle><circle cx="80" cy="80" r="3" fill="#5CE1E6"></circle><line x1="0" y1="80" x2="160" y2="80" stroke="#5CE1E6" stroke-opacity="0.6" stroke-width="2"></line></svg>
+<p style="margin: 0; color: #C3CDEE; font-size: 15px; line-height: 1.6">Centre circle and halfway line, drawn at 35% cyan, sit behind page headers and the crest. Content width 1280 px with 24 px gutters. Pages reflow with flex-wrap and auto-fit grids, so every row stacks cleanly at 390 px. Touch targets 44 px or larger.</p>
+</div>
+</section>
+</div>
+</div>
+</script>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var colors = [
+      { name: 'Night', hex: '#071341', role: 'Headers, hero, footer' },
+      { name: 'Crest Navy', hex: '#0E2A8C', role: 'Primary actions, links' },
+      { name: 'Pitch Cyan', hex: '#5CE1E6', role: 'Accent, actions on dark' },
+      { name: 'Chalk', hex: '#F4F7FB', role: 'Page background' },
+      { name: 'Ink', hex: '#0A1030', role: 'Body text' },
+      { name: 'Slate', hex: '#4A5578', role: 'Secondary text' }
+    ].map(function (c) {
+      return Object.assign({}, c, { sw: 'height: 84px; background: ' + c.hex + (c.hex === '#F4F7FB' ? '; border-bottom: 1px solid #DCE3EF' : '') });
+    });
+    var space = [4, 8, 12, 16, 24, 32, 48, 64, 80].map(function (v) {
+      return { v: String(v), box: 'width: ' + v + 'px; height: ' + v + 'px; background: #5CE1E6; border-radius: 2px' };
+    });
+    return { colors: colors, space: space };
+  }
+}
+</script>
+</body>
+</html>

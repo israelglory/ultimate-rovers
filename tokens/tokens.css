@@ -1,0 +1,42 @@
+/* Matchday Navy design tokens for Ultimate Rovers. Map these into Tailwind's theme. */
+:root {
+  --color-night: #071341;
+  --color-navy: #0E2A8C;
+  --color-navy-raised: #13277A;
+  --color-navy-soft: #1B3AA6;
+  --color-navy-silhouette: #2D4CB8;
+  --color-line-dark: #1E3383;
+  --color-border-dark: #3A55B5;
+  --color-cyan: #5CE1E6;
+  --color-cyan-tint: #E3F9FA;
+  --color-cyan-tint-text: #0A3E6B;
+  --color-chalk: #F4F7FB;
+  --color-mist: #E6ECF6;
+  --color-line: #DCE3EF;
+  --color-line-strong: #B8C3D9;
+  --color-white: #FFFFFF;
+  --color-ink: #0A1030;
+  --color-ink-soft: #2A3458;
+  --color-slate: #4A5578;
+  --color-mist-text: #C3CDEE;
+  --color-card-yellow: #F2C94C;
+  --color-card-red: #C62828;
+
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body: 'Archivo', system-ui, sans-serif;
+
+  --text-hero: clamp(76px, 12vw, 184px);
+  --text-page-title: clamp(56px, 8vw, 104px);
+  --text-section: 52px;
+  --text-card-title: 28px;
+
+  --radius-button: 6px;
+  --radius-card: 12px;
+  --radius-feature: 16px;
+  --radius-panel: 20px;
+  --radius-pill: 999px;
+
+  --content-max: 1280px;
+  --gutter: 24px;
+  --touch: 44px;
+}

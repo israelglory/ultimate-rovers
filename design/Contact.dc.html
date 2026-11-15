@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ultimate Rovers: Contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&amp;family=Big+Shoulders+Display:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F7FB}
+a{color:#0E2A8C}a:hover{color:#071341}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #5CE1E6;outline-offset:2px}
+</style>
+</helmet>
+<div style="font-family: 'Archivo', system-ui, sans-serif; color: #0A1030; background: #F4F7FB; min-width: 0">
+
+<header style="background: #071341; color: #ffffff; border-bottom: 3px solid #5CE1E6">
+<div style="max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+<a href="Main.dc.html" aria-label="Ultimate Rovers home" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #ffffff">
+<img src="../assets/crest.png" alt="" style="width: 46px; height: auto; display: block">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: 0.02em">ULTIMATE ROVERS</span>
+</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 2px; flex: 1 1 auto">
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Home</a>
+<a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Fixtures &amp; results</a>
+<a href="Squad.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Squad</a>
+<a href="News.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">News</a>
+<a href="About.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">The club</a>
+<a href="Stakeholders.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Stakeholders</a>
+<a href="Contact.dc.html" aria-current="page" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #5CE1E6; text-decoration: none; font-weight: 600; font-size: 15px">Contact</a>
+</nav>
+<a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Get tickets</a>
+</div>
+</header>
+
+<section aria-labelledby="ct-title" style="background: #071341; color: #ffffff; position: relative; overflow: hidden">
+<svg aria-hidden="true" viewBox="0 0 600 300" style="position: absolute; right: -80px; top: -40px; width: 600px; height: auto; opacity: 0.35"><circle cx="300" cy="150" r="140" fill="none" stroke="#5CE1E6" stroke-width="2"></circle><line x1="300" y1="0" x2="300" y2="300" stroke="#5CE1E6" stroke-width="2"></line></svg>
+<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 56px 24px 48px">
+<h1 id="ct-title" style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: clamp(56px, 8vw, 104px); line-height: 0.9">Contact us</h1>
+<p style="margin: 16px 0 0; max-width: 560px; color: #C3CDEE; font-size: 18px; line-height: 1.55">Tickets, partnerships, media, trials or anything else. Pick a team below or send us a message.</p>
+</div>
+</section>
+
+<div style="max-width: 1280px; margin: 0 auto; padding: 56px 24px 80px; display: flex; flex-direction: column; gap: 72px">
+
+<section aria-label="Departments" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<sc-for list="{{teams}}" as="t" hint-placeholder-count="4">
+<article style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 22px">
+<h2 style="margin: 0; font-size: 19px">{{t.title}}</h2>
+<p style="margin: 8px 0 14px; color: #4A5578; font-size: 15px; line-height: 1.5">{{t.text}}</p>
+<a href="mailto:{{t.email}}" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 15px">{{t.email}}</a>
+</article>
+</sc-for>
+</section>
+
+<section aria-labelledby="form-title" style="display: flex; flex-wrap: wrap; gap: 40px">
+<div style="flex: 999 1 560px; min-width: 0; background: #ffffff; border: 1px solid #DCE3EF; border-radius: 16px; padding: 32px">
+<h2 id="form-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">Send a message</h2>
+<sc-if value="{{editing}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="c-name" style="font-weight: 600; font-size: 14px">Full name</label><input id="c-name" type="text" autocomplete="name" style="min-height: 48px; padding: 0 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px; background: #ffffff"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="c-email" style="font-weight: 600; font-size: 14px">Email</label><input id="c-email" type="email" autocomplete="email" style="min-height: 48px; padding: 0 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px; background: #ffffff"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="c-phone" style="font-weight: 600; font-size: 14px">Phone (optional)</label><input id="c-phone" type="tel" autocomplete="tel" style="min-height: 48px; padding: 0 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px; background: #ffffff"></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><label for="c-topic" style="font-weight: 600; font-size: 14px">Topic</label><select id="c-topic" style="min-height: 48px; padding: 0 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px; background: #ffffff"><option>General enquiry</option><option>Tickets and membership</option><option>Partnerships and sponsorship</option><option>Media and press</option><option>Trials and academy</option></select></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; margin-top: 18px"><label for="c-msg" style="font-weight: 600; font-size: 14px">Message</label><textarea id="c-msg" rows="6" style="padding: 12px 14px; border: 1px solid #B8C3D9; border-radius: 6px; font: inherit; font-size: 15px; resize: vertical"></textarea></div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 20px">
+<p style="margin: 0; color: #4A5578; font-size: 14px; max-width: 420px">We reply within [2] working days. We only use your details to answer this message.</p>
+<button type="button" onClick="{{send}}" style="min-height: 52px; padding: 0 28px; border: 0; border-radius: 6px; background: #0E2A8C; color: #ffffff; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer">Send message</button>
+</div>
+</sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="background: #E3F9FA; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E2A8C" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M7.5 12.5l3 3 6-6.5"></path></svg>
+<p style="margin: 0; font-weight: 700; font-size: 20px">Message sent</p>
+<p style="margin: 0; color: #2A3458; font-size: 15px">Thanks for getting in touch. We reply within [2] working days.</p>
+<button type="button" onClick="{{reset}}" style="margin-top: 6px; min-height: 44px; padding: 0 18px; border: 1px solid #0E2A8C; border-radius: 6px; background: transparent; color: #0E2A8C; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer">Send another message</button>
+</div>
+</sc-if>
+</div>
+
+<aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="aspect-ratio: 4 / 3; background: #DCE3EF; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #4A5578; font-size: 14px; position: relative">
+<svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0E2A8C" stroke-width="1.8"><path d="M12 22s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+<span style="position: absolute; bottom: 12px; left: 14px">Map embed</span>
+</div>
+<div style="background: #071341; color: #ffffff; border-radius: 16px; padding: 26px">
+<h2 style="margin: 0; font-size: 19px">Club office</h2>
+<p style="margin: 10px 0 0; color: #C3CDEE; font-size: 15px; line-height: 1.6">[Home ground name]<br>[Street address]<br>[City], [Country]</p>
+<h3 style="margin: 20px 0 0; font-size: 16px">Opening hours</h3>
+<p style="margin: 6px 0 0; color: #C3CDEE; font-size: 15px; line-height: 1.6">Mon to Fri, [09:00] to [17:00]<br>Matchdays, from [3] hours before kick-off</p>
+<a href="tel:+000000000" style="display: inline-flex; align-items: center; min-height: 44px; margin-top: 14px; color: #5CE1E6; font-weight: 700; font-size: 16px">[+000 000 000 0000]</a>
+</div>
+</aside>
+</section>
+
+<section aria-labelledby="faq-title" style="max-width: 880px">
+<h2 id="faq-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 52px; line-height: 1">Common questions</h2>
+<div style="border-top: 2px solid #071341">
+<sc-for list="{{faqs}}" as="f" hint-placeholder-count="5">
+<div style="border-bottom: 1px solid #DCE3EF">
+<h3 style="margin: 0"><button type="button" onClick="{{f.toggle}}" aria-expanded="{{f.open}}" style="width: 100%; min-height: 64px; padding: 16px 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: space-between; gap: 16px; font: inherit; font-weight: 700; font-size: 18px; color: #0A1030; text-align: left; cursor: pointer"><span>{{f.q}}</span><span aria-hidden="true" style="{{f.iconStyle}}">+</span></button></h3>
+<sc-if value="{{f.open}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0 0 20px; color: #2A3458; font-size: 16px; line-height: 1.6; max-width: 720px">{{f.a}}</p>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+
+<footer style="background: #071341; color: #ffffff">
+<div style="max-width: 1280px; margin: 0 auto; padding: 64px 24px 32px; display: flex; flex-wrap: wrap; gap: 40px">
+<div style="flex: 1 1 280px; min-width: 0">
+<div style="display: flex; align-items: center; gap: 12px">
+<img src="../assets/crest.png" alt="" style="width: 56px; height: auto">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 28px; line-height: 1">ULTIMATE ROVERS</span>
+</div>
+<p style="margin: 16px 0 0; color: #C3CDEE; font-size: 15px; line-height: 1.6; max-width: 320px">[Short line about the club, its home and the community it plays for.]</p>
+<div style="display: flex; gap: 8px; margin-top: 20px">
+<a href="https://instagram.com" aria-label="Instagram" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.8"></circle></svg></a>
+<a href="https://x.com" aria-label="X" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>
+<a href="https://youtube.com" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l5 3-5 3z"></path></svg></a>
+<a href="https://tiktok.com" aria-label="TikTok" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"></path><path d="M14 3c.5 2.5 2.5 4.5 5 4.5"></path></svg></a>
+<a href="https://facebook.com" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"></path></svg></a>
+</div>
+</div>
+<nav aria-label="Club" style="flex: 0 1 160px; display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Club</p>
+<a href="About.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">About us</a>
+<a href="Stakeholders.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Stakeholders</a>
+<a href="News.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">News</a>
+<a href="Contact.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Contact</a>
+</nav>
+<nav aria-label="Matchday" style="flex: 0 1 160px; display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Matchday</p>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Fixtures</a>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Results</a>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">League table</a>
+<a href="Squad.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Squad</a>
+</nav>
+<div style="flex: 1 1 300px; min-width: 0">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Club newsletter</p>
+<p style="margin: 0 0 14px; color: #C3CDEE; font-size: 15px; line-height: 1.5">Team news, ticket releases and match reports in your inbox.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<label for="nl-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Email address</label>
+<input id="nl-email" type="email" placeholder="you@example.com" style="flex: 1 1 200px; min-height: 48px; padding: 0 14px; border-radius: 6px; border: 1px solid #3A55B5; background: #0E2A8C; color: #ffffff; font: inherit; font-size: 15px">
+<button type="button" style="min-height: 48px; padding: 0 20px; border: 0; border-radius: 6px; background: #5CE1E6; color: #071341; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer">Subscribe</button>
+</div>
+</div>
+</div>
+<div style="border-top: 1px solid #1E3383">
+<div style="max-width: 1280px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: #C3CDEE">
+<span>© 2026 Ultimate Rovers. All rights reserved.</span>
+<div style="display: flex; flex-wrap: wrap; gap: 20px"><a href="Contact.dc.html" style="color: #C3CDEE">Privacy policy</a><a href="Contact.dc.html" style="color: #C3CDEE">Terms of use</a><a href="Contact.dc.html" style="color: #C3CDEE">Cookie settings</a></div>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var s = this.state || {};
+    var sent = !!s.sent;
+    var openIdx = s.faq === undefined ? 0 : s.faq;
+    var faqs = [
+      { q: 'How do I buy match tickets?', a: 'Home tickets go on sale [X] days before each match on the Fixtures page and at the ground. Members get priority access.' },
+      { q: 'How can my child attend academy trials?', a: 'Trials for [U-##] to [U-##] run in [Month]. Send a message with the topic Trials and academy and we will send the dates.' },
+      { q: 'How do we become a club partner?', a: 'Email our commercial team with your organisation and goals, and we will share the partnership packages for the season.' },
+      { q: 'Can we request a player appearance?', a: 'Yes, for schools, charities and community events. Send the date, venue and audience at least [4] weeks ahead.' },
+      { q: 'I am a journalist. How do I get accreditation?', a: 'Contact the media team with your outlet and the fixture at least [48] hours before kick-off.' }
+    ].map(function (f, i) {
+      var open = openIdx === i;
+      return Object.assign({}, f, {
+        open: open,
+        iconStyle: 'flex: 0 0 32px; height: 32px; border-radius: 50%; background: ' + (open ? '#071341' : '#E6ECF6') + '; color: ' + (open ? '#ffffff' : '#071341') + '; display: flex; align-items: center; justify-content: center; font-size: 22px; line-height: 1; transform: rotate(' + (open ? '45deg' : '0deg') + '); transition: transform 0.2s',
+        toggle: function () { self.setState({ faq: open ? -1 : i }); }
+      });
+    });
+    return {
+      sent: sent,
+      editing: !sent,
+      send: function () { self.setState({ sent: true }); },
+      reset: function () { self.setState({ sent: false }); },
+      faqs: faqs,
+      teams: [
+        { title: 'General enquiries', text: 'Questions about the club, visits and everything else.', email: 'hello@[clubdomain]' },
+        { title: 'Tickets and membership', text: 'Matchday tickets, season tickets and member services.', email: 'tickets@[clubdomain]' },
+        { title: 'Partnerships', text: 'Sponsorship, advertising and commercial packages.', email: 'partners@[clubdomain]' },
+        { title: 'Media and press', text: 'Interview requests, accreditation and press releases.', email: 'media@[clubdomain]' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

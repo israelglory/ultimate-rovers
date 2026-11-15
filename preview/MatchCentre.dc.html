@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ultimate Rovers: Match centre</title>
+<script src="./dc-preview.js"></script>
+</head>
+<body>
+<script type="text/x-dc-template" id="dc-template">
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&amp;family=Big+Shoulders+Display:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F7FB}
+a{color:#0E2A8C}a:hover{color:#071341}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #5CE1E6;outline-offset:2px}
+</style>
+</helmet>
+<div style="font-family: 'Archivo', system-ui, sans-serif; color: #0A1030; background: #F4F7FB; min-width: 0">
+
+<header style="background: #071341; color: #ffffff; border-bottom: 3px solid #5CE1E6">
+<div style="max-width: 1280px; margin: 0 auto; padding: 10px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+<a href="Main.dc.html" aria-label="Ultimate Rovers home" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #ffffff">
+<img src="../assets/crest.png" alt="" style="width: 46px; height: auto; display: block">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: 0.02em">ULTIMATE ROVERS</span>
+</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 2px; flex: 1 1 auto">
+<a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Home</a>
+<a href="Fixtures.dc.html" aria-current="page" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #5CE1E6; text-decoration: none; font-weight: 600; font-size: 15px">Fixtures &amp; results</a>
+<a href="Squad.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Squad</a>
+<a href="News.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">News</a>
+<a href="About.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">The club</a>
+<a href="Stakeholders.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Stakeholders</a>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px">Contact</a>
+</nav>
+<a href="Fixtures.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Get tickets</a>
+</div>
+</header>
+
+<nav aria-label="Breadcrumb" style="background: #ffffff; border-bottom: 1px solid #DCE3EF">
+<div style="max-width: 1280px; margin: 0 auto; padding: 0 24px">
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; align-items: center; min-height: 48px">
+<li><a href="Fixtures.dc.html">Fixtures &amp; results</a></li>
+<li aria-hidden="true" style="color: #4A5578">/</li>
+<li><a href="Fixtures.dc.html">[Competition name]</a></li>
+<li aria-hidden="true" style="color: #4A5578">/</li>
+<li aria-current="page" style="color: #4A5578">Ultimate Rovers vs [Opponent FC]</li>
+</ol>
+</div>
+</nav>
+
+<section aria-labelledby="mc-title" style="background: #071341; color: #ffffff; position: relative; overflow: hidden">
+<svg aria-hidden="true" viewBox="0 0 800 400" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 900px; height: auto; opacity: 0.3"><circle cx="400" cy="200" r="170" fill="none" stroke="#5CE1E6" stroke-width="2"></circle><line x1="400" y1="0" x2="400" y2="400" stroke="#5CE1E6" stroke-width="2"></line></svg>
+<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 36px 24px 44px">
+<h1 id="mc-title" style="margin: 0; text-align: center; font-size: 15px; font-weight: 600; color: #C3CDEE">[Competition name], matchweek [#]</h1>
+<p style="margin: 6px 0 0; text-align: center; font-size: 14px; color: #C3CDEE">[Sat, DD Month YYYY], [HH:MM] at [Home ground name], [City]</p>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 24px; margin-top: 32px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<img src="../assets/crest.png" alt="" style="width: 120px; max-width: 100%; height: auto">
+<p style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: clamp(28px, 3.4vw, 44px); line-height: 1">ULTIMATE ROVERS</p>
+<sc-if value="{{hasEvents}}" hint-placeholder-val="{{ true }}">
+<ul style="list-style: none; margin: 0; padding: 0; font-size: 14px; color: #C3CDEE; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{homeScorers}}" as="s" hint-placeholder-count="2"><li>{{s}}</li></sc-for>
+</ul>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 200px">
+<sc-if value="{{isUpcoming}}" hint-placeholder-val="{{ false }}">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 88px; line-height: 0.9; color: #5CE1E6">[HH:MM]</span>
+<div role="timer" aria-label="Countdown to kick-off" style="display: flex; gap: 6px">
+<div style="background: #0E2A8C; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 44px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 24px; line-height: 1">00</div><div style="font-size: 12px; color: #C3CDEE">days</div></div>
+<div style="background: #0E2A8C; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 44px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 24px; line-height: 1">00</div><div style="font-size: 12px; color: #C3CDEE">hrs</div></div>
+<div style="background: #0E2A8C; border-radius: 8px; padding: 6px 10px; text-align: center; min-width: 44px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 24px; line-height: 1">00</div><div style="font-size: 12px; color: #C3CDEE">mins</div></div>
+</div>
+</sc-if>
+<sc-if value="{{hasEvents}}" hint-placeholder-val="{{ true }}">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 112px; line-height: 0.9">X : X</span>
+</sc-if>
+<sc-if value="{{isLive}}" hint-placeholder-val="{{ false }}">
+<span style="display: inline-flex; align-items: center; gap: 8px; background: #5CE1E6; color: #071341; font-weight: 700; font-size: 15px; padding: 6px 14px; border-radius: 999px"><span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 50%; background: #071341"></span>Live, [67']</span>
+</sc-if>
+<sc-if value="{{isFT}}" hint-placeholder-val="{{ true }}">
+<span style="border: 1px solid #3A55B5; font-weight: 700; font-size: 15px; padding: 6px 14px; border-radius: 999px">Full time</span>
+<span style="font-size: 13px; color: #C3CDEE">Half time X : X</span>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<span aria-hidden="true" style="width: 120px; height: 120px; max-width: 100%; border-radius: 50%; border: 3px dashed #8FA0D8; box-sizing: border-box; display: flex; align-items: center; justify-content: center; color: #C3CDEE; font-size: 13px">Crest</span>
+<p style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: clamp(28px, 3.4vw, 44px); line-height: 1">[OPPONENT FC]</p>
+<sc-if value="{{hasEvents}}" hint-placeholder-val="{{ true }}">
+<ul style="list-style: none; margin: 0; padding: 0; font-size: 14px; color: #C3CDEE; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{awayScorers}}" as="s" hint-placeholder-count="1"><li>{{s}}</li></sc-for>
+</ul>
+</sc-if>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px">
+<sc-if value="{{isUpcoming}}" hint-placeholder-val="{{ false }}">
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Buy tickets</a>
+<a href="https://example.com/match.ics" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; border: 2px solid #ffffff; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px; box-sizing: border-box">Add to calendar</a>
+</sc-if>
+<sc-if value="{{isLive}}" hint-placeholder-val="{{ false }}">
+<a href="https://example.com/live" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Watch live on [Broadcaster]</a>
+</sc-if>
+<sc-if value="{{isFT}}" hint-placeholder-val="{{ true }}">
+<a href="#highlights" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 24px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Watch highlights</a>
+</sc-if>
+<button type="button" style="min-height: 50px; padding: 0 20px; border: 1px solid #3A55B5; border-radius: 6px; background: transparent; color: #ffffff; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer">Share</button>
+</div>
+</div>
+</section>
+
+<div style="background: #ffffff; border-bottom: 1px solid #DCE3EF">
+<div role="tablist" aria-label="Match sections" style="max-width: 1280px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+<button type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="max-width: 1280px; margin: 0 auto; padding: 48px 24px 72px; display: flex; flex-direction: column; gap: 64px">
+
+<sc-if value="{{showOverview}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 32px">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 40px">
+
+<sc-if value="{{hasEvents}}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="tl-title">
+<h2 id="tl-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">Key moments</h2>
+<ol style="list-style: none; margin: 0; padding: 0; background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px">
+<sc-for list="{{events}}" as="e" hint-placeholder-count="6">
+<li style="border-top: 1px solid #DCE3EF">
+<sc-if value="{{e.isMarker}}" hint-placeholder-val="{{ false }}">
+<div style="padding: 12px 20px; text-align: center; background: #E6ECF6; font-weight: 700; font-size: 14px; color: #071341">{{e.text}}</div>
+</sc-if>
+<sc-if value="{{e.isEvent}}" hint-placeholder-val="{{ true }}">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); align-items: center; gap: 12px; padding: 14px 20px">
+<div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; text-align: right">
+<sc-if value="{{e.home}}" hint-placeholder-val="{{ true }}">
+<div><p style="margin: 0; font-weight: 700; font-size: 16px">{{e.text}}</p><p style="margin: 2px 0 0; color: #4A5578; font-size: 13px">{{e.sub}}</p></div>
+<span style="{{e.iconStyle}}">{{e.icon}}</span>
+</sc-if>
+</div>
+<span style="justify-self: center; background: #071341; color: #ffffff; border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 14px">{{e.min}}</span>
+<div style="display: flex; align-items: center; gap: 12px">
+<sc-if value="{{e.away}}" hint-placeholder-val="{{ false }}">
+<span style="{{e.iconStyle}}">{{e.icon}}</span>
+<div><p style="margin: 0; font-weight: 700; font-size: 16px">{{e.text}}</p><p style="margin: 2px 0 0; color: #4A5578; font-size: 13px">{{e.sub}}</p></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</li>
+</sc-for>
+</ol>
+<p style="margin: 12px 0 0; font-size: 13px; color: #4A5578">Key: G goal, Y yellow card, R red card, S substitution.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{isFT}}" hint-placeholder-val="{{ true }}">
+<section id="highlights" aria-labelledby="hl-title">
+<h2 id="hl-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">Highlights</h2>
+<button type="button" aria-label="Play match highlights" style="width: 100%; aspect-ratio: 16 / 9; background: #071341; border: 0; border-radius: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
+<span style="width: 84px; height: 84px; border-radius: 50%; background: #5CE1E6; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="#071341"><path d="M8 5v14l11-7z"></path></svg></span>
+</button>
+</section>
+</sc-if>
+
+<sc-if value="{{isUpcoming}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="pv-title">
+<h2 id="pv-title" style="margin: 0 0 16px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">Match preview</h2>
+<p style="margin: 0; max-width: 680px; font-size: 18px; line-height: 1.65; color: #2A3458">[Where both sides stand going into the game, what is at stake and the key battles to watch.]</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 28px">
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 22px">
+<h3 style="margin: 0 0 12px; font-size: 18px">Rovers team news</h3>
+<ul style="margin: 0; padding-left: 18px; color: #2A3458; font-size: 15px; line-height: 1.7"><li>[Player name]: [injury or suspension]</li><li>[Player name]: [doubtful, late fitness test]</li></ul>
+</div>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 22px">
+<h3 style="margin: 0 0 12px; font-size: 18px">[Opponent FC] team news</h3>
+<ul style="margin: 0; padding-left: 18px; color: #2A3458; font-size: 15px; line-height: 1.7"><li>[Player name]: [injury or suspension]</li><li>[Player name]: [returns from injury]</li></ul>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section aria-labelledby="form-title">
+<h2 id="form-title" style="margin: 0 0 16px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">Form going in</h2>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px">
+<span style="font-weight: 700">Ultimate Rovers</span>
+<span style="display: flex; gap: 6px"><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span></span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-top: 1px solid #DCE3EF">
+<span style="font-weight: 700">[Opponent FC]</span>
+<span style="display: flex; gap: 6px"><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span><span style="width: 36px; height: 36px; border-radius: 6px; background: #E6ECF6; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #4A5578">-</span></span>
+</div>
+</div>
+<p style="margin: 10px 0 0; font-size: 13px; color: #4A5578">Last five matches, oldest on the left. Each box shows W, D or L.</p>
+</section>
+</div>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 22px">
+<h2 style="margin: 0 0 14px; font-size: 19px">Match details</h2>
+<dl style="margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 16px; font-size: 15px">
+<dt style="color: #4A5578">Kick-off</dt><dd style="margin: 0; font-weight: 600">[HH:MM], [DD Month YYYY]</dd>
+<dt style="color: #4A5578">Venue</dt><dd style="margin: 0; font-weight: 600">[Home ground name]</dd>
+<dt style="color: #4A5578">Referee</dt><dd style="margin: 0; font-weight: 600">[Referee name]</dd>
+<dt style="color: #4A5578">Broadcast</dt><dd style="margin: 0; font-weight: 600">[Channel or stream]</dd>
+<sc-if value="{{isFT}}" hint-placeholder-val="{{ true }}"><dt style="color: #4A5578">Attendance</dt><dd style="margin: 0; font-weight: 600">[#,###]</dd></sc-if>
+</dl>
+<a href="https://maps.google.com" style="display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-weight: 700; font-size: 15px">Get directions</a>
+</div>
+<sc-if value="{{isFT}}" hint-placeholder-val="{{ true }}">
+<div style="background: #071341; color: #ffffff; border-radius: 14px; padding: 22px">
+<h2 style="margin: 0; font-size: 19px">Player of the match</h2>
+<div style="display: flex; align-items: center; gap: 14px; margin-top: 14px">
+<div aria-hidden="true" style="flex: 0 0 64px; height: 64px; border-radius: 50%; background: #0E2A8C; overflow: hidden; display: flex; align-items: flex-end; justify-content: center"><svg viewBox="0 0 200 220" style="width: 76%; height: auto; display: block"><circle cx="100" cy="72" r="42" fill="#2D4CB8"></circle><path d="M18 220c0-62 36-98 82-98s82 36 82 98z" fill="#2D4CB8"></path></svg></div>
+<div><p style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 28px; line-height: 1">SURNAME</p><a href="Player.dc.html" style="color: #5CE1E6; font-size: 14px; font-weight: 600">View profile</a></div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isUpcoming}}" hint-placeholder-val="{{ false }}">
+<div style="background: #071341; color: #ffffff; border-radius: 14px; padding: 22px">
+<h2 style="margin: 0; font-size: 19px">Tickets</h2>
+<p style="margin: 10px 0 16px; color: #C3CDEE; font-size: 15px; line-height: 1.55">Adults from [Price], under-16s from [Price]. Members get priority until [Date].</p>
+<a href="Contact.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 20px; background: #5CE1E6; color: #071341; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 6px">Buy tickets</a>
+</div>
+</sc-if>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{showLineups}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="lu-title">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 20px">
+<h2 id="lu-title" style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1">{{lineupTitle}}</h2>
+<p style="margin: 0; color: #4A5578; font-size: 15px">Rovers [4-3-3], [Opponent FC] [4-3-3]</p>
+</div>
+<div style="overflow-x: auto">
+<div style="position: relative; min-width: 720px; aspect-ratio: 2 / 1; background: #0E2A8C; border-radius: 16px; overflow: hidden">
+<svg aria-hidden="true" viewBox="0 0 200 100" style="position: absolute; inset: 0; width: 100%; height: 100%"><g fill="none" stroke="#5CE1E6" stroke-opacity="0.5" stroke-width="0.4"><rect x="3" y="3" width="194" height="94"></rect><line x1="100" y1="3" x2="100" y2="97"></line><circle cx="100" cy="50" r="12"></circle><rect x="3" y="24" width="26" height="52"></rect><rect x="3" y="38" width="9" height="24"></rect><rect x="171" y="24" width="26" height="52"></rect><rect x="188" y="38" width="9" height="24"></rect></g></svg>
+<sc-for list="{{pitchPlayers}}" as="p" hint-placeholder-count="22">
+<div style="{{p.pos}}">
+<span style="{{p.dot}}">{{p.num}}</span>
+<span style="font-size: 12px; font-weight: 600; color: #ffffff; white-space: nowrap">{{p.name}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 24px">
+<sc-for list="{{benches}}" as="b" hint-placeholder-count="2">
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 22px">
+<h3 style="margin: 0; font-size: 18px">{{b.team}}</h3>
+<p style="margin: 4px 0 14px; color: #4A5578; font-size: 14px">Head coach: [Full name]</p>
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 14px">Substitutes</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; font-size: 14px">
+<sc-for list="{{b.subs}}" as="s" hint-placeholder-count="7"><li style="display: flex; gap: 8px"><span style="flex: 0 0 26px; font-weight: 700; color: #0E2A8C">{{s}}</span><span>Surname</span></li></sc-for>
+</ul>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{showStats}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="ms-title" style="max-width: 880px; width: 100%; margin: 0 auto">
+<h2 id="ms-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1; text-align: center">Match stats</h2>
+<div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 12px"><span>Ultimate Rovers</span><span>[Opponent FC]</span></div>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 8px 24px">
+<sc-for list="{{stats}}" as="s" hint-placeholder-count="8">
+<div style="padding: 16px 0; border-top: 1px solid #DCE3EF">
+<div style="display: grid; grid-template-columns: 60px minmax(0, 1fr) 60px; align-items: center; font-size: 15px">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 24px">--</span>
+<span style="text-align: center; color: #4A5578">{{s}}</span>
+<span style="text-align: right; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 24px">--</span>
+</div>
+<div style="display: flex; gap: 4px; margin-top: 8px"><span style="flex: 1 1 0; height: 8px; border-radius: 4px; background: #0E2A8C"></span><span style="flex: 1 1 0; height: 8px; border-radius: 4px; background: #B8C3D9"></span></div>
+</div>
+</sc-for>
+</div>
+<p style="margin: 12px 0 0; font-size: 13px; color: #4A5578; text-align: center">Bars split in proportion to each side’s figure. Rovers in navy.</p>
+</section>
+</sc-if>
+
+<sc-if value="{{showReport}}" hint-placeholder-val="{{ false }}">
+<article aria-labelledby="rp-title" style="max-width: 760px; width: 100%; margin: 0 auto">
+<p style="margin: 0; color: #0E2A8C; font-weight: 600; font-size: 14px">Match report, by [Author name]</p>
+<h2 id="rp-title" style="margin: 10px 0 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 56px; line-height: 0.98">[Headline that sums up the result]</h2>
+<p style="margin: 18px 0 0; font-size: 20px; line-height: 1.6; color: #2A3458">[Standfirst: the result and why it matters, in one sentence.]</p>
+<div aria-hidden="true" style="aspect-ratio: 16 / 9; background: #DCE3EF; border-radius: 14px; margin-top: 28px"></div>
+<p style="margin: 28px 0 0; font-size: 18px; line-height: 1.7; color: #2A3458">[First half: how the game opened and the key moments.]</p>
+<p style="margin: 16px 0 0; font-size: 18px; line-height: 1.7; color: #2A3458">[Second half: what changed, the decisive goals and the finish.]</p>
+<blockquote style="margin: 28px 0; padding: 24px 28px; background: #071341; color: #ffffff; border-radius: 14px">
+<p style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05">“[What the head coach said after the match.]”</p>
+<footer style="margin-top: 12px; color: #C3CDEE; font-size: 14px">[Head coach name], head coach</footer>
+</blockquote>
+<a href="News.dc.html" style="font-weight: 700; font-size: 15px">More match reports</a>
+</article>
+</sc-if>
+
+<sc-if value="{{showH2H}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="h2h-title" style="max-width: 880px; width: 100%; margin: 0 auto">
+<h2 id="h2h-title" style="margin: 0 0 20px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 44px; line-height: 1; text-align: center">Head to head</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; text-align: center">
+<div style="background: #071341; color: #ffffff; border-radius: 14px; padding: 20px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 56px; line-height: 1">[0]</div><div style="font-size: 14px; color: #C3CDEE">Rovers wins</div></div>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 20px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 56px; line-height: 1">[0]</div><div style="font-size: 14px; color: #4A5578">Draws</div></div>
+<div style="background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px; padding: 20px"><div style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 56px; line-height: 1">[0]</div><div style="font-size: 14px; color: #4A5578">[Opponent FC] wins</div></div>
+</div>
+<h3 style="margin: 32px 0 12px; font-size: 18px">Last meetings</h3>
+<ul style="list-style: none; margin: 0; padding: 0; background: #ffffff; border: 1px solid #DCE3EF; border-radius: 14px">
+<sc-for list="{{meetings}}" as="m" hint-placeholder-count="5">
+<li style="border-top: 1px solid #DCE3EF; display: grid; grid-template-columns: 140px minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; padding: 14px 20px; font-size: 15px">
+<span style="color: #4A5578; font-size: 14px">{{m.date}}</span>
+<span style="text-align: right; font-weight: 600">{{m.home}}</span>
+<span style="background: #E6ECF6; border-radius: 6px; padding: 4px 10px; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 20px">X : X</span>
+<span style="font-weight: 600">{{m.away}}</span>
+</li>
+</sc-for>
+</ul>
+</section>
+</sc-if>
+
+<section aria-labelledby="next-title" style="border-top: 2px solid #071341; padding-top: 32px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 20px">
+<h2 id="next-title" style="margin: 0; font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 40px; line-height: 1">Coming up</h2>
+<a href="Fixtures.dc.html" style="font-weight: 600; font-size: 15px">All fixtures</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+<sc-for list="{{nextUp}}" as="n" hint-placeholder-count="3">
+<a href="MatchCentre.dc.html" style="text-decoration: none; color: #0A1030; background: #ffffff; border: 1px solid #DCE3EF; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; background: #E3F9FA; color: #0A3E6B; font-weight: 600; font-size: 13px; padding: 4px 10px; border-radius: 999px">{{n.comp}}</span>
+<span style="font-weight: 700; font-size: 17px">{{n.title}}</span>
+<span style="color: #4A5578; font-size: 14px">[Sat, DD Month], [HH:MM]</span>
+</a>
+</sc-for>
+</div>
+</section>
+</div>
+
+
+<footer style="background: #071341; color: #ffffff">
+<div style="max-width: 1280px; margin: 0 auto; padding: 64px 24px 32px; display: flex; flex-wrap: wrap; gap: 40px">
+<div style="flex: 1 1 280px; min-width: 0">
+<div style="display: flex; align-items: center; gap: 12px">
+<img src="../assets/crest.png" alt="" style="width: 56px; height: auto">
+<span style="font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 800; font-size: 28px; line-height: 1">ULTIMATE ROVERS</span>
+</div>
+<p style="margin: 16px 0 0; color: #C3CDEE; font-size: 15px; line-height: 1.6; max-width: 320px">[Short line about the club, its home and the community it plays for.]</p>
+<div style="display: flex; gap: 8px; margin-top: 20px">
+<a href="https://instagram.com" aria-label="Instagram" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="0.8"></circle></svg></a>
+<a href="https://x.com" aria-label="X" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>
+<a href="https://youtube.com" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l5 3-5 3z"></path></svg></a>
+<a href="https://tiktok.com" aria-label="TikTok" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"></path><path d="M14 3c.5 2.5 2.5 4.5 5 4.5"></path></svg></a>
+<a href="https://facebook.com" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: #13277A; color: #ffffff; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7.5a.5.5 0 0 1 .5-.5H15z"></path></svg></a>
+</div>
+</div>
+<nav aria-label="Club" style="flex: 0 1 160px; display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Club</p>
+<a href="About.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">About us</a>
+<a href="Stakeholders.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Stakeholders</a>
+<a href="News.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">News</a>
+<a href="Contact.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Contact</a>
+</nav>
+<nav aria-label="Matchday" style="flex: 0 1 160px; display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Matchday</p>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Fixtures</a>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Results</a>
+<a href="Fixtures.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">League table</a>
+<a href="Squad.dc.html" style="color: #C3CDEE; text-decoration: none; font-size: 15px; padding: 6px 0">Squad</a>
+</nav>
+<div style="flex: 1 1 300px; min-width: 0">
+<p style="margin: 0 0 8px; font-weight: 700; font-size: 15px">Club newsletter</p>
+<p style="margin: 0 0 14px; color: #C3CDEE; font-size: 15px; line-height: 1.5">Team news, ticket releases and match reports in your inbox.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<label for="nl-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Email address</label>
+<input id="nl-email" type="email" placeholder="you@example.com" style="flex: 1 1 200px; min-height: 48px; padding: 0 14px; border-radius: 6px; border: 1px solid #3A55B5; background: #0E2A8C; color: #ffffff; font: inherit; font-size: 15px">
+<button type="button" style="min-height: 48px; padding: 0 20px; border: 0; border-radius: 6px; background: #5CE1E6; color: #071341; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer">Subscribe</button>
+</div>
+</div>
+</div>
+<div style="border-top: 1px solid #1E3383">
+<div style="max-width: 1280px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: #C3CDEE">
+<span>© 2026 Ultimate Rovers. All rights reserved.</span>
+<div style="display: flex; flex-wrap: wrap; gap: 20px"><a href="Contact.dc.html" style="color: #C3CDEE">Privacy policy</a><a href="Contact.dc.html" style="color: #C3CDEE">Terms of use</a><a href="Contact.dc.html" style="color: #C3CDEE">Cookie settings</a></div>
+</div>
+</div>
+</footer>
+
+</div>
+</script>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"status":{"editor":"enum","options":["Upcoming","Live","Full time"],"default":"Full time","section":"Match"},"$preview":{"width":1440,"height":4000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this;
+    var status = this.props.status ?? 'Full time';
+    var isUpcoming = status === 'Upcoming';
+    var isLive = status === 'Live';
+    var isFT = status === 'Full time';
+
+    var tabDefs = isUpcoming
+      ? [['overview', 'Preview'], ['lineups', 'Line-ups'], ['h2h', 'Head to head']]
+      : isLive
+        ? [['overview', 'Live'], ['lineups', 'Line-ups'], ['stats', 'Stats'], ['h2h', 'Head to head']]
+        : [['overview', 'Summary'], ['lineups', 'Line-ups'], ['stats', 'Stats'], ['report', 'Report'], ['h2h', 'Head to head']];
+    var wanted = (this.state && this.state.tab) || 'overview';
+    var tab = tabDefs.some(function (t) { return t[0] === wanted; }) ? wanted : 'overview';
+    var on = 'min-height: 56px; padding: 0 20px; border: 0; border-bottom: 3px solid #0E2A8C; background: transparent; color: #071341; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; white-space: nowrap';
+    var off = 'min-height: 56px; padding: 0 20px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: #4A5578; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer; white-space: nowrap';
+    var tabs = tabDefs.map(function (t) {
+      return { label: t[1], on: tab === t[0], style: tab === t[0] ? on : off, pick: function () { self.setState({ tab: t[0] }); } };
+    });
+
+    var badge = {
+      G: 'flex: 0 0 30px; height: 30px; border-radius: 50%; background: #5CE1E6; color: #071341; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px',
+      Y: 'flex: 0 0 22px; height: 30px; border-radius: 4px; background: #F2C94C; color: #071341; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px',
+      R: 'flex: 0 0 22px; height: 30px; border-radius: 4px; background: #C62828; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px',
+      S: 'flex: 0 0 30px; height: 30px; border-radius: 50%; background: #E6ECF6; color: #071341; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px'
+    };
+    function ev(min, side, type, text, sub) {
+      return { min: min, home: side === 'home', away: side === 'away', icon: type, iconStyle: badge[type], text: text, sub: sub, isEvent: true, isMarker: false };
+    }
+    function mk(text) { return { isMarker: true, isEvent: false, text: text }; }
+    var all = [
+      mk('Kick-off'),
+      ev("[12']", 'home', 'G', '[Player name]', 'Assist: [Player name]'),
+      ev("[28']", 'away', 'Y', '[Player name]', 'Foul'),
+      ev("[39']", 'away', 'G', '[Player name]', 'Assist: [Player name]'),
+      mk('Half time, X : X'),
+      ev("[58']", 'home', 'S', 'On: [Player name]', 'Off: [Player name]'),
+      ev("[64']", 'home', 'G', '[Player name]', 'Penalty'),
+      ev("[77']", 'away', 'R', '[Player name]', 'Second yellow'),
+      ev("[85']", 'home', 'S', 'On: [Player name]', 'Off: [Player name]'),
+      mk('Full time, X : X')
+    ];
+    var events = isFT ? all : isLive ? all.slice(0, 7) : [];
+
+    var home = [[5, 50, '1'], [18, 15, '2'], [18, 38, '4'], [18, 62, '5'], [18, 85, '3'], [31, 25, '8'], [31, 50, '6'], [31, 75, '10'], [43, 20, '7'], [43, 50, '9'], [43, 80, '11']];
+    var pitchPlayers = [];
+    home.forEach(function (p) {
+      pitchPlayers.push({ num: p[2], name: 'Surname', pos: 'position: absolute; left: ' + p[0] + '%; top: ' + p[1] + '%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px', dot: 'width: 38px; height: 38px; border-radius: 50%; background: #5CE1E6; color: #071341; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px' });
+      pitchPlayers.push({ num: p[2], name: 'Surname', pos: 'position: absolute; left: ' + (100 - p[0]) + '%; top: ' + (100 - p[1]) + '%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 4px', dot: 'width: 38px; height: 38px; border-radius: 50%; background: #ffffff; color: #071341; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px' });
+    });
+
+    return {
+      isUpcoming: isUpcoming, isLive: isLive, isFT: isFT, hasEvents: !isUpcoming,
+      homeScorers: isLive ? ["[Player name] [12']", "[Player name] [64'] pen"] : ["[Player name] [12']", "[Player name] [64'] pen"],
+      awayScorers: ["[Player name] [39']"],
+      tabs: tabs,
+      showOverview: tab === 'overview', showLineups: tab === 'lineups', showStats: tab === 'stats', showReport: tab === 'report', showH2H: tab === 'h2h',
+      events: events,
+      lineupTitle: isUpcoming ? 'Predicted line-ups' : 'Line-ups',
+      pitchPlayers: pitchPlayers,
+      benches: [
+        { team: 'Ultimate Rovers', subs: ['13', '14', '15', '16', '17', '18', '19'] },
+        { team: '[Opponent FC]', subs: ['12', '14', '15', '16', '17', '18', '20'] }
+      ],
+      stats: ['Possession', 'Shots', 'Shots on target', 'Corners', 'Passes completed', 'Fouls', 'Offsides', 'Yellow cards'],
+      meetings: [
+        { date: '[DD Mon YYYY]', home: '[Opponent FC]', away: 'Ultimate Rovers' },
+        { date: '[DD Mon YYYY]', home: 'Ultimate Rovers', away: '[Opponent FC]' },
+        { date: '[DD Mon YYYY]', home: '[Opponent FC]', away: 'Ultimate Rovers' },
+        { date: '[DD Mon YYYY]', home: 'Ultimate Rovers', away: '[Opponent FC]' },
+        { date: '[DD Mon YYYY]', home: '[Opponent FC]', away: 'Ultimate Rovers' }
+      ],
+      nextUp: [
+        { comp: '[Cup]', title: '[Opponent FC] vs Ultimate Rovers' },
+        { comp: '[League]', title: 'Ultimate Rovers vs [Opponent FC]' },
+        { comp: '[League]', title: '[Opponent FC] vs Ultimate Rovers' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
