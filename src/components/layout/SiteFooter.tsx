@@ -42,7 +42,14 @@ export function SiteFooter({
       <div className="wrap flex flex-wrap gap-x-10 gap-y-5 pt-8 pb-7 sm:gap-10 sm:pt-16 sm:pb-8">
         <div className="min-w-0 flex-[1_1_280px]">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <Image src="/crest.png" alt="" width={56} height={64} className="h-auto w-11 sm:w-14" />
+            <Image
+              src="/crest.png"
+              alt=""
+              width={56}
+              height={64}
+              className="h-auto w-11 sm:w-14"
+              style={{ height: 'auto' }}
+            />
             <span className="font-display text-[24px] leading-none font-extrabold uppercase sm:text-[28px]">
               {clubName}
             </span>

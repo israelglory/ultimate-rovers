@@ -3,6 +3,8 @@
 
 @layer base {
   html {
+    /* The designs inherit the browser's normal line height; Tailwind's preflight sets 1.5. */
+    line-height: normal;
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 16px;
   }

@@ -44,7 +44,7 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 - Revalidation: every collection and the global have `afterChange` and `afterDelete` hooks that clear cache tags (with `expire: 0`, so the next request is fresh) and paths. Saving a match clears the match page, Home, Fixtures and player stats.
 - Typed data layer in `src/lib/data/` over the Payload local API, mapping documents into view models (`src/lib/types.ts`). Pure logic in `src/lib/domain/`: player stats from events and line-ups with overrides, career totals, form guide, head to head, formation geometry, standings sorting and the six-row window, timeline with markers, tabs per match state, scorers.
 - Form handlers with zod validation, honeypot, rate limiting (5 per 10 minutes per IP), stored submissions with hashed IPs, and email routing by topic through the Club settings departments. Newsletter signups are idempotent and never reveal whether an address was already subscribed.
-- Seed (`pnpm seed`, `pnpm seed:reset`, `pnpm seed:reset live`): crest, 12 teams, 4 competitions with a full league table, 19 players numbered as drawn, 21 matches across three seasons (results with events, line-ups and stats, one fully written-up full-time match, a postponed cup tie, upcoming fixtures with a preview and predicted line-ups), 12 articles, 3 videos, 23 people, 12 partners, honours, timeline, 4 placeholder PDFs and every Club settings field.
+- Seed (`pnpm seed`, `pnpm seed:reset`, `pnpm seed:reset live`): crest, 12 teams, 4 competitions with a full league table, 19 players numbered as drawn, 19 matches across two seasons (20 with `live`) (results with events, line-ups and stats, one fully written-up full-time match, a postponed cup tie, upcoming fixtures with a preview and predicted line-ups), 12 articles, 3 videos, 23 people, 12 partners, honours, timeline, 4 placeholder PDFs and every Club settings field.
 - Initial Payload migration, applied automatically on production boot. `SEED_ON_EMPTY=true` seeds a fresh install on first boot.
 - Unit tests: 87 across tokens, navigation, stats, formation, standings, match logic, ICS, URL params, slugs, formatting, countdown, validation, rate limiting, video links and access rules.
 
@@ -64,3 +64,34 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 **Deferred**
 
 - Rate limiting is per process. With more than one app replica it should move to Postgres.
+
+## Phase 3: Matchday
+
+**Done**
+
+- Fixtures (`/fixtures`): folder tabs for Fixtures, Results and Table (`?view=`), competition chips (`?competition=league|cup|friendly`) and a season select (`?season=2025-26`). Fixtures are grouped by month in the club timezone, soonest first; results newest first; full table with W D L GF GA, GD, points and last-five dots. Every list has its empty state. Tickets and matchday cards below.
+- Fixture rows: home or away, competition tag, kick-off chip (or Postponed, Cancelled, live score), Match centre, "Buy tickets" or "Away tickets" only when tickets are on sale, "Sold out" when sold out, and a per-match calendar download.
+- ICS: `/fixtures.ics` (current season, subscribable) and `/matches/[slug]/calendar.ics`.
+- Match centre (`/matches/[slug]`): breadcrumbs; scoreboard for scheduled (kick-off time and countdown, Buy tickets, Add to calendar), live and half time (score, live badge with minute, scorers, Watch live), full time (final and half-time score, Watch highlights), postponed and cancelled (banner with the reason, back to fixtures); Share. Tabs per state via `?tab=`. Summary and Live: key moments with kick-off, half-time and full-time markers, highlights, match details, player of the match. Preview: match preview, team news, tickets card. Form guide, line-ups on a formation-driven pitch with benches, stats with split bars, report (from the match or the linked match report article), head to head, and Coming up.
+- Live updates: `/api/live/[slug]` returns an uncached JSON snapshot. The page polls every 30 seconds while live or at half time, pauses when the tab is hidden, fetches at once when it returns, and refreshes into the full-time layout when the status changes. Verified in a browser: a CMS save showed on an open page within one poll, with no reload.
+- Home: hero with crest and motif, next match strip with countdown (hidden when nothing is scheduled), recent results, six-row table around the club, latest news (lead plus three), squad spotlight (CMS choice, or the first player in each position), Watch, crest story, partner strip. The phone layout follows MobileHome.dc.html (crest behind the title, stacked next-match card, scrolling results, two-column squad).
+- Components: TabList (URL-driven ARIA tabs in folder, underline and segmented styles, arrow keys, Home and End), ParamForm (GET filters that work without JavaScript and produce clean URLs with it), FilterChip, TeamCrest, Countdown, FixtureRow, ResultRow, ResultCard, CompactTable, FullTable, FormDots, FormBoxes, MatchHero, MatchTimeline, PitchLineup, Bench, StatsComparison, HeadToHead, NextMatchStrip, VideoEmbed, RichText, NewsCard variants, PlayerCard variants, PlayerSilhouette, PartnerLogo, Breadcrumbs, EmptyState, SectionHeader, ShareButton, JsonLd.
+
+**Decisions**
+
+- Tabs are links with `role="tab"`: the server renders only the selected panel, so tab state is shareable and works without JavaScript. With JavaScript, keyboard selection uses `router.replace`, so tabs do not add history entries.
+- Filter chips are submit buttons inside a GET form, which keeps `aria-pressed` on real buttons as drawn and still works without JavaScript.
+- The browser's `normal` line height is restored globally because every design file relies on it; Tailwind's preflight sets 1.5.
+- Media URLs from Payload are reduced to their path so `next/image` treats them as local under any domain.
+- Kick-off within the last two hours still counts as the next match on Home until staff set it live.
+- Result cards show the real home team on the left (PLAN gap 8). Opponent form comes from the league table form column.
+- Scroll containers are positioning contexts, so screen-reader-only text inside them cannot widen the page. Checked every page at 360px: no horizontal page scroll.
+
+**Fixed along the way**
+
+- The live poller called the browser's `setInterval` as a method of another object, which throws "Illegal invocation" in browsers but not in Node. Found by the browser check above; the timers are now wrapped.
+- Turbopack's dev server sometimes misses route folders created while it is running; restart `pnpm dev` after adding routes.
+
+**Deferred**
+
+- Opponent crests are the dashed placeholder until crests are uploaded to Teams.

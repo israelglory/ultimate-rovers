@@ -24,7 +24,7 @@ import type {
 } from '@/lib/types'
 
 import { getStatsMatches } from './matches'
-import { toImage, toPlayerRef } from './mappers'
+import { cleanUrl, toImage, toPlayerRef } from './mappers'
 
 const groupOrder: PositionGroup[] = ['goalkeeper', 'defender', 'midfielder', 'forward']
 
@@ -96,7 +96,7 @@ function toVideos(p: Player): PlayerVideo[] {
       title: v.title,
       caption: v.caption ?? null,
       url: v.url ?? null,
-      fileUrl: file?.url ? (file.url.split('?')[0] ?? null) : null,
+      fileUrl: file?.url ? cleanUrl(file.url) : null,
       fileType: file?.mimeType ?? null,
       poster: toImage(v.poster, 'hero'),
       durationSeconds: v.durationSeconds ?? null,

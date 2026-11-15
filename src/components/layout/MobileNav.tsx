@@ -57,7 +57,14 @@ export function MobileNav({ clubName, ticketsHref }: { clubName: string; tickets
             onClick={() => setOpen(false)}
             className="flex items-center gap-2.5 text-white no-underline hover:text-white"
           >
-            <Image src="/crest.png" alt="" width={38} height={43} className="h-auto w-[38px]" />
+            <Image
+              src="/crest.png"
+              alt=""
+              width={38}
+              height={43}
+              className="h-auto w-[38px]"
+              style={{ height: 'auto' }}
+            />
             <span className="font-display text-[22px] leading-none font-extrabold uppercase">
               {clubName}
             </span>

@@ -25,8 +25,18 @@ export function relationId(value: number | { id: number } | null | undefined): n
   return typeof value === 'number' ? value : value.id
 }
 
-/** Strip any cache-busting query so next/image local patterns match. */
-const cleanUrl = (url: string) => url.split('?')[0] ?? url
+/**
+ * Payload builds absolute URLs from serverURL. Uploads are always served through /api/<collection>/file
+ * (also with S3, which Payload proxies), so keep the path only: next/image treats it as local and
+ * the site works under any domain. Query strings are dropped so local image patterns match.
+ */
+export const cleanUrl = (url: string) => {
+  try {
+    return new URL(url, 'http://localhost').pathname
+  } catch {
+    return url.split('?')[0] ?? url
+  }
+}
 
 export function toImage(
   value: number | Media | null | undefined,

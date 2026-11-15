@@ -6,7 +6,7 @@ import { CACHE_SECONDS, tags } from '@/lib/cache-tags'
 import { getPayloadClient } from '@/lib/payload'
 import type { ImageRef, VideoRef } from '@/lib/types'
 
-import { toImage, toVideo } from './mappers'
+import { cleanUrl, toImage, toVideo } from './mappers'
 
 export const getLatestVideos = (limit: number) =>
   unstable_cache(
@@ -150,7 +150,7 @@ export const getDocuments = unstable_cache(
       .map((d) => ({
         id: d.id,
         title: d.title,
-        url: (d.url ?? '').split('?')[0] ?? '',
+        url: cleanUrl(d.url ?? ''),
         filesize: d.filesize ?? null,
       }))
   },

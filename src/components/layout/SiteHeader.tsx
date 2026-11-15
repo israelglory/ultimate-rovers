@@ -22,6 +22,7 @@ export function SiteHeader({ clubName, ticketsHref }: { clubName: string; ticket
             height={52}
             loading="eager"
             className="block h-auto w-[38px] nav:w-[46px]"
+            style={{ height: 'auto' }}
           />
           <span className="font-display text-[22px] leading-none font-extrabold tracking-[0.02em] uppercase nav:text-[26px]">
             {clubName}
