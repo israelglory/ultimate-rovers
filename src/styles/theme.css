@@ -1,0 +1,79 @@
+/*
+ * Matchday Navy tokens mapped into the Tailwind theme.
+ * Source of truth: ultimate-rovers-handoff/tokens/tokens.json and tokens.css.
+ * tests/unit/tokens.test.ts fails if a value here drifts from tokens.json.
+ * Tailwind's default palette, fonts and radii are cleared, so components can only use these names.
+ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --radius-*: initial;
+
+  /* Colours from tokens.json */
+  --color-night: #071341;
+  --color-navy: #0e2a8c;
+  --color-navy-raised: #13277a;
+  --color-navy-soft: #1b3aa6;
+  --color-navy-silhouette: #2d4cb8;
+  --color-line-dark: #1e3383;
+  --color-border-dark: #3a55b5;
+  --color-cyan: #5ce1e6;
+  --color-cyan-tint: #e3f9fa;
+  --color-cyan-tint-text: #0a3e6b;
+  --color-chalk: #f4f7fb;
+  --color-mist: #e6ecf6;
+  --color-line: #dce3ef;
+  --color-line-strong: #b8c3d9;
+  --color-white: #ffffff;
+  --color-ink: #0a1030;
+  --color-ink-soft: #2a3458;
+  --color-slate: #4a5578;
+  --color-mist-text: #c3cdee;
+  --color-card-yellow: #f2c94c;
+  --color-card-red: #c62828;
+
+  /*
+   * Pending approval: colours used in the design files that are missing from tokens.json.
+   * See PLAN.md, gap 1. Replace or fold into existing tokens once the design owner decides.
+   */
+  --color-placeholder-on-dark: #8fa0d8;
+  --color-placeholder-on-light: #9aa6c4;
+  --color-text-on-navy: #e3e9fa;
+
+  /* Type. Big Shoulders is the variable successor of Big Shoulders Display; opsz 72 is the Display cut. */
+  --font-display: var(--font-big-shoulders), 'Arial Narrow', sans-serif;
+  --font-display--font-variation-settings: 'opsz' 72;
+  --font-body: var(--font-archivo), system-ui, sans-serif;
+
+  --text-hero: clamp(76px, 12vw, 184px);
+  --text-hero--line-height: 0.84;
+  --text-page-title: clamp(56px, 8vw, 104px);
+  --text-page-title--line-height: 0.9;
+  --text-section: 52px;
+  --text-section--line-height: 1;
+  --text-card-title: 28px;
+  --text-card-title--line-height: 1;
+  --text-lead: 18px;
+  --text-lead--line-height: 1.6;
+  --text-body: 16px;
+  --text-body--line-height: 1.55;
+  --text-ui: 15px;
+  --text-ui--line-height: 1.4;
+  --text-meta: 13px;
+  --text-meta--line-height: 1.4;
+
+  /* Radii */
+  --radius-button: 6px;
+  --radius-card: 12px;
+  --radius-feature: 16px;
+  --radius-panel: 20px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --container-content: 1280px;
+  --spacing-gutter: 24px;
+  --spacing-touch: 44px;
+
+  /* The primary nav collapses into the menu button below 900px (DESIGN_SPEC section 3). */
+  --breakpoint-nav: 56.25rem;
+}

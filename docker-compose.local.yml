@@ -1,0 +1,6 @@
+# Run the production image on your machine:
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+services:
+  app:
+    ports:
+      - '127.0.0.1:3001:3000'
