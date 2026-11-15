@@ -8,6 +8,12 @@ import { SiteHeader } from '@/components/layout/SiteHeader'
 import { brand } from '@/lib/brand'
 import { getSiteChrome } from '@/lib/data/club'
 
+/**
+ * Pages render per request on top of the tagged data cache (see PLAN.md section 3), so the build
+ * never needs a database and CMS saves show up immediately.
+ */
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: { default: 'Ultimate Rovers', template: '%s | Ultimate Rovers' },
   description: 'Fixtures, results, the squad and every story from Ultimate Rovers, in one place.',

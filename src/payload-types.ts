@@ -67,8 +67,21 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
+    matches: Match;
+    competitions: Competition;
+    teams: Team;
+    players: Player;
+    articles: Article;
+    videos: Video;
     media: Media;
+    people: Person;
+    partners: Partner;
+    honours: Honour;
+    'timeline-entries': TimelineEntry;
+    documents: Document;
+    'contact-submissions': ContactSubmission;
+    'newsletter-subscribers': NewsletterSubscriber;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,8 +89,21 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    matches: MatchesSelect<false> | MatchesSelect<true>;
+    competitions: CompetitionsSelect<false> | CompetitionsSelect<true>;
+    teams: TeamsSelect<false> | TeamsSelect<true>;
+    players: PlayersSelect<false> | PlayersSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    people: PeopleSelect<false> | PeopleSelect<true>;
+    partners: PartnersSelect<false> | PartnersSelect<true>;
+    honours: HonoursSelect<false> | HonoursSelect<true>;
+    'timeline-entries': TimelineEntriesSelect<false> | TimelineEntriesSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'newsletter-subscribers': NewsletterSubscribersSelect<false> | NewsletterSubscribersSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +113,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'club-settings': ClubSetting;
+  };
+  globalsSelect: {
+    'club-settings': ClubSettingsSelect<false> | ClubSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -118,37 +148,324 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Admins manage everything. Editors are matchday staff who update matches, players and news.
+ * Fixtures and results. During a match, update the Live tab and save: the match page, Home and Fixtures refresh straight away.
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "matches".
  */
-export interface User {
+export interface Match {
+  id: number;
+  /**
+   * Set from the two teams.
+   */
+  title?: string | null;
+  /**
+   * Address of the match page. Generated from date and teams; clear it to regenerate.
+   */
+  slug?: string | null;
+  competition: number | Competition;
+  season: string;
+  matchweek?: number | null;
+  kickoff: string;
+  kickoff_tz: SupportedTimezones;
+  homeTeam: number | Team;
+  awayTeam: number | Team;
+  /**
+   * Defaults to the home team's ground.
+   */
+  venue?: string | null;
+  referee?: string | null;
+  /**
+   * Channel or stream name.
+   */
+  broadcast?: string | null;
+  /**
+   * Link for "Watch live".
+   */
+  watchUrl?: string | null;
+  ticketAvailability?: ('not_on_sale' | 'on_sale' | 'members_only' | 'sold_out') | null;
+  ticketUrl?: string | null;
+  /**
+   * Shown in the Tickets card, for example prices and member priority.
+   */
+  ticketInfo?: string | null;
+  status: 'scheduled' | 'live' | 'half_time' | 'full_time' | 'postponed' | 'cancelled';
+  /**
+   * Shown next to the live badge.
+   */
+  minute?: number | null;
+  attendance?: number | null;
+  homeScore?: number | null;
+  awayScore?: number | null;
+  halfTimeHomeScore?: number | null;
+  halfTimeAwayScore?: number | null;
+  /**
+   * Postponed or cancelled: the reason or new date, shown in place of the score.
+   */
+  statusNote?: string | null;
+  /**
+   * Goals, cards and substitutions. Kick-off, half time and full time markers are added automatically.
+   */
+  events?:
+    | {
+        minute: number;
+        /**
+         * + minutes
+         */
+        addedTime?: number | null;
+        side: 'home' | 'away';
+        type: 'goal' | 'own_goal' | 'penalty' | 'yellow' | 'second_yellow' | 'red' | 'substitution';
+        /**
+         * Scorer, booked player, or player coming on.
+         */
+        player?: (number | null) | Player;
+        /**
+         * For opponents.
+         */
+        playerName?: string | null;
+        /**
+         * Assist, or player going off.
+         */
+        relatedPlayer?: (number | null) | Player;
+        /**
+         * For opponents.
+         */
+        relatedPlayerName?: string | null;
+        /**
+         * Optional, for example "Foul" or "Header".
+         */
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Until ticked the page says "Predicted line-ups".
+   */
+  lineupsConfirmed?: boolean | null;
+  homeLineup?: {
+    formation?: string | null;
+    headCoach?: string | null;
+    /**
+     * Goalkeeper first, then each line from defence to attack, listed from the left as the team attacks. Positions on the pitch follow the formation; set X and Y only to move a player by hand.
+     */
+    starting?:
+      | {
+          /**
+           * For Rovers players. Counts towards their stats.
+           */
+          player?: (number | null) | Player;
+          /**
+           * For opponents, or to override the display name.
+           */
+          name?: string | null;
+          number?: number | null;
+          /**
+           * Optional. 0 is own goal line, 100 halfway.
+           */
+          x?: number | null;
+          /**
+           * Optional. 0 is the left touchline.
+           */
+          y?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+    substitutes?:
+      | {
+          /**
+           * For Rovers players. Counts towards their stats.
+           */
+          player?: (number | null) | Player;
+          /**
+           * For opponents, or to override the display name.
+           */
+          name?: string | null;
+          number?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  awayLineup?: {
+    formation?: string | null;
+    headCoach?: string | null;
+    /**
+     * Goalkeeper first, then each line from defence to attack, listed from the left as the team attacks. Positions on the pitch follow the formation; set X and Y only to move a player by hand.
+     */
+    starting?:
+      | {
+          /**
+           * For Rovers players. Counts towards their stats.
+           */
+          player?: (number | null) | Player;
+          /**
+           * For opponents, or to override the display name.
+           */
+          name?: string | null;
+          number?: number | null;
+          /**
+           * Optional. 0 is own goal line, 100 halfway.
+           */
+          x?: number | null;
+          /**
+           * Optional. 0 is the left touchline.
+           */
+          y?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+    substitutes?:
+      | {
+          /**
+           * For Rovers players. Counts towards their stats.
+           */
+          player?: (number | null) | Player;
+          /**
+           * For opponents, or to override the display name.
+           */
+          name?: string | null;
+          number?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  homeStats?: {
+    /**
+     * %
+     */
+    possession?: number | null;
+    shots?: number | null;
+    shotsOnTarget?: number | null;
+    corners?: number | null;
+    passesCompleted?: number | null;
+    fouls?: number | null;
+    offsides?: number | null;
+    /**
+     * Leave empty to count from events.
+     */
+    yellowCards?: number | null;
+  };
+  awayStats?: {
+    /**
+     * %
+     */
+    possession?: number | null;
+    shots?: number | null;
+    shotsOnTarget?: number | null;
+    corners?: number | null;
+    passesCompleted?: number | null;
+    fouls?: number | null;
+    offsides?: number | null;
+    /**
+     * Leave empty to count from events.
+     */
+    yellowCards?: number | null;
+  };
+  /**
+   * Match preview shown before kick-off.
+   */
+  preview?: string | null;
+  homeTeamNews?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  awayTeamNews?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  playerOfTheMatch?: (number | null) | Player;
+  highlights?: (number | null) | Video;
+  /**
+   * Match report for the Report tab. If left empty, the latest match report article linked to this match is shown.
+   */
+  report?: {
+    headline?: string | null;
+    standfirst?: string | null;
+    author?: string | null;
+    heroImage?: (number | null) | Media;
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    coachQuote?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Leagues, cups and friendlies, one entry per season. League standings are entered here.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "competitions".
+ */
+export interface Competition {
   id: number;
   name: string;
   /**
-   * Only admins can change roles.
+   * Used on tags.
    */
-  roles: ('admin' | 'editor')[];
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  resetPasswordRequestedAt?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
+  shortName?: string | null;
+  type: 'league' | 'cup' | 'friendly';
+  season: string;
+  /**
+   * One row per club. The table is sorted by points, then goal difference, then goals scored. Leave points empty to calculate 3 for a win and 1 for a draw.
+   */
+  standings?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        team: number | Team;
+        played?: number | null;
+        won?: number | null;
+        drawn?: number | null;
+        lost?: number | null;
+        goalsFor?: number | null;
+        goalsAgainst?: number | null;
+        points?: number | null;
+        /**
+         * Last five results, oldest first, for example WDLWW.
+         */
+        form?: string | null;
+        id?: string | null;
       }[]
     | null;
-  password?: string | null;
-  collection: 'users';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Opponents and Ultimate Rovers itself. Exactly one team is marked as the club.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "teams".
+ */
+export interface Team {
+  id: number;
+  name: string;
+  shortName?: string | null;
+  /**
+   * Part of the page address. Filled in automatically; clear it to regenerate.
+   */
+  slug?: string | null;
+  isUs?: boolean | null;
+  /**
+   * Transparent PNG or SVG.
+   */
+  crest?: (number | null) | Media;
+  homeGround?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Images and video files. Player cut-outs: transparent PNG, 4:5. News: 16:9. Stadium: 16:10.
@@ -202,6 +519,364 @@ export interface Media {
   };
 }
 /**
+ * Season stats are counted from match line-ups and events. Use the override fields only for figures events do not capture.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "players".
+ */
+export interface Player {
+  id: number;
+  displayName?: string | null;
+  /**
+   * Part of the page address. Filled in automatically; clear it to regenerate.
+   */
+  slug?: string | null;
+  /**
+   * Only active players appear on the squad page.
+   */
+  status: 'active' | 'on_loan' | 'left';
+  firstName: string;
+  surname: string;
+  squadNumber?: number | null;
+  positionGroup: 'goalkeeper' | 'defender' | 'midfielder' | 'forward';
+  position?: string | null;
+  dateOfBirth?: string | null;
+  nationality?: string | null;
+  heightCm?: number | null;
+  preferredFoot?: ('right' | 'left' | 'both') | null;
+  joined?: string | null;
+  previousClub?: string | null;
+  contractUntil?: number | null;
+  /**
+   * Cut-out on a transparent background, PNG, 4:5. A silhouette shows when empty.
+   */
+  photo?: (number | null) | Media;
+  biography?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  quote?: string | null;
+  socials?: {
+    instagram?: string | null;
+    x?: string | null;
+    tiktok?: string | null;
+  };
+  /**
+   * Up to two videos. Paste a YouTube or Vimeo link, or upload an MP4.
+   */
+  videos?:
+    | {
+        title: string;
+        durationSeconds?: number | null;
+        caption?: string | null;
+        url?: string | null;
+        file?: (number | null) | Media;
+        poster?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Newest first. Leave apps, goals and assists empty on Rovers seasons to count them from matches.
+   */
+  career?:
+    | {
+        season: string;
+        club: string;
+        apps?: number | null;
+        goals?: number | null;
+        assists?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Any figure entered here replaces the one counted from matches this season. Shots on target only come from here.
+   */
+  seasonOverrides?: {
+    appearances?: number | null;
+    starts?: number | null;
+    goals?: number | null;
+    assists?: number | null;
+    minutes?: number | null;
+    shotsOnTarget?: number | null;
+    yellowCards?: number | null;
+    redCards?: number | null;
+  };
+  /**
+   * Totals from previous clubs, added to Rovers figures for the career view.
+   */
+  careerBeforeClub?: {
+    appearances?: number | null;
+    starts?: number | null;
+    goals?: number | null;
+    assists?: number | null;
+    minutes?: number | null;
+    shotsOnTarget?: number | null;
+    yellowCards?: number | null;
+    redCards?: number | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Highlights, interviews and features. The three newest appear in Watch on Home.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  title: string;
+  /**
+   * YouTube or Vimeo link, or a direct MP4 link.
+   */
+  url?: string | null;
+  /**
+   * Or upload an MP4.
+   */
+  file?: (number | null) | Media;
+  poster?: (number | null) | Media;
+  durationSeconds?: number | null;
+  publishedAt: string;
+  relatedMatch?: (number | null) | Match;
+  relatedPlayer?: (number | null) | Player;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  /**
+   * Part of the page address. Filled in automatically; clear it to regenerate.
+   */
+  slug?: string | null;
+  publishedAt: string;
+  /**
+   * The newest featured story leads Home and News.
+   */
+  featured?: boolean | null;
+  category: 'match-report' | 'match-preview' | 'squad-news' | 'club' | 'academy' | 'community';
+  author?: string | null;
+  /**
+   * One sentence that sums up the story.
+   */
+  standfirst: string;
+  /**
+   * 16:9.
+   */
+  heroImage?: (number | null) | Media;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedMatch?: (number | null) | Match;
+  relatedPlayers?: (number | Player)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Board, management, technical staff and investors on the Stakeholders page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: number;
+  name: string;
+  role: string;
+  group: 'board' | 'management' | 'technical' | 'investors';
+  sinceYear?: number | null;
+  /**
+   * Square crop works best.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners".
+ */
+export interface Partner {
+  id: number;
+  name: string;
+  tier: 'principal' | 'official' | 'supplier' | 'community';
+  url?: string | null;
+  logo?: (number | null) | Media;
+  /**
+   * One line, shown for the principal partner.
+   */
+  blurb?: string | null;
+  /**
+   * Include in the partner strip on Home.
+   */
+  showOnHome?: boolean | null;
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "honours".
+ */
+export interface Honour {
+  id: number;
+  competition: string;
+  count?: number | null;
+  years?: string | null;
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Our story on the About page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline-entries".
+ */
+export interface TimelineEntry {
+  id: number;
+  year: string;
+  title: string;
+  text?: string | null;
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Governance PDFs.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  title: string;
+  /**
+   * Lower numbers appear first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * Every message sent through the Contact page, with where it was routed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  status?: ('new' | 'handled') | null;
+  name: string;
+  email: string;
+  phone?: string | null;
+  topic: 'general' | 'tickets' | 'partnerships' | 'media' | 'academy';
+  message: string;
+  routedTo?: string | null;
+  emailStatus?: ('sent' | 'failed') | null;
+  ipHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers".
+ */
+export interface NewsletterSubscriber {
+  id: number;
+  email: string;
+  consent: boolean;
+  /**
+   * The wording shown when they subscribed.
+   */
+  consentText?: string | null;
+  source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Admins manage everything. Editors are matchday staff who update matches, players and news.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name: string;
+  /**
+   * Only admins can change roles.
+   */
+  roles: ('admin' | 'editor')[];
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -226,12 +901,64 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'matches';
+        value: number | Match;
+      } | null)
+    | ({
+        relationTo: 'competitions';
+        value: number | Competition;
+      } | null)
+    | ({
+        relationTo: 'teams';
+        value: number | Team;
+      } | null)
+    | ({
+        relationTo: 'players';
+        value: number | Player;
+      } | null)
+    | ({
+        relationTo: 'articles';
+        value: number | Article;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: number | Video;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'people';
+        value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'partners';
+        value: number | Partner;
+      } | null)
+    | ({
+        relationTo: 'honours';
+        value: number | Honour;
+      } | null)
+    | ({
+        relationTo: 'timeline-entries';
+        value: number | TimelineEntry;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'newsletter-subscribers';
+        value: number | NewsletterSubscriber;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -277,28 +1004,301 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "matches_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  roles?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  resetPasswordRequestedAt?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+export interface MatchesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  competition?: T;
+  season?: T;
+  matchweek?: T;
+  kickoff?: T;
+  kickoff_tz?: T;
+  homeTeam?: T;
+  awayTeam?: T;
+  venue?: T;
+  referee?: T;
+  broadcast?: T;
+  watchUrl?: T;
+  ticketAvailability?: T;
+  ticketUrl?: T;
+  ticketInfo?: T;
+  status?: T;
+  minute?: T;
+  attendance?: T;
+  homeScore?: T;
+  awayScore?: T;
+  halfTimeHomeScore?: T;
+  halfTimeAwayScore?: T;
+  statusNote?: T;
+  events?:
     | T
     | {
+        minute?: T;
+        addedTime?: T;
+        side?: T;
+        type?: T;
+        player?: T;
+        playerName?: T;
+        relatedPlayer?: T;
+        relatedPlayerName?: T;
+        note?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
+  lineupsConfirmed?: T;
+  homeLineup?:
+    | T
+    | {
+        formation?: T;
+        headCoach?: T;
+        starting?:
+          | T
+          | {
+              player?: T;
+              name?: T;
+              number?: T;
+              x?: T;
+              y?: T;
+              id?: T;
+            };
+        substitutes?:
+          | T
+          | {
+              player?: T;
+              name?: T;
+              number?: T;
+              id?: T;
+            };
+      };
+  awayLineup?:
+    | T
+    | {
+        formation?: T;
+        headCoach?: T;
+        starting?:
+          | T
+          | {
+              player?: T;
+              name?: T;
+              number?: T;
+              x?: T;
+              y?: T;
+              id?: T;
+            };
+        substitutes?:
+          | T
+          | {
+              player?: T;
+              name?: T;
+              number?: T;
+              id?: T;
+            };
+      };
+  homeStats?:
+    | T
+    | {
+        possession?: T;
+        shots?: T;
+        shotsOnTarget?: T;
+        corners?: T;
+        passesCompleted?: T;
+        fouls?: T;
+        offsides?: T;
+        yellowCards?: T;
+      };
+  awayStats?:
+    | T
+    | {
+        possession?: T;
+        shots?: T;
+        shotsOnTarget?: T;
+        corners?: T;
+        passesCompleted?: T;
+        fouls?: T;
+        offsides?: T;
+        yellowCards?: T;
+      };
+  preview?: T;
+  homeTeamNews?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  awayTeamNews?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  playerOfTheMatch?: T;
+  highlights?: T;
+  report?:
+    | T
+    | {
+        headline?: T;
+        standfirst?: T;
+        author?: T;
+        heroImage?: T;
+        body?: T;
+        coachQuote?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "competitions_select".
+ */
+export interface CompetitionsSelect<T extends boolean = true> {
+  name?: T;
+  shortName?: T;
+  type?: T;
+  season?: T;
+  standings?:
+    | T
+    | {
+        team?: T;
+        played?: T;
+        won?: T;
+        drawn?: T;
+        lost?: T;
+        goalsFor?: T;
+        goalsAgainst?: T;
+        points?: T;
+        form?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "teams_select".
+ */
+export interface TeamsSelect<T extends boolean = true> {
+  name?: T;
+  shortName?: T;
+  slug?: T;
+  isUs?: T;
+  crest?: T;
+  homeGround?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "players_select".
+ */
+export interface PlayersSelect<T extends boolean = true> {
+  displayName?: T;
+  slug?: T;
+  status?: T;
+  firstName?: T;
+  surname?: T;
+  squadNumber?: T;
+  positionGroup?: T;
+  position?: T;
+  dateOfBirth?: T;
+  nationality?: T;
+  heightCm?: T;
+  preferredFoot?: T;
+  joined?: T;
+  previousClub?: T;
+  contractUntil?: T;
+  photo?: T;
+  biography?: T;
+  quote?: T;
+  socials?:
+    | T
+    | {
+        instagram?: T;
+        x?: T;
+        tiktok?: T;
+      };
+  videos?:
+    | T
+    | {
+        title?: T;
+        durationSeconds?: T;
+        caption?: T;
+        url?: T;
+        file?: T;
+        poster?: T;
+        id?: T;
+      };
+  career?:
+    | T
+    | {
+        season?: T;
+        club?: T;
+        apps?: T;
+        goals?: T;
+        assists?: T;
+        id?: T;
+      };
+  seasonOverrides?:
+    | T
+    | {
+        appearances?: T;
+        starts?: T;
+        goals?: T;
+        assists?: T;
+        minutes?: T;
+        shotsOnTarget?: T;
+        yellowCards?: T;
+        redCards?: T;
+      };
+  careerBeforeClub?:
+    | T
+    | {
+        appearances?: T;
+        starts?: T;
+        goals?: T;
+        assists?: T;
+        minutes?: T;
+        shotsOnTarget?: T;
+        yellowCards?: T;
+        redCards?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  publishedAt?: T;
+  featured?: T;
+  category?: T;
+  author?: T;
+  standfirst?: T;
+  heroImage?: T;
+  body?: T;
+  relatedMatch?: T;
+  relatedPlayers?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  title?: T;
+  url?: T;
+  file?: T;
+  poster?: T;
+  durationSeconds?: T;
+  publishedAt?: T;
+  relatedMatch?: T;
+  relatedPlayer?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -355,6 +1355,132 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  group?: T;
+  sinceYear?: T;
+  photo?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partners_select".
+ */
+export interface PartnersSelect<T extends boolean = true> {
+  name?: T;
+  tier?: T;
+  url?: T;
+  logo?: T;
+  blurb?: T;
+  showOnHome?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "honours_select".
+ */
+export interface HonoursSelect<T extends boolean = true> {
+  competition?: T;
+  count?: T;
+  years?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "timeline-entries_select".
+ */
+export interface TimelineEntriesSelect<T extends boolean = true> {
+  year?: T;
+  title?: T;
+  text?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  status?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  topic?: T;
+  message?: T;
+  routedTo?: T;
+  emailStatus?: T;
+  ipHash?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter-subscribers_select".
+ */
+export interface NewsletterSubscribersSelect<T extends boolean = true> {
+  email?: T;
+  consent?: T;
+  consentText?: T;
+  source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  roles?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -394,6 +1520,289 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Club details and page copy used across the site. Only admins can edit these.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "club-settings".
+ */
+export interface ClubSetting {
+  id: number;
+  clubName: string;
+  founded?: string | null;
+  currentSeason: string;
+  city?: string | null;
+  country?: string | null;
+  /**
+   * Used for kick-off times and countdowns.
+   */
+  timezone: string;
+  /**
+   * One line about the club, shown in the footer and search results.
+   */
+  shortBio?: string | null;
+  /**
+   * Where "Get tickets" goes. Leave empty to use the Fixtures page.
+   */
+  ticketsUrl?: string | null;
+  broadcastPartner?: string | null;
+  /**
+   * Optional. The supplied crest is used when empty. Never stretch or recolour it.
+   */
+  crest?: (number | null) | Media;
+  ground?: {
+    name?: string | null;
+    capacity?: number | null;
+    surface?: string | null;
+    street?: string | null;
+    city?: string | null;
+    postcode?: string | null;
+    accessibleEntry?: string | null;
+    /**
+     * Link for "Get directions".
+     */
+    mapUrl?: string | null;
+    /**
+     * Optional map embed for the Contact page.
+     */
+    mapEmbedUrl?: string | null;
+    /**
+     * Stadium photo, 16:10.
+     */
+    photo?: (number | null) | Media;
+    /**
+     * Getting to the ground: parking, transport and accessible entry.
+     */
+    guide?: string | null;
+  };
+  phone?: string | null;
+  /**
+   * Working days to reply, shown under the form.
+   */
+  replyDays?: number | null;
+  officeHours?: string | null;
+  matchdayHours?: string | null;
+  /**
+   * Where Contact form messages go, by topic. Topics without a row go to the General enquiry address.
+   */
+  departments?:
+    | {
+        topic: 'general' | 'tickets' | 'partnerships' | 'media' | 'academy';
+        email: string;
+        /**
+         * Show a card
+         */
+        showCard?: boolean | null;
+        title: string;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Leave a field empty to hide that icon.
+   */
+  socials?: {
+    instagram?: string | null;
+    x?: string | null;
+    youtube?: string | null;
+    tiktok?: string | null;
+    facebook?: string | null;
+  };
+  heroIntro?: string | null;
+  /**
+   * Four players for The squad section on Home.
+   */
+  spotlight?: (number | Player)[] | null;
+  /**
+   * The "More than a badge" paragraph.
+   */
+  crestStory?: string | null;
+  aboutIntro?: string | null;
+  /**
+   * Our story paragraphs.
+   */
+  story?:
+    | {
+        paragraph: string;
+        id?: string | null;
+      }[]
+    | null;
+  crestElements?:
+    | {
+        title: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  mission?: string | null;
+  vision?: string | null;
+  values?: string | null;
+  academyText?: string | null;
+  communityText?: string | null;
+  academyImage?: (number | null) | Media;
+  communityImage?: (number | null) | Media;
+  membershipText?: string | null;
+  seasonTicketText?: string | null;
+  matchdayTicketText?: string | null;
+  /**
+   * Default text for the Tickets card on match pages.
+   */
+  matchTicketText?: string | null;
+  /**
+   * The "Partner with us" panel.
+   */
+  partnershipText?: string | null;
+  privacy?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  terms?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cookies?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "club-settings_select".
+ */
+export interface ClubSettingsSelect<T extends boolean = true> {
+  clubName?: T;
+  founded?: T;
+  currentSeason?: T;
+  city?: T;
+  country?: T;
+  timezone?: T;
+  shortBio?: T;
+  ticketsUrl?: T;
+  broadcastPartner?: T;
+  crest?: T;
+  ground?:
+    | T
+    | {
+        name?: T;
+        capacity?: T;
+        surface?: T;
+        street?: T;
+        city?: T;
+        postcode?: T;
+        accessibleEntry?: T;
+        mapUrl?: T;
+        mapEmbedUrl?: T;
+        photo?: T;
+        guide?: T;
+      };
+  phone?: T;
+  replyDays?: T;
+  officeHours?: T;
+  matchdayHours?: T;
+  departments?:
+    | T
+    | {
+        topic?: T;
+        email?: T;
+        showCard?: T;
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  socials?:
+    | T
+    | {
+        instagram?: T;
+        x?: T;
+        youtube?: T;
+        tiktok?: T;
+        facebook?: T;
+      };
+  heroIntro?: T;
+  spotlight?: T;
+  crestStory?: T;
+  aboutIntro?: T;
+  story?:
+    | T
+    | {
+        paragraph?: T;
+        id?: T;
+      };
+  crestElements?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  mission?: T;
+  vision?: T;
+  values?: T;
+  academyText?: T;
+  communityText?: T;
+  academyImage?: T;
+  communityImage?: T;
+  membershipText?: T;
+  seasonTicketText?: T;
+  matchdayTicketText?: T;
+  matchTicketText?: T;
+  partnershipText?: T;
+  privacy?: T;
+  terms?: T;
+  cookies?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
@@ -402,6 +1811,25 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoEmbedBlock".
+ */
+export interface VideoEmbedBlock {
+  /**
+   * YouTube, Vimeo or an MP4 link.
+   */
+  url: string;
+  /**
+   * Read out to screen reader users.
+   */
+  title: string;
+  caption?: string | null;
+  poster?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'videoEmbed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

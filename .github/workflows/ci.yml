@@ -57,7 +57,11 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
+      # Same path as production: apply migrations, then seed with schema push off.
+      - run: pnpm migrate
       - run: pnpm seed
+        env:
+          PAYLOAD_DB_PUSH: 'false'
       - run: pnpm build
       - run: pnpm test:e2e
       - uses: actions/upload-artifact@v4

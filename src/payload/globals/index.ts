@@ -1,3 +1,5 @@
 import type { GlobalConfig } from 'payload'
 
-export const globals: GlobalConfig[] = []
+import { ClubSettings } from './ClubSettings'
+
+export const globals: GlobalConfig[] = [ClubSettings]

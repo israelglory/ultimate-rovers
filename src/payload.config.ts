@@ -53,7 +53,8 @@ export default buildConfig({
   db: postgresAdapter({
     pool: { connectionString: env('DATABASE_URL') ?? '' },
     // Development syncs the schema automatically. Production applies committed migrations on boot.
-    push: process.env.NODE_ENV !== 'production',
+    // PAYLOAD_DB_PUSH=false turns push off for databases managed by migrations (CI, `pnpm migrate`).
+    push: process.env.NODE_ENV !== 'production' && process.env.PAYLOAD_DB_PUSH !== 'false',
     migrationDir: path.resolve(dirname, 'migrations'),
     prodMigrations: migrations,
   }),
@@ -67,7 +68,7 @@ export default buildConfig({
   plugins: [
     s3Storage({
       enabled: Boolean(env('S3_BUCKET')),
-      collections: { media: true },
+      collections: { media: true, documents: true },
       bucket: env('S3_BUCKET') ?? '',
       config: {
         region: env('S3_REGION') ?? 'auto',

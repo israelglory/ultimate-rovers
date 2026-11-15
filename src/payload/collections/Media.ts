@@ -2,7 +2,16 @@ import path from 'node:path'
 
 import type { CollectionConfig } from 'payload'
 
+import { allListTags } from '@/lib/cache-tags'
+
 import { anyone, staff } from '../access'
+import { revalidateCollection } from '../hooks/revalidate'
+
+// Images are embedded in most cached data, so an edit (alt text, focal point) clears everything.
+const revalidation = revalidateCollection(() => ({
+  tags: allListTags,
+  paths: [],
+}))
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -14,6 +23,7 @@ export const Media: CollectionConfig = {
       'Images and video files. Player cut-outs: transparent PNG, 4:5. News: 16:9. Stadium: 16:10.',
   },
   access: { read: anyone, create: staff, update: staff, delete: staff },
+  hooks: { afterChange: [revalidation.afterChange], afterDelete: [revalidation.afterDelete] },
   upload: {
     staticDir: process.env.MEDIA_DIR || path.resolve(process.cwd(), 'media'),
     mimeTypes: ['image/*', 'video/mp4', 'video/webm'],

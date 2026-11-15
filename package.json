@@ -21,9 +21,10 @@
     "payload": "payload",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
-    "migrate": "payload migrate",
-    "migrate:create": "payload migrate:create",
+    "migrate": "PAYLOAD_DB_PUSH=false payload migrate",
+    "migrate:create": "PAYLOAD_DB_PUSH=false payload migrate:create",
     "seed": "payload run src/seed/run.ts",
+    "seed:reset": "payload run src/seed/run.ts reset",
     "db:up": "docker compose -f docker-compose.dev.yml up -d"
   },
   "dependencies": {
