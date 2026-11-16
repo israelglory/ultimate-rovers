@@ -29,7 +29,9 @@ pnpm dev                        # http://localhost:3000
 
 Open `http://localhost:3000/admin` and create the first account. The first account is always an admin.
 
-The seed fills every collection with placeholder content that copies the bracketed text in the designs, such as `[Opponent FC 3]` and `[Surname]`. None of it is real club information. Replace it in the admin before launch, or start from an empty database and skip `pnpm seed`.
+The seed loads the real first-team squad (names, numbers, positions and nationality from the club's team list) and fills everything else with realistic sample content set in Ogbomoso: player dates of birth, heights and previous clubs, opponent clubs, staff, partners, honours, club history, ticket prices in naira and news stories. The sample content is invented. Replace it in the admin before launch. The content lives in `src/seed/content.ts`.
+
+If a server is running when you reseed, restart it or wait a minute: the seed writes straight to the database and cannot clear the site's cache.
 
 Development tip: Turbopack sometimes misses route folders created while `pnpm dev` is running. Restart the dev server after adding a route.
 

@@ -86,7 +86,7 @@ async function loadClub(): Promise<ClubInfo> {
     founded: text(s.founded),
     city: text(s.city),
     country: text(s.country),
-    timezone: s.timezone || 'Europe/London',
+    timezone: s.timezone || 'Africa/Lagos',
     currentSeason: s.currentSeason || '2026/27',
     ticketsHref: text(s.ticketsUrl) ?? '/fixtures',
     broadcastPartner: text(s.broadcastPartner),

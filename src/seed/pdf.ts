@@ -1,7 +1,7 @@
 /** A one-page PDF that says it is a placeholder. Built by hand so the seed needs no PDF library. */
 export function placeholderPdf(title: string): Buffer {
   const safe = title.replace(/[()\\]/g, '')
-  const stream = `BT /F1 20 Tf 72 720 Td (${safe}) Tj 0 -32 Td /F1 12 Tf (Placeholder document. Replace it with the club's own file in the CMS.) Tj ET`
+  const stream = `BT /F1 20 Tf 72 720 Td (${safe}) Tj 0 -32 Td /F1 12 Tf (Sample document. Replace it with the club's own file in the admin.) Tj ET`
   const objects = [
     '<< /Type /Catalog /Pages 2 0 R >>',
     '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',

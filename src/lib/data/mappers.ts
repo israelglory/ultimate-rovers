@@ -111,7 +111,7 @@ export function toMatchSummary(m: Match): MatchSummary {
     slug: m.slug ?? String(m.id),
     title: m.title ?? '',
     kickoff: m.kickoff,
-    timezone: m.kickoff_tz || 'Europe/London',
+    timezone: m.kickoff_tz || 'Africa/Lagos',
     status: m.status,
     minute: m.minute ?? null,
     competition: toCompetition(m.competition),

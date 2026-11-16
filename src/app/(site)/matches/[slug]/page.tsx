@@ -55,6 +55,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const card = 'rounded-[14px] border border-line bg-white p-[22px]'
 const h2 = 'm-0 font-display text-[36px] leading-none font-black sm:text-[44px]'
 
+/** Directions to the match venue: the club's own map link for the home ground, a map search otherwise. */
+function directionsFor(
+  match: MatchDetail,
+  ground: { name: string | null; mapUrl: string | null },
+  city: string | null,
+): string | null {
+  if (!match.home.isUs || !match.venue) return null
+  if (match.venue === ground.name) return ground.mapUrl
+  const query = [match.venue, city].filter(Boolean).join(', ')
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+}
+
 function DetailsCard({ match, mapUrl }: { match: MatchDetail; mapUrl: string | null }) {
   const rows: Array<[string, string | null]> = [
     [
@@ -84,7 +96,7 @@ function DetailsCard({ match, mapUrl }: { match: MatchDetail; mapUrl: string | n
             </div>
           ))}
       </dl>
-      {match.home.isUs && mapUrl ? (
+      {mapUrl ? (
         <a
           href={mapUrl}
           rel="noopener"
@@ -420,7 +432,7 @@ export default async function MatchPage({ params, searchParams }: Props) {
             <Overview
               match={match}
               form={form}
-              mapUrl={club.ground.mapUrl}
+              mapUrl={directionsFor(match, club.ground, club.city)}
               defaultTicketText={club.tickets.match}
             />
           ) : null}

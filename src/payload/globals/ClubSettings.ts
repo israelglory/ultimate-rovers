@@ -12,7 +12,7 @@ const isTimezone = (value: unknown): true | string => {
     new Intl.DateTimeFormat('en-GB', { timeZone: String(value) })
     return true
   } catch {
-    return 'Use an IANA timezone such as Europe/London.'
+    return 'Use an IANA timezone such as Africa/Lagos.'
   }
 }
 
@@ -64,7 +64,7 @@ export const ClubSettings: GlobalConfig = {
                   name: 'timezone',
                   type: 'text',
                   required: true,
-                  defaultValue: 'Europe/London',
+                  defaultValue: 'Africa/Lagos',
                   validate: isTimezone,
                   admin: { width: '34%', description: 'Used for kick-off times and countdowns.' },
                 },

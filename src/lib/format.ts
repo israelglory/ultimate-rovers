@@ -26,7 +26,7 @@ export const formatLongDate = (iso: string, tz: string) =>
   `${formatWeekdayShort(iso, tz)}, ${fmt(iso, tz, { day: 'numeric', month: 'long', year: 'numeric' })}`
 
 /** "21 November 2026" */
-export const formatDate = (iso: string, tz = 'Europe/London') =>
+export const formatDate = (iso: string, tz = 'Africa/Lagos') =>
   fmt(iso, tz, { day: 'numeric', month: 'long', year: 'numeric' })
 
 /** "21 Nov" */

@@ -212,7 +212,7 @@ export const Matches: CollectionConfig = {
         const title = `${home.name} vs ${away.name}`
         const next: Record<string, unknown> = { ...data, title }
         if (!merged.slug) {
-          const tz = typeof merged.kickoff_tz === 'string' ? merged.kickoff_tz : 'Europe/London'
+          const tz = typeof merged.kickoff_tz === 'string' ? merged.kickoff_tz : 'Africa/Lagos'
           next.slug = matchSlug(String(merged.kickoff), tz, home.name, away.name)
         }
         if (!merged.venue && home.homeGround) next.venue = home.homeGround

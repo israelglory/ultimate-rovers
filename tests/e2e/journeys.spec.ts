@@ -88,7 +88,7 @@ test.describe('squad to player', () => {
     await expect(page.getByRole('heading', { level: 2, name: 'Goalkeepers' })).toHaveCount(0)
 
     await page.locator('main a[href^="/squad/"]').first().click()
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/surname/i)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/\w{2,}/)
     await expect(
       page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Forwards' }),
     ).toBeVisible()
@@ -119,7 +119,7 @@ test.describe('fixtures filters', () => {
     )
     const tags = page.locator('article [class*="bg-cyan-tint"]')
     await expect(tags.first()).toBeVisible()
-    for (const text of await tags.allTextContents()) expect(text).toBe('[League]')
+    for (const text of await tags.allTextContents()) expect(text).toBe('State League')
 
     await page.getByRole('tab', { name: 'Results' }).click()
     await expect(page).toHaveURL(/view=results/)
@@ -209,7 +209,7 @@ test.describe('news', () => {
     await page.goto('/news')
     await page.getByRole('button', { name: 'Academy', exact: true }).click()
     await expect(page).toHaveURL(/category=academy/)
-    await expect(page.getByRole('link', { name: /Open trials/ })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Academy trials/ })).toBeVisible()
 
     await page.goto('/news')
     await page.getByLabel('Search news').fill('nothing-matches-this')

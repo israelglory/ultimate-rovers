@@ -4,18 +4,37 @@ import type { CollectionSlug, Payload } from 'payload'
 
 import type { Match } from '@/payload-types'
 
+import {
+  type ArticleCategory,
+  BIG_GAME_GROUND,
+  BROADCAST,
+  CITY,
+  HEAD_COACH,
+  HOME_GROUND,
+  honours,
+  opponentFirstNames,
+  opponents,
+  opponentSurnames,
+  partners,
+  people,
+  playerQuotes,
+  positionsByGroup,
+  previousClubs,
+  referees,
+  squad,
+  timeline,
+} from './content'
 import { type Block, richText } from './lexical'
 import { placeholderPdf } from './pdf'
 import { saturday } from './time'
 
 /**
- * Placeholder content mirroring the bracketed copy in the designs, so every page renders on a
- * fresh install. Every string keeps the bracket convention, so nothing here can be mistaken for
- * a real club fact. Numbers (scores, standings, stats) only belong to placeholder teams and players.
+ * Starter content so every page renders on a fresh install. The squad comes from the club's team
+ * list; everything else in ./content.ts and below is realistic sample content to replace in the admin.
  */
 
 const ctx = { disableRevalidate: true, skipVideoValidation: true }
-const TZ = 'Europe/London'
+const TZ = 'Africa/Lagos'
 const SEASON = '2026/27'
 
 type SeedOptions = { reset?: boolean; live?: boolean; now?: Date }
@@ -49,7 +68,20 @@ function rng(seed: number) {
   }
 }
 
-const placeholderBody = (lines: Block[]) => richText(lines)
+/** Specific positions for the usual starting eleven; everyone else cycles through their group. */
+const startingPositions: Record<number, string> = {
+  1: 'Goalkeeper',
+  2: 'Right-back',
+  3: 'Left-back',
+  5: 'Centre-back',
+  6: 'Centre-back',
+  4: 'Defensive midfielder',
+  8: 'Central midfielder',
+  10: 'Attacking midfielder',
+  7: 'Winger',
+  11: 'Winger',
+  9: 'Striker',
+}
 
 export async function seed(
   payload: Payload,
@@ -77,6 +109,8 @@ export async function seed(
 
   const random = rng(7)
   const pick = <T>(list: readonly T[]): T => list[Math.floor(random() * list.length)] as T
+  const between = (min: number, max: number) => min + Math.floor(random() * (max - min + 1))
+  const opponentName = () => `${pick(opponentFirstNames)} ${pick(opponentSurnames)}`
 
   // Media: the crest.
   const crest = await payload.create({
@@ -95,31 +129,27 @@ export async function seed(
       shortName: 'Rovers',
       isUs: true,
       crest: crest.id,
-      homeGround: '[Home ground name]',
+      homeGround: HOME_GROUND,
     },
     overrideAccess: true,
     context: ctx,
   })
-  const opponents: Array<{ id: number }> = []
-  for (let i = 1; i <= 11; i += 1) {
-    opponents.push(
+  const opponentDocs: Array<{ id: number; name: string }> = []
+  for (const o of opponents) {
+    opponentDocs.push(
       await payload.create({
         collection: 'teams',
-        data: {
-          name: `[Opponent FC ${i}]`,
-          shortName: `[Opponent ${i}]`,
-          homeGround: '[Opponent ground]',
-        },
+        data: { name: o.name, shortName: o.shortName, homeGround: o.ground },
         overrideAccess: true,
         context: ctx,
       }),
     )
   }
-  const opp = (n: number) => opponents[n - 1]!
+  const opp = (n: number) => opponentDocs[n - 1]!
 
   // Competitions.
   const standingsRows: Array<[number, number, number, number, number, number, string]> = [
-    // team (0 = Rovers), W, D, L, GF, GA, form
+    // team (0 = Rovers, otherwise opponent number), W, D, L, GF, GA, form
     [4, 9, 2, 1, 25, 9, 'WWDWW'],
     [2, 8, 3, 1, 22, 10, 'WDWWL'],
     [0, 7, 3, 2, 20, 12, 'WDLWW'],
@@ -136,8 +166,8 @@ export async function seed(
   const league = await payload.create({
     collection: 'competitions',
     data: {
-      name: '[League name]',
-      shortName: '[League]',
+      name: 'Oyo State League',
+      shortName: 'State League',
       type: 'league',
       season: SEASON,
       standings: standingsRows.map(([team, won, drawn, lost, goalsFor, goalsAgainst, form]) => ({
@@ -156,82 +186,98 @@ export async function seed(
   })
   const cup = await payload.create({
     collection: 'competitions',
-    data: { name: '[Cup competition]', shortName: '[Cup]', type: 'cup', season: SEASON },
+    data: { name: 'Oyo State FA Cup', shortName: 'State Cup', type: 'cup', season: SEASON },
     overrideAccess: true,
     context: ctx,
   })
   const friendly = await payload.create({
     collection: 'competitions',
-    data: { name: '[Friendly]', shortName: '[Friendly]', type: 'friendly', season: SEASON },
+    data: { name: 'Pre-season friendly', shortName: 'Friendly', type: 'friendly', season: SEASON },
     overrideAccess: true,
     context: ctx,
   })
   const pastLeague = await payload.create({
     collection: 'competitions',
-    data: { name: '[League name]', shortName: '[League]', type: 'league', season: '2025/26' },
+    data: {
+      name: 'Oyo State League',
+      shortName: 'State League',
+      type: 'league',
+      season: '2025/26',
+    },
     overrideAccess: true,
     context: ctx,
   })
 
-  // Players, numbered as drawn in Squad.dc.html.
-  const squadPlan: Array<[number, 'goalkeeper' | 'defender' | 'midfielder' | 'forward']> = [
-    [1, 'goalkeeper'],
-    [13, 'goalkeeper'],
-    [23, 'goalkeeper'],
-    [2, 'defender'],
-    [3, 'defender'],
-    [4, 'defender'],
-    [5, 'defender'],
-    [6, 'defender'],
-    [15, 'defender'],
-    [7, 'midfielder'],
-    [8, 'midfielder'],
-    [10, 'midfielder'],
-    [14, 'midfielder'],
-    [16, 'midfielder'],
-    [18, 'midfielder'],
-    [9, 'forward'],
-    [11, 'forward'],
-    [17, 'forward'],
-    [19, 'forward'],
-  ]
+  // Players from the club's team list, with sample details.
   const players = new Map<number, number>()
-  for (const [num, group] of squadPlan) {
+  const groupCounters: Record<string, number> = {}
+  for (const [num, firstName, surname, group] of squad) {
+    const index = (groupCounters[group] = (groupCounters[group] ?? 0) + 1)
+    const position =
+      startingPositions[num] ?? positionsByGroup[group][index % positionsByGroup[group].length]!
+    const joinedYear = random() > 0.5 ? 2024 : 2025
+    const previousClub = pick(previousClubs)
+    const heightRange: Record<typeof group, [number, number]> = {
+      goalkeeper: [185, 193],
+      defender: [176, 190],
+      midfielder: [168, 182],
+      forward: [170, 186],
+    }
+    const firstWord = firstName.split(' ')[0] ?? firstName
+    const career = [
+      { season: SEASON, club: 'Ultimate Rovers' },
+      { season: '2025/26', club: 'Ultimate Rovers' },
+      ...(joinedYear === 2024
+        ? [{ season: '2024/25', club: 'Ultimate Rovers' }]
+        : [
+            {
+              season: '2024/25',
+              club: previousClub,
+              apps: between(12, 26),
+              goals: between(0, 9),
+              assists: between(0, 6),
+            },
+          ]),
+      {
+        season: '2023/24',
+        club: previousClub,
+        apps: between(10, 24),
+        goals: between(0, 8),
+        assists: between(0, 5),
+      },
+    ]
     const created = await payload.create({
       collection: 'players',
       data: {
-        slug: `placeholder-player-${num}`,
-        firstName: '[First name]',
-        surname: '[Surname]',
+        firstName,
+        surname,
         squadNumber: num,
         positionGroup: group,
-        nationality: '[Country]',
-        dateOfBirth: new Date(Date.UTC(1996 + (num % 8), num % 12, 1 + num)).toISOString(),
-        heightCm: 170 + ((num * 7) % 25),
-        preferredFoot: num % 3 === 0 ? 'left' : 'right',
-        joined: new Date(Date.UTC(2024 + (num % 2), 6, 1)).toISOString(),
-        previousClub: '[Club name]',
-        contractUntil: 2027 + (num % 3),
+        position,
+        nationality: 'Nigeria',
+        dateOfBirth: new Date(
+          Date.UTC(between(1997, 2007), between(0, 11), between(1, 28)),
+        ).toISOString(),
+        heightCm: between(...heightRange[group]),
+        preferredFoot: random() > 0.78 ? 'left' : random() > 0.95 ? 'both' : 'right',
+        joined: new Date(Date.UTC(joinedYear, 6, 1)).toISOString(),
+        previousClub,
+        contractUntil: between(2027, 2029),
         status: 'active',
-        quote: '[A short quote from the player about the club or the fans.]',
-        biography: placeholderBody([
-          '[Where the player grew up, how they came through, and the clubs that shaped them.]',
-          '[What they bring to the side, their best moments in a Rovers shirt, and what they are working towards.]',
+        quote: pick(playerQuotes),
+        biography: richText([
+          `${firstWord} grew up playing street football in ${CITY} before developing at ${previousClub}, where coaches first noticed the work rate and composure that now define a ${position.toLowerCase()} in a Rovers shirt.`,
+          `Since joining Ultimate Rovers in ${joinedYear}, ${firstWord} has become a familiar face at ${HOME_GROUND}, trusted by the coaching staff and popular with supporters for never giving up on a ball.`,
         ]),
         socials: { instagram: 'https://instagram.com', x: 'https://x.com' },
         videos: [
           {
             title: 'Season highlights',
-            caption: '[Goals, assists and key moments from the season.]',
+            caption: 'Goals, assists and key moments from the season.',
           },
-          { title: 'In their words', caption: '[A short sit-down interview with the player.]' },
+          { title: 'In their words', caption: `A short sit-down interview with ${firstWord}.` },
         ],
-        career: [
-          { season: SEASON, club: 'Ultimate Rovers' },
-          { season: '2025/26', club: 'Ultimate Rovers' },
-          { season: '[YYYY/YY]', club: '[Previous club]' },
-          { season: '[YYYY/YY]', club: '[Previous club]' },
-        ],
+        career,
       },
       overrideAccess: true,
       context: ctx,
@@ -240,21 +286,27 @@ export async function seed(
   }
   const pid = (num: number) => players.get(num) ?? null
 
-  // Line-ups as drawn: 4-3-3, numbers in the order of the design's pitch.
-  const roversXI = [1, 2, 4, 5, 3, 8, 6, 10, 7, 9, 11]
-  const roversBench = [13, 14, 15, 16, 17, 18, 19]
+  // Line-ups: 4-3-3. Goalkeeper, then each line from the left as the team attacks.
+  const roversXI = [1, 3, 5, 6, 2, 8, 4, 10, 7, 9, 11]
+  const roversBench = [21, 14, 20, 17, 19, 28, 12]
   const roversLineup = {
     formation: '4-3-3',
-    headCoach: '[Full name]',
+    headCoach: HEAD_COACH,
     starting: roversXI.map((n) => ({ player: pid(n), number: n })),
     substitutes: roversBench.map((n) => ({ player: pid(n), number: n })),
   }
-  const opponentLineup = {
-    formation: '4-3-3',
-    headCoach: '[Full name]',
-    starting: [1, 2, 4, 5, 3, 8, 6, 10, 7, 9, 11].map((n) => ({ name: '[Surname]', number: n })),
-    substitutes: [12, 14, 15, 16, 17, 18, 20].map((n) => ({ name: '[Surname]', number: n })),
-  }
+  const opponentLineup = () => ({
+    formation: pick(['4-3-3', '4-4-2', '4-2-3-1']),
+    headCoach: opponentName(),
+    starting: [1, 2, 4, 5, 3, 8, 6, 10, 7, 9, 11].map((n, i) => ({
+      name: opponentSurnames[i % opponentSurnames.length],
+      number: n,
+    })),
+    substitutes: [12, 14, 15, 16, 17, 18, 20].map((n, i) => ({
+      name: opponentSurnames[(i + 11) % opponentSurnames.length],
+      number: n,
+    })),
+  })
 
   const attackers = [9, 11, 7, 10, 8]
   type EventInput = NonNullable<Match['events']>[number]
@@ -288,8 +340,8 @@ export async function seed(
         minute,
         side: oppSide,
         type: 'goal',
-        playerName: '[Player name]',
-        relatedPlayerName: '[Player name]',
+        playerName: opponentName(),
+        relatedPlayerName: opponentName(),
       })
       if (minute <= 45) htOpp += 1
     }
@@ -297,7 +349,7 @@ export async function seed(
       minute: 20 + Math.floor(random() * 50),
       side: oppSide,
       type: 'yellow',
-      playerName: '[Player name]',
+      playerName: opponentName(),
       note: 'Foul',
     })
     if (random() > 0.5)
@@ -342,26 +394,27 @@ export async function seed(
     matchweek?: number
     opponent: number
     roversHome: boolean
+    /** Big home games move from the school pitch to Soun Stadium. */
+    atSoun?: boolean
     result?: [number, number]
     extra?: Partial<Match>
   }
 
-  const createdMatches: Array<{ id: number; slug: string; kickoff: string; status: string }> = []
+  let matchCount = 0
 
   async function createMatch(plan: MatchPlan): Promise<Match> {
-    const home = plan.roversHome ? rovers.id : opp(plan.opponent).id
-    const away = plan.roversHome ? opp(plan.opponent).id : rovers.id
+    const opponent = opponents[plan.opponent - 1]!
     const data: Record<string, unknown> = {
       competition: plan.competition,
       season: plan.season ?? SEASON,
       matchweek: plan.matchweek,
       kickoff: plan.kickoff,
       kickoff_tz: TZ,
-      homeTeam: home,
-      awayTeam: away,
-      venue: plan.roversHome ? '[Home ground name]' : '[Opponent ground]',
-      referee: '[Referee name]',
-      broadcast: '[Channel or stream]',
+      homeTeam: plan.roversHome ? rovers.id : opp(plan.opponent).id,
+      awayTeam: plan.roversHome ? opp(plan.opponent).id : rovers.id,
+      venue: plan.roversHome ? (plan.atSoun ? BIG_GAME_GROUND : HOME_GROUND) : opponent.ground,
+      referee: pick(referees),
+      broadcast: BROADCAST,
       status: 'scheduled',
     }
     if (plan.result) {
@@ -378,40 +431,39 @@ export async function seed(
         halfTimeAwayScore: plan.roversHome ? ht[1] : ht[0],
         events,
         lineupsConfirmed: true,
-        homeLineup: plan.roversHome ? roversLineup : opponentLineup,
-        awayLineup: plan.roversHome ? opponentLineup : roversLineup,
+        homeLineup: plan.roversHome ? roversLineup : opponentLineup(),
+        awayLineup: plan.roversHome ? opponentLineup() : roversLineup,
         homeStats,
         awayStats,
-        attendance: plan.roversHome ? 1200 + Math.floor(random() * 2400) : null,
+        attendance: plan.roversHome
+          ? plan.atSoun
+            ? between(4000, 9000)
+            : between(600, 1800)
+          : null,
       })
     }
     Object.assign(data, plan.extra ?? {})
-    const created = await payload.create({
+    matchCount += 1
+    return payload.create({
       collection: 'matches',
       data: data as unknown as Match,
       overrideAccess: true,
       context: ctx,
     })
-    createdMatches.push({
-      id: created.id,
-      slug: created.slug ?? '',
-      kickoff: created.kickoff,
-      status: created.status,
-    })
-    return created
   }
 
-  // Previous seasons: meetings with the next opponent, for head to head.
+  // Previous season: meetings with the next opponent, for head to head.
   await createMatch({
-    kickoff: saturday(new Date(Date.UTC(2025, 9, 1)), 0, 15, 0, TZ),
+    kickoff: saturday(new Date(Date.UTC(2025, 9, 1)), 0, 16, 0, TZ),
     competition: pastLeague.id,
     season: '2025/26',
     opponent: 1,
     roversHome: true,
+    atSoun: true,
     result: [2, 0],
   })
   await createMatch({
-    kickoff: saturday(new Date(Date.UTC(2026, 2, 1)), 0, 15, 0, TZ),
+    kickoff: saturday(new Date(Date.UTC(2026, 2, 1)), 0, 16, 0, TZ),
     competition: pastLeague.id,
     season: '2025/26',
     opponent: 1,
@@ -419,7 +471,7 @@ export async function seed(
     result: [1, 1],
   })
   await createMatch({
-    kickoff: saturday(new Date(Date.UTC(2025, 10, 1)), 0, 15, 0, TZ),
+    kickoff: saturday(new Date(Date.UTC(2025, 10, 1)), 0, 16, 0, TZ),
     competition: pastLeague.id,
     season: '2025/26',
     opponent: 4,
@@ -427,7 +479,7 @@ export async function seed(
     result: [0, 2],
   })
 
-  // This season's results, oldest first. The last one is fully written up, as in the full-time design.
+  // This season's results, oldest first.
   const results: Array<[number, number, boolean, number, [number, number]]> = [
     // weeks before next Saturday, opponent, Rovers at home, competition (0 league, 1 cup), [Rovers, opponent]
     [-8, 11, true, 0, [3, 1]],
@@ -441,29 +493,29 @@ export async function seed(
   let matchweek = 4
   for (const [weeks, opponent, home, comp, result] of results) {
     await createMatch({
-      kickoff: saturday(now, weeks, 15, 0, TZ),
+      kickoff: saturday(now, weeks, 16, 0, TZ),
       competition: comp === 0 ? league.id : cup.id,
       matchweek: comp === 0 ? (matchweek += 1) : undefined,
       opponent,
       roversHome: home,
+      atSoun: comp === 1,
       result,
     })
   }
 
-  // The featured full-time match: events, stats and report as drawn.
-  const highlights = await payload
-    .create({
-      collection: 'videos',
-      data: {
-        title: 'Highlights: Ultimate Rovers vs [Opponent FC 8]',
-        publishedAt: saturday(now, -1, 18, 0, TZ),
-      },
-      overrideAccess: true,
-      context: ctx,
-    })
-    .catch(() => null)
+  // The latest result, fully written up.
+  const highlights = await payload.create({
+    collection: 'videos',
+    data: {
+      title: 'Highlights: Ultimate Rovers 2 : 1 Eruwa Lions',
+      publishedAt: saturday(now, -1, 19, 0, TZ),
+    },
+    overrideAccess: true,
+    context: ctx,
+  })
+  const eruwaPlayer = (i: number) => `${opponentFirstNames[i]} ${opponentSurnames[i]}`
   const lastResult = await createMatch({
-    kickoff: saturday(now, -1, 15, 0, TZ),
+    kickoff: saturday(now, -1, 16, 0, TZ),
     competition: league.id,
     matchweek: (matchweek += 1),
     opponent: 8,
@@ -474,23 +526,30 @@ export async function seed(
       awayScore: 1,
       halfTimeHomeScore: 1,
       halfTimeAwayScore: 1,
-      attendance: 2480,
+      attendance: 1450,
       lineupsConfirmed: true,
       homeLineup: roversLineup as Match['homeLineup'],
-      awayLineup: opponentLineup as Match['awayLineup'],
+      awayLineup: opponentLineup() as Match['awayLineup'],
       events: [
-        { minute: 12, side: 'home', type: 'goal', player: pid(9), relatedPlayer: pid(10) },
-        { minute: 28, side: 'away', type: 'yellow', playerName: '[Player name]', note: 'Foul' },
+        {
+          minute: 12,
+          side: 'home',
+          type: 'goal',
+          player: pid(9),
+          relatedPlayer: pid(10),
+          note: 'Header',
+        },
+        { minute: 28, side: 'away', type: 'yellow', playerName: eruwaPlayer(2), note: 'Foul' },
         {
           minute: 39,
           side: 'away',
           type: 'goal',
-          playerName: '[Player name]',
-          relatedPlayerName: '[Player name]',
+          playerName: eruwaPlayer(4),
+          relatedPlayerName: eruwaPlayer(6),
         },
         { minute: 58, side: 'home', type: 'substitution', player: pid(14), relatedPlayer: pid(8) },
         { minute: 64, side: 'home', type: 'penalty', player: pid(9) },
-        { minute: 77, side: 'away', type: 'second_yellow', playerName: '[Player name]' },
+        { minute: 77, side: 'away', type: 'second_yellow', playerName: eruwaPlayer(2) },
         { minute: 85, side: 'home', type: 'substitution', player: pid(17), relatedPlayer: pid(11) },
       ],
       homeStats: {
@@ -512,28 +571,31 @@ export async function seed(
         offsides: 1,
       },
       playerOfTheMatch: pid(9),
-      highlights: highlights?.id ?? null,
+      highlights: highlights.id,
       report: {
-        headline: '[Headline that sums up the result]',
-        standfirst: '[Standfirst: the result and why it matters, in one sentence.]',
-        author: '[Author name]',
-        body: placeholderBody([
-          '[First half: how the game opened and the key moments.]',
-          '[Second half: what changed, the decisive goals and the finish.]',
+        headline: 'Aderogba double sinks Eruwa Lions',
+        standfirst:
+          'Loving Aderogba scored in each half as Ultimate Rovers came from level at the break to keep pace at the top of the Oyo State League.',
+        author: 'Victor Okonkwo',
+        body: richText([
+          'Rovers started on the front foot at Nurudeen Grammar School and took the lead after twelve minutes, Aderogba rising above his marker to head in Olashile Awere’s cross from the right.',
+          'Eruwa Lions grew into the game and levelled six minutes before the break with a low finish after a quick counter-attack, the first goal Rovers had conceded at home in a month.',
+          { h2: 'Second half' },
+          'Head coach Babatunde Oyewole sent on Clement Bolaji for more control in midfield and the change paid off. On 64 minutes Aderogba was brought down in the box and sent the goalkeeper the wrong way from the spot.',
+          'Eruwa finished with ten men after a second booking, and Rovers saw the game out comfortably to make it three home wins in a row.',
         ]),
-        coachQuote: '[What the head coach said after the match.]',
+        coachQuote:
+          'We stayed patient when it got difficult. The supporters carried us in the second half and the boys deserved the three points.',
       },
     },
   })
-  if (highlights) {
-    await payload.update({
-      collection: 'videos',
-      id: highlights.id,
-      data: { relatedMatch: lastResult.id },
-      overrideAccess: true,
-      context: ctx,
-    })
-  }
+  await payload.update({
+    collection: 'videos',
+    id: highlights.id,
+    data: { relatedMatch: lastResult.id },
+    overrideAccess: true,
+    context: ctx,
+  })
 
   // Optional live match, for trying the live state locally: `pnpm seed:reset live`.
   if (live) {
@@ -542,6 +604,7 @@ export async function seed(
       competition: cup.id,
       opponent: 9,
       roversHome: true,
+      atSoun: true,
       extra: {
         status: 'live',
         minute: 67,
@@ -551,16 +614,16 @@ export async function seed(
         halfTimeAwayScore: 1,
         lineupsConfirmed: true,
         homeLineup: roversLineup as Match['homeLineup'],
-        awayLineup: opponentLineup as Match['awayLineup'],
+        awayLineup: opponentLineup() as Match['awayLineup'],
         events: [
           { minute: 12, side: 'home', type: 'goal', player: pid(9), relatedPlayer: pid(10) },
-          { minute: 28, side: 'away', type: 'yellow', playerName: '[Player name]', note: 'Foul' },
+          { minute: 28, side: 'away', type: 'yellow', playerName: opponentName(), note: 'Foul' },
           {
             minute: 39,
             side: 'away',
             type: 'goal',
-            playerName: '[Player name]',
-            relatedPlayerName: '[Player name]',
+            playerName: opponentName(),
+            relatedPlayerName: opponentName(),
           },
           {
             minute: 58,
@@ -589,55 +652,57 @@ export async function seed(
           fouls: 10,
           offsides: 2,
         },
-        watchUrl: 'https://example.com/live',
+        watchUrl: 'https://youtube.com',
       },
     })
   }
 
-  // Fixtures. The first is the next match: preview, team news, predicted line-ups, tickets on sale.
+  // Fixtures. The next match is the derby against Oyo Royals, moved to Soun Stadium.
   const nextMatch = await createMatch({
-    kickoff: saturday(now, 0, 15, 0, TZ),
+    kickoff: saturday(now, 0, 16, 0, TZ),
     competition: league.id,
     matchweek: (matchweek += 1),
     opponent: 1,
     roversHome: true,
+    atSoun: true,
     extra: {
       ticketAvailability: 'on_sale',
       ticketUrl: 'https://tickets.example.com/',
-      ticketInfo: 'Adults from [Price], under-16s from [Price]. Members get priority until [Date].',
+      ticketInfo:
+        'Regular ₦1,000, covered stand ₦2,500, under-16s ₦500. Members get priority until Thursday.',
       preview:
-        '[Where both sides stand going into the game, what is at stake and the key battles to watch.]',
+        'Third host fourth as Ultimate Rovers welcome Oyo Royals to Soun Stadium. Rovers have won three in a row and know victory would open a five-point gap over their neighbours. Expect a battle in midfield between Azeez Mascherano and the Royals captain.',
       homeTeamNews: [
-        { text: '[Player name]: [injury or suspension]' },
-        { text: '[Player name]: [doubtful, late fitness test]' },
+        { text: 'Goodness Akinloye: back in training after a hamstring strain' },
+        { text: 'Sunday Olabanjo: doubtful, late fitness test on Friday' },
       ],
       awayTeamNews: [
-        { text: '[Player name]: [injury or suspension]' },
-        { text: '[Player name]: [returns from injury]' },
+        { text: `${opponentName()}: suspended after five bookings` },
+        { text: `${opponentName()}: returns from a knee injury` },
       ],
       lineupsConfirmed: false,
       homeLineup: roversLineup as Match['homeLineup'],
-      awayLineup: opponentLineup as Match['awayLineup'],
+      awayLineup: opponentLineup() as Match['awayLineup'],
     },
   })
   await createMatch({
-    kickoff: saturday(now, 0, 19, 45, TZ, 4),
+    kickoff: saturday(now, 0, 16, 0, TZ, 4),
     competition: cup.id,
     opponent: 2,
     roversHome: false,
     extra: {
       status: 'postponed',
-      statusNote: '[Reason for the postponement. New date to be confirmed.]',
+      statusNote: 'Postponed because of a waterlogged pitch. The new date will be announced soon.',
     },
   })
   const fixtures: Array<[number, number, number, boolean, number, number, number]> = [
-    // weeks, day shift from Saturday, opponent, home, competition (0 league, 2 friendly), hour, minute
-    [1, 1, 3, false, 0, 13, 30],
-    [2, 0, 4, true, 0, 15, 0],
-    [3, 3, 5, true, 2, 19, 45],
-    [3, 0, 6, false, 0, 15, 0],
-    [4, 0, 7, true, 0, 15, 0],
-    [5, 0, 2, false, 0, 12, 30],
+    // weeks, day shift from Saturday, opponent, Rovers at home, competition (0 league, 2 friendly), hour, minute
+    [1, 1, 3, false, 0, 16, 0],
+    [2, 0, 4, true, 0, 16, 0],
+    [3, 3, 5, true, 2, 16, 30],
+    [3, 0, 6, false, 0, 16, 0],
+    [4, 0, 7, true, 0, 16, 0],
+    [5, 0, 2, false, 0, 15, 30],
   ]
   for (const [weeks, shift, opponent, home, comp, hour, minute] of fixtures) {
     await createMatch({
@@ -654,8 +719,8 @@ export async function seed(
 
   // Videos for Watch on Home.
   for (const [title, hoursAgo] of [
-    ['Head coach press conference', 30],
-    ['Training: inside the week', 60],
+    ['Head coach press conference: Oyo Royals derby', 30],
+    ['Training: inside the week at Nurudeen Grammar School', 60],
   ] as const) {
     await payload.create({
       collection: 'videos',
@@ -665,64 +730,155 @@ export async function seed(
     })
   }
 
-  // Articles, as listed in News.dc.html, plus the Home lead story.
+  // Articles.
   const articlePlan: Array<{
     title: string
-    category: 'match-report' | 'match-preview' | 'squad-news' | 'club' | 'academy' | 'community'
+    category: ArticleCategory
     daysAgo: number
+    standfirst: string
+    body: Block[]
+    author?: string
     featured?: boolean
     relatedMatch?: number
   }> = [
     {
-      title: 'Ultimate Rovers vs [Opponent FC 1]: everything you need before kick-off',
+      title:
+        'Ultimate Rovers vs Oyo Royals: everything you need before Saturday’s derby at Soun Stadium',
       category: 'match-preview',
       daysAgo: 1,
       featured: true,
       relatedMatch: nextMatch.id,
+      standfirst:
+        'Kick-off time, tickets, team news and the key battles as third meets fourth in front of what should be the biggest crowd of the season.',
+      body: [
+        'Saturday’s derby moves from Nurudeen Grammar School to Soun Stadium to make room for the expected crowd. Gates open two hours before kick-off.',
+        'Rovers go into the game on a run of three straight wins, with Loving Aderogba scoring in each of the last two matches.',
+        { h2: 'Team news' },
+        'Goodness Akinloye is back in training after a hamstring strain. Sunday Olabanjo faces a late fitness test.',
+        { quote: 'Derbies are about nerve. We have to stay calm and play our football.' },
+        'Tickets are on sale online and at the club office until Friday evening, while stocks last.',
+      ],
     },
     {
-      title: 'Ultimate Rovers X : X [Opponent FC 8]: how the match was won',
+      title: 'Ultimate Rovers 2 : 1 Eruwa Lions: Aderogba double settles it',
       category: 'match-report',
       daysAgo: 2,
       relatedMatch: lastResult.id,
+      standfirst:
+        'Loving Aderogba scored in each half as Rovers came from level at the break to make it three home wins in a row.',
+      body: [
+        'Aderogba headed Rovers in front early before Eruwa Lions equalised on the counter.',
+        'A second-half penalty from the same player decided a hard-fought game at Nurudeen Grammar School.',
+      ],
     },
-    { title: 'Team news ahead of the [Competition] fixture', category: 'squad-news', daysAgo: 3 },
     {
-      title: 'Open trials for the [Age group] squad return on [Date]',
+      title: 'Team news: Akinloye back in contention for the derby',
+      category: 'squad-news',
+      daysAgo: 3,
+      standfirst:
+        'The midfielder has returned to full training and could feature against Oyo Royals on Saturday.',
+      body: [
+        'Goodness Akinloye has trained fully all week after a hamstring strain kept him out for three matches.',
+        'The medical team will make a final decision after Friday’s session.',
+      ],
+    },
+    {
+      title: 'Academy trials for under-15s and under-17s return in December',
       category: 'academy',
       daysAgo: 4,
+      standfirst:
+        'Young players from Ogbomoso and nearby towns can register now for two days of trials at Nurudeen Grammar School.',
+      body: [
+        'Trials run over two Saturdays in December. Players should bring boots, shin pads and a parent or guardian.',
+        'Register through the Contact page with the topic Trials and academy.',
+      ],
     },
     {
-      title: 'Rovers players visit [School or community group]',
+      title: 'Rovers players visit pupils at Nurudeen Grammar School',
       category: 'community',
       daysAgo: 5,
+      standfirst:
+        'Members of the first team spent the afternoon coaching pupils and talking about staying in school.',
+      body: [
+        'Afeez Badmus, Azeez Mascherano and Glory Olaifa led a coaching session for more than a hundred pupils.',
+        'The visit is part of the club’s schools programme across Ogbomoso.',
+      ],
     },
     {
-      title: '[Player name] signs a new contract until [YYYY]',
+      title: 'Afeez Badmus signs a new contract until 2028',
       category: 'squad-news',
       daysAgo: 6,
+      standfirst: 'The club’s number one has committed his future to Ultimate Rovers.',
+      body: [
+        'Badmus has kept eight clean sheets this season and becomes the latest player to extend his stay.',
+        'He said he wants to win the league again in front of the Ogbomoso supporters.',
+      ],
     },
-    { title: 'Season ticket renewals open for [2026/27]', category: 'club', daysAgo: 8 },
     {
-      title: 'Ultimate Rovers X : X [Opponent FC 3]: the talking points',
+      title: 'Season ticket renewals open for 2026/27',
+      category: 'club',
+      daysAgo: 8,
+      standfirst:
+        'Supporters can renew their seats for every home league match, with priority for cup games.',
+      body: [
+        'Season tickets cost ₦15,000 for adults and ₦7,500 for under-16s.',
+        'Renew at the club office or online before the end of the month to keep your seat.',
+      ],
+    },
+    {
+      title: 'Ultimate Rovers 3 : 2 Saki United: five talking points',
       category: 'match-report',
       daysAgo: 9,
+      standfirst:
+        'A five-goal thriller at Nurudeen Grammar School and plenty to discuss afterwards.',
+      body: [
+        'Rovers twice came from behind before a late winner sealed the points.',
+        'The result moved the club into the top three of the Oyo State League.',
+      ],
     },
     {
-      title: 'Injury update ahead of the [Competition] fixture',
+      title: 'Injury update: Olabanjo steps up his recovery',
       category: 'squad-news',
       daysAgo: 11,
+      standfirst:
+        'The forward is back on the grass and working towards a return before the end of the month.',
+      body: [
+        'Sunday Olabanjo has started running drills after an ankle injury.',
+        'The medical team expects him to rejoin full training next week.',
+      ],
     },
     {
-      title: '[Opponent FC 5] X : X Ultimate Rovers: the head coach’s verdict',
+      title: 'Igbeti Rangers 1 : 0 Ultimate Rovers: the head coach’s verdict',
       category: 'match-report',
       daysAgo: 13,
+      standfirst:
+        'Babatunde Oyewole said his side lacked a cutting edge in a narrow defeat away from home.',
+      body: [
+        'A first-half goal was enough for Igbeti Rangers on a difficult pitch.',
+        'Rovers had more of the ball but created few clear chances.',
+      ],
     },
-    { title: 'Welcoming [Partner name] as an official partner', category: 'club', daysAgo: 16 },
     {
-      title: 'Coaching clinic returns to [Venue] this [Month]',
+      title: 'Welcoming Crystal Spring Water as an official partner',
+      category: 'club',
+      daysAgo: 16,
+      standfirst:
+        'The partnership supplies drinking water for the first team, the academy and every home match.',
+      body: [
+        'Crystal Spring Water joins the club’s family of partners for the rest of the season.',
+        'Supporters will see the partner at Nurudeen Grammar School and on the club’s training kit.',
+      ],
+    },
+    {
+      title: 'Free coaching clinic returns to Nurudeen Grammar School this December',
       category: 'community',
       daysAgo: 20,
+      standfirst:
+        'Children aged 8 to 14 can join first-team players and coaches for a free morning of football.',
+      body: [
+        'The clinic runs from 9am on the second Saturday of December.',
+        'Places are limited, so register early through the Contact page.',
+      ],
     },
   ]
   for (const a of articlePlan) {
@@ -732,18 +888,11 @@ export async function seed(
         title: a.title,
         category: a.category,
         featured: Boolean(a.featured),
-        author: '[Author name]',
-        standfirst: '[One or two sentences that set up the story and make people want to read on.]',
+        author: a.author ?? 'Victor Okonkwo',
+        standfirst: a.standfirst,
         publishedAt: new Date(now.getTime() - a.daysAgo * 86_400_000).toISOString(),
         relatedMatch: a.relatedMatch,
-        body: placeholderBody([
-          '[Opening paragraph: the news in one or two sentences.]',
-          '[Second paragraph: the detail, the people involved and why it matters to supporters.]',
-          { h2: '[Subheading]' },
-          '[Further detail, background or what happens next.]',
-          { quote: '[A quote from someone at the club.]' },
-          '[Closing paragraph with dates, links or how to get involved.]',
-        ]),
+        body: richText(a.body),
         _status: 'published',
       },
       overrideAccess: true,
@@ -751,43 +900,15 @@ export async function seed(
     })
   }
 
-  // People, by group, roles as drawn in Stakeholders.dc.html.
-  const peoplePlan: Record<'board' | 'management' | 'technical' | 'investors', string[]> = {
-    board: [
-      'Chairman',
-      'Vice chairman',
-      'Director of finance',
-      'Non-executive director',
-      'Club secretary',
-    ],
-    management: [
-      'General manager',
-      'Team manager',
-      'Head of operations',
-      'Head of media',
-      'Head of commercial',
-      'Supporter liaison officer',
-    ],
-    technical: [
-      'Head coach',
-      'Assistant coach',
-      'Goalkeeper coach',
-      'Strength and conditioning coach',
-      'Performance analyst',
-      'Team doctor',
-      'Physiotherapist',
-      'Kit manager',
-    ],
-    investors: ['Principal investor', 'Shareholder', 'Shareholder', 'Club patron'],
-  }
-  for (const [group, roles] of Object.entries(peoplePlan) as Array<
-    [keyof typeof peoplePlan, string[]]
+  // People.
+  for (const [group, list] of Object.entries(people) as Array<
+    [keyof typeof people, Array<[string, string, number]>]
   >) {
     let order = 0
-    for (const role of roles) {
+    for (const [name, role, sinceYear] of list) {
       await payload.create({
         collection: 'people',
-        data: { name: '[Full name]', role, group, order: (order += 1) },
+        data: { name, role, group, sinceYear, order: (order += 1) },
         overrideAccess: true,
         context: ctx,
       })
@@ -795,29 +916,8 @@ export async function seed(
   }
 
   // Partners.
-  const partnerPlan: Array<
-    [string, 'principal' | 'official' | 'supplier' | 'community', string | null]
-  > = [
-    [
-      '[Principal partner]',
-      'principal',
-      '[One line on the partnership, for example front-of-shirt sponsor since YYYY.]',
-    ],
-    ['[Kit partner]', 'official', null],
-    ['[Official partner]', 'official', null],
-    ['[Official partner]', 'official', null],
-    ['[Official partner]', 'official', null],
-    ['[Supplier]', 'supplier', null],
-    ['[Supplier]', 'supplier', null],
-    ['[Supplier]', 'supplier', null],
-    ['[Supplier]', 'supplier', null],
-    ['[Community partner]', 'community', null],
-    ['[Community partner]', 'community', null],
-    ['[Community partner]', 'community', null],
-  ]
   let partnerOrder = 0
-  for (const [name, tier, blurb] of partnerPlan) {
-    partnerOrder += 1
+  for (const [name, tier, blurb, showOnHome] of partners) {
     await payload.create({
       collection: 'partners',
       data: {
@@ -825,9 +925,8 @@ export async function seed(
         tier,
         blurb,
         url: 'https://example.com',
-        // Home shows the principal, kit, two official and one community partner, as drawn.
-        showOnHome: [1, 2, 3, 4, 10].includes(partnerOrder),
-        order: partnerOrder,
+        showOnHome,
+        order: (partnerOrder += 1),
       },
       overrideAccess: true,
       context: ctx,
@@ -835,29 +934,18 @@ export async function seed(
   }
 
   // Honours and timeline.
-  for (const [i, competition] of [
-    '[League title]',
-    '[Cup competition]',
-    '[Regional cup]',
-    '[Youth honour]',
-  ].entries()) {
+  for (const [i, [competition, count, years]] of honours.entries()) {
     await payload.create({
       collection: 'honours',
-      data: { competition, count: 0, years: '[YYYY], [YYYY]', order: i },
+      data: { competition, count, years, order: i },
       overrideAccess: true,
       context: ctx,
     })
   }
-  for (const [i, [year, title]] of [
-    ['[YYYY]', 'The club is founded'],
-    ['[YYYY]', 'First competitive season'],
-    ['[YYYY]', 'Move to [Home ground name]'],
-    ['[YYYY]', '[First trophy or promotion]'],
-    ['2026', '[Where the club is today]'],
-  ].entries()) {
+  for (const [i, [year, title, text]] of timeline.entries()) {
     await payload.create({
       collection: 'timeline-entries',
-      data: { year: year!, title: title!, text: '[A sentence or two on what happened.]', order: i },
+      data: { year, title, text, order: i },
       overrideAccess: true,
       context: ctx,
     })
@@ -866,7 +954,7 @@ export async function seed(
   // Governance documents.
   for (const [i, title] of [
     'Club constitution',
-    'Annual report [YYYY]',
+    'Annual report 2025',
     'Safeguarding policy',
     'Supporter charter',
   ].entries()) {
@@ -874,53 +962,45 @@ export async function seed(
     await payload.create({
       collection: 'documents',
       data: { title, order: i },
-      file: {
-        data,
-        mimetype: 'application/pdf',
-        name: `placeholder-${i + 1}.pdf`,
-        size: data.length,
-      },
+      file: { data, mimetype: 'application/pdf', name: `document-${i + 1}.pdf`, size: data.length },
       overrideAccess: true,
       context: ctx,
     })
   }
 
   // Club settings.
-  const legal = (name: string) =>
-    richText([
-      `[This ${name} is placeholder text. Replace it with the club's own wording before launch.]`,
-      { h2: '[Who we are]' },
-      '[The club, its registered address and how to contact the person responsible for this policy.]',
-      { h2: '[What this covers]' },
-      '[What the policy applies to, what we collect or expect, and why.]',
-      { h2: '[Your rights and choices]' },
-      '[How to ask questions, make a request or complain.]',
-    ])
+  const draftNote =
+    'This is a starting draft for Ultimate Rovers. Have it reviewed before the site goes live.'
   await payload.updateGlobal({
     slug: 'club-settings',
     data: {
       clubName: 'Ultimate Rovers',
-      founded: '[YYYY]',
+      founded: '2016',
       currentSeason: SEASON,
-      city: '[City]',
-      country: '[Country]',
+      city: CITY,
+      country: 'Nigeria',
       timezone: TZ,
-      shortBio: '[Short line about the club, its home and the community it plays for.]',
+      shortBio:
+        'A football club from Ogbomoso, Oyo State, playing for the city and the young people who love the game.',
       ticketsUrl: '',
-      broadcastPartner: '[Broadcaster]',
+      broadcastPartner: BROADCAST,
       ground: {
-        name: '[Home ground name]',
-        street: '[Street address]',
-        city: '[City]',
-        surface: '[Grass or artificial]',
-        accessibleEntry: '[Gate name or number]',
-        mapUrl: 'https://maps.google.com',
-        guide: '[Home ground name], [Street address]. Parking, transport and accessible entry.',
+        name: HOME_GROUND,
+        // Explicitly empty: updating a global keeps fields that are left out.
+        street: null,
+        postcode: null,
+        capacity: null,
+        mapEmbedUrl: null,
+        city: `${CITY}, Oyo State`,
+        surface: 'Grass',
+        accessibleEntry: 'Main school gate',
+        mapUrl: 'https://www.google.com/maps/search/?api=1&query=Nurudeen+Grammar+School+Ogbomoso',
+        guide: `Home games are played at ${HOME_GROUND}, ${CITY}. Big games, including derbies and cup ties, move to ${BIG_GAME_GROUND}. Both grounds are a short drive or okada ride from the town centre, with step-free entry through the main gate.`,
       },
-      phone: '[+000 000 000 0000]',
+      phone: '+234 800 000 0000',
       replyDays: 2,
-      officeHours: 'Mon to Fri, [09:00] to [17:00]',
-      matchdayHours: 'Matchdays, from [3] hours before kick-off',
+      officeHours: 'Mon to Fri, 09:00 to 17:00',
+      matchdayHours: 'Matchdays, from 3 hours before kick-off',
       departments: [
         {
           topic: 'general',
@@ -962,12 +1042,12 @@ export async function seed(
         {
           question: 'How do I buy match tickets?',
           answer:
-            'Home tickets go on sale [X] days before each match on the Fixtures page and at the ground. Members get priority access.',
+            'Home tickets go on sale five days before each match on the Fixtures page and at the club office. Members get priority access.',
         },
         {
           question: 'How can my child attend academy trials?',
           answer:
-            'Trials for [U-##] to [U-##] run in [Month]. Send a message with the topic Trials and academy and we will send the dates.',
+            'Trials for under-13s to under-17s run every December at Nurudeen Grammar School. Send a message with the topic Trials and academy and we will send the dates.',
         },
         {
           question: 'How do we become a club partner?',
@@ -977,12 +1057,12 @@ export async function seed(
         {
           question: 'Can we request a player appearance?',
           answer:
-            'Yes, for schools, charities and community events. Send the date, venue and audience at least [4] weeks ahead.',
+            'Yes, for schools, charities and community events in and around Ogbomoso. Send the date, venue and audience at least four weeks ahead.',
         },
         {
           question: 'I am a journalist. How do I get accreditation?',
           answer:
-            'Contact the media team with your outlet and the fixture at least [48] hours before kick-off.',
+            'Contact the media team with your outlet and the fixture at least 48 hours before kick-off.',
         },
       ],
       socials: {
@@ -993,52 +1073,76 @@ export async function seed(
         facebook: 'https://facebook.com',
       },
       heroIntro: 'Fixtures, results, the squad and every story from the club, in one place.',
-      spotlight: [1, 4, 8, 9].map((n) => pid(n)).filter((id): id is number => id !== null),
+      spotlight: [1, 2, 10, 9].map((n) => pid(n)).filter((id): id is number => id !== null),
       crestStory:
-        'Our crest carries a triskele at the heart of the ball and a balance mark beneath the name. [Tell the story of where the club came from and what those symbols stand for.]',
+        'Our crest carries a triskele at the heart of the ball and a balance mark beneath the name. The three spirals stand for the players, the supporters and the city of Ogbomoso moving together; the balance mark is a promise to play with discipline as well as flair.',
       aboutIntro:
-        'Founded in [YYYY] in [City], Ultimate Rovers plays for [the community the club represents]. [One more sentence on what the club is about.]',
+        'Founded in 2016 in Ogbomoso, Ultimate Rovers plays for the young footballers of Oyo State and the community that turns up to watch them. We develop local talent and give it a stage.',
       story: [
-        { paragraph: '[How the club began, who started it and why.]' },
-        { paragraph: '[The moments that shaped the club and where it is heading.]' },
+        {
+          paragraph:
+            'Ultimate Rovers began with a group of former school players who wanted a club that gave Ogbomoso’s best young footballers a route into the senior game.',
+        },
+        {
+          paragraph:
+            'From pick-up games to the Oyo State League title in 2023, the club has grown one season at a time. The aim now is to keep winning while bringing the next generation through.',
+        },
       ],
       crestElements: [
         {
           title: 'The ball',
-          text: 'Football sits at the top of the shield, above everything else. [Add the club’s meaning.]',
+          text: 'Football sits at the top of the shield, above everything else, because the game comes first.',
         },
         {
           title: 'The triskele',
-          text: 'Three spirals turning together at the centre of the ball. [Add the club’s meaning.]',
+          text: 'Three spirals turning together: the players, the supporters and the city of Ogbomoso.',
         },
         {
           title: 'The shield',
-          text: 'Navy and cyan, the club colours, framing the name. [Add the club’s meaning.]',
+          text: 'Navy and cyan, the club colours, framing the name and protecting what the club stands for.',
         },
         {
           title: 'The balance mark',
-          text: 'A yin and yang symbol beneath the name. [Add the club’s meaning.]',
+          text: 'A yin and yang symbol beneath the name: discipline and flair, defending and attacking, in balance.',
         },
       ],
-      mission: '[What the club does every day, in one sentence.]',
-      vision: '[Where the club wants to be in five to ten years.]',
-      values: '[Value one], [value two], [value three].',
-      academyText: 'Age groups from [U-##] to [U-##]. Trials run in [Month].',
-      communityText: '[School visits, coaching clinics and the programmes the club runs.]',
+      mission:
+        'To develop young footballers from Ogbomoso and give them a stage to compete and grow.',
+      vision:
+        'To be the leading football club in Oyo State and a pathway to the professional game within ten years.',
+      values: 'Discipline, community and ambition.',
+      academyText:
+        'Age groups from under-13 to under-17. Trials run every December at Nurudeen Grammar School.',
+      communityText:
+        'School visits, free coaching clinics and programmes for young people across Ogbomoso.',
       membershipText: 'Priority tickets, member events and a vote at the annual general meeting.',
-      seasonTicketText: 'Every home league match, priority for cup games. From [Price].',
+      seasonTicketText: 'Every home league match, priority for cup games. From ₦15,000.',
       matchdayTicketText:
-        'On sale [X] days before each home game, online and at the ground. From [Price].',
+        'On sale five days before each home game, online and at the club office. From ₦1,000.',
       matchTicketText:
-        'Adults from [Price], under-16s from [Price]. Members get priority until [Date].',
+        'Regular ₦1,000, covered stand ₦2,500, under-16s ₦500. Members get priority until Thursday.',
       partnershipText:
-        'Shirt, stadium, digital and community packages are open for the [2026/27] season.',
-      privacy: legal('privacy policy'),
-      terms: legal('terms of use'),
+        'Shirt, ground, digital and community packages are open for the 2026/27 season.',
+      privacy: richText([
+        draftNote,
+        { h2: 'Who we are' },
+        'Ultimate Rovers is a football club based in Ogbomoso, Oyo State, Nigeria. You can contact us through the Contact page about anything in this policy.',
+        { h2: 'What we collect' },
+        'When you send a message or join the newsletter we keep your name, email address, any phone number you give us and your message, so that we can reply. We do not sell your details.',
+        { h2: 'Your rights and choices' },
+        'You can ask us for a copy of your details, ask us to correct them, or ask us to delete them. Write to us through the Contact page.',
+      ]),
+      terms: richText([
+        draftNote,
+        { h2: 'Using this site' },
+        'This website is run by Ultimate Rovers to share club news, fixtures and information. You may read and share our pages for personal use.',
+        { h2: 'Our content' },
+        'Photos, videos, the crest and articles belong to the club or our partners. Please ask before using them elsewhere.',
+        { h2: 'Tickets' },
+        'Ticket purchases are handled by our ticketing partner and are covered by their own terms.',
+      ]),
       cookies: richText([
         'This site only sets cookies that it needs to work, such as keeping staff signed in to the club admin. It sets no advertising or tracking cookies, so there is nothing to opt out of.',
-        { h2: '[Cookies we use]' },
-        '[List each essential cookie, what it does and how long it lasts.]',
         { h2: 'Embedded videos' },
         'Videos from YouTube or Vimeo only load after you press play. Those services may then set their own cookies.',
       ]),
@@ -1048,7 +1152,7 @@ export async function seed(
   })
 
   payload.logger.info(
-    `Seed complete: ${createdMatches.length} matches, ${players.size} players, ${articlePlan.length} articles. Every entry is placeholder content.`,
+    `Seed complete: ${matchCount} matches, ${players.size} players, ${articlePlan.length} articles. Squad from the club team list; other content is sample content.`,
   )
   return true
 }

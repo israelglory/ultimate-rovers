@@ -44,7 +44,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
     meta: { titleSuffix: ' | Ultimate Rovers admin' },
     timezones: {
-      defaultTimezone: 'Europe/London',
+      defaultTimezone: 'Africa/Lagos',
     },
   },
   collections,

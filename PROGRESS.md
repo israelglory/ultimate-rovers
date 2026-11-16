@@ -156,3 +156,25 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 - PLAN.md section 8 lists open questions on the handoff (three colours not in the tokens, standings storage, a match preview category). The build follows the proposed resolutions; each can be reversed cheaply.
 - Real content: crests for opponents, player photos, partner logos, videos, legal text and the club timezone are placeholders until entered in the admin.
 - Lighthouse numbers come from a local production server; rerun `pnpm lighthouse` against the live site after launch.
+
+## Content update: real squad and Ogbomoso starter content
+
+**Done**
+
+- The seed now loads the real first-team squad: 42 players with the names, numbers and positions from the club's team list (1 goalkeeper, 11 defenders, 14 midfielders, 16 forwards), all with Nigeria as nationality.
+- No bracket placeholders remain anywhere on the site. A crawl of 54 pages, including every match tab, found none.
+- The club is set in Ogbomoso, Oyo State, Nigeria, with the timezone Africa/Lagos (default changed in the config, Club settings and a new migration for the two column defaults).
+- Home ground: Nurudeen Grammar School. Big games (the derby and cup ties) are played at Soun Stadium. "Get directions" follows each match's venue.
+- Everything else is realistic sample content in `src/seed/content.ts`: player dates of birth, heights, preferred foot, joining dates, previous clubs, contracts, biographies and quotes; 11 opponent clubs from towns around Oyo State; the Oyo State League and State FA Cup; staff, partners, honours and club history; ticket prices in naira; 12 news stories; FAQs and draft legal text.
+
+**Decisions**
+
+- Names were split into first name and surname by best guess, because the team list mixes the two orders. The split is in `src/seed/content.ts`; spellings are kept exactly as given (for example Micheal and Isreal).
+- The squad has one goalkeeper, so the seeded bench has none.
+- Department emails stay on `example.com`: real-looking addresses on a domain the club does not own would send contact form messages to a stranger once SMTP is configured.
+- The phone number is a sample (`+234 800 000 0000`).
+- Draft privacy and terms text opens with a line asking for review before launch.
+
+**Replace before launch**
+
+- Every sample value listed above, especially the founding year, club history and honours, which visitors would read as facts.
