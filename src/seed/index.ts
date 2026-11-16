@@ -121,6 +121,18 @@ export async function seed(
     context: ctx,
   })
 
+  // Team photo: stand-in news image until the club uploads photos for each story.
+  const teamPhoto = await payload.create({
+    collection: 'media',
+    data: {
+      alt: 'Ultimate Rovers players in navy and pink kit lined up for a team photo on a grass pitch',
+      credit: 'Ultimate Rovers',
+    },
+    filePath: path.join(process.cwd(), 'src/seed/images', 'team-photo.jpg'),
+    overrideAccess: true,
+    context: ctx,
+  })
+
   // Teams.
   const rovers = await payload.create({
     collection: 'teams',
@@ -892,6 +904,7 @@ export async function seed(
         standfirst: a.standfirst,
         publishedAt: new Date(now.getTime() - a.daysAgo * 86_400_000).toISOString(),
         relatedMatch: a.relatedMatch,
+        heroImage: teamPhoto.id,
         body: richText(a.body),
         _status: 'published',
       },
