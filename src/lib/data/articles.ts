@@ -137,15 +137,18 @@ async function loadList({
   }
 }
 
+/** Searches skip the data cache: free text would create an unbounded number of entries. */
 export const listArticles = (args: { category?: NewsCategory; q?: string; page: number }) =>
-  unstable_cache(
-    () => loadList(args),
-    ['articles-list', args.category ?? 'all', args.q ?? '', String(args.page)],
-    {
-      tags: [tags.articles, tags.media],
-      revalidate: CACHE_SECONDS,
-    },
-  )()
+  args.q
+    ? loadList(args)
+    : unstable_cache(
+        () => loadList(args),
+        ['articles-list', args.category ?? 'all', args.q ?? '', String(args.page)],
+        {
+          tags: [tags.articles, tags.media],
+          revalidate: CACHE_SECONDS,
+        },
+      )()
 
 /** Lead story plus the next `count` for Home. */
 export const getHomeNews = (count: number) =>

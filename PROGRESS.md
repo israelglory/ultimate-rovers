@@ -111,3 +111,23 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 - Eight stat tiles sit in a 4 by 2 grid (2 by 4 on phones). The design drew six tiles in an auto-fit grid, which leaves one orphan tile with eight.
 - Empty facts are hidden rather than shown as placeholders.
 - Fixed: the Lexical renderer ignores `className` when its container is disabled, so rich text is wrapped in its own styled element (this also fixes the match report body).
+
+## Phase 5: Club
+
+**Done**
+
+- About (`/club`): intro with crest and motif, story with timeline, reading the crest, mission, vision and values, honours, home ground with directions, academy and community cards, membership panel. Rows and blocks without content are hidden.
+- Stakeholders (`/club/stakeholders`): in-page anchors `#board`, `#management`, `#technical`, `#investors`, `#partners`, `#governance`; person cards with photo or silhouette; principal partner panel and tiered logo grids (dashed name boxes until logos are uploaded); governance PDFs with download links; Partner with us.
+- News (`/news`): search (`?q=`), category chips (`?category=`), lead story on the unfiltered first page, card grid, pagination (`?page=`), and empty states for categories and searches.
+- Article (`/news/[slug]`): built from the Report tab layout, with breadcrumbs, related match and players, Share, "Read next" and NewsArticle JSON-LD.
+- Contact (`/contact`): department cards, contact form (idle, field errors with focus on the first invalid field, submitting, sent with "Send another message"), `?topic=` preselects the topic, map embed or placeholder, club office and hours, one-open-at-a-time accordion.
+- Legal pages (`/privacy`, `/terms`, `/cookies`) from Club settings rich text, with an empty state until written.
+- 404 inside the site chrome with links to Home, Fixtures and Squad (from Phase 1).
+
+**Decisions**
+
+- The news search box sits beside the title as drawn and joins the filter form through the HTML `form` attribute, so search and chips share one GET form and work without JavaScript.
+- Searches are not stored in the data cache, because free text would create unbounded cache entries. Search result pages are `noindex`.
+- Accordion answers stay in the HTML with `hidden`, so find-in-page and search engines still see them.
+- Phone numbers only become `tel:` links when they contain at least six digits.
+- The cookie page states that the site sets only essential cookies; "Cookie settings" in the footer links there (PLAN gap 10).

@@ -241,7 +241,7 @@ export default async function FixturesPage({ searchParams }: Props) {
               <p className="mt-2.5 mb-[18px] text-[15px] leading-[1.55] text-slate">
                 {club.ground.guide ?? 'Parking, transport and accessible entry.'}
               </p>
-              <Link href="/club#ground-title" className="text-[15px] font-bold">
+              <Link href="/club#ground" className="text-[15px] font-bold">
                 Stadium guide
               </Link>
             </div>
