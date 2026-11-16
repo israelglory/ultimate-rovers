@@ -13,7 +13,6 @@ import { MatchHero } from '@/components/match/MatchHero'
 import { Bench, PitchLineup } from '@/components/match/PitchLineup'
 import { StatsComparison } from '@/components/match/StatsComparison'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { buttonClass } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { PlayerSilhouette } from '@/components/squad/PlayerSilhouette'
 import { TabList, TabPanel } from '@/components/ui/TabList'
@@ -113,12 +112,10 @@ function Overview({
   match,
   form,
   mapUrl,
-  defaultTicketText,
 }: {
   match: MatchDetail
   form: { home: FormResult[]; away: FormResult[] }
   mapUrl: string | null
-  defaultTicketText: string | null
 }) {
   const started = hasStarted(match.status)
   const potm = match.playerOfTheMatch
@@ -236,29 +233,6 @@ function Overview({
                 </Link>
               </div>
             </div>
-          </div>
-        ) : null}
-        {match.status === 'scheduled' && match.home.isUs ? (
-          <div className="rounded-[14px] bg-night p-[22px] text-white">
-            <h2 className="m-0 text-[19px]">Tickets</h2>
-            <p className="mt-2.5 mb-4 text-[15px] leading-[1.55] text-mist-text">
-              {match.ticketInfo ?? defaultTicketText ?? 'Ticket details will be announced soon.'}
-            </p>
-            {match.ticketUrl &&
-            (match.ticketAvailability === 'on_sale' ||
-              match.ticketAvailability === 'members_only') ? (
-              <a
-                href={match.ticketUrl}
-                rel="noopener"
-                className={buttonClass({ variant: 'primary-dark', size: 'md', px: 'px-5' })}
-              >
-                Buy tickets
-              </a>
-            ) : (
-              <p className="m-0 text-[15px] font-bold">
-                {match.ticketAvailability === 'sold_out' ? 'Sold out' : 'Not on sale yet'}
-              </p>
-            )}
           </div>
         ) : null}
       </aside>
@@ -433,7 +407,6 @@ export default async function MatchPage({ params, searchParams }: Props) {
               match={match}
               form={form}
               mapUrl={directionsFor(match, club.ground, club.city)}
-              defaultTicketText={club.tickets.match}
             />
           ) : null}
           {tab === 'lineups' ? <Lineups match={match} /> : null}

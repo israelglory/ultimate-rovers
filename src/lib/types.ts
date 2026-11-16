@@ -36,7 +36,6 @@ export type MatchStatus =
 export type Side = 'home' | 'away'
 export type EventType =
   'goal' | 'own_goal' | 'penalty' | 'yellow' | 'second_yellow' | 'red' | 'substitution'
-export type TicketAvailability = 'not_on_sale' | 'on_sale' | 'members_only' | 'sold_out'
 
 export type PersonLink = { name: string; slug: string | null }
 
@@ -69,8 +68,6 @@ export type MatchSummary = {
   awayScore: number | null
   halfTimeHomeScore: number | null
   halfTimeAwayScore: number | null
-  ticketUrl: string | null
-  ticketAvailability: TicketAvailability
   broadcast: string | null
   watchUrl: string | null
   statusNote: string | null
@@ -147,7 +144,6 @@ export type MatchReport = {
 export type MatchDetail = MatchSummary & {
   referee: string | null
   attendance: number | null
-  ticketInfo: string | null
   events: MatchEvent[]
   lineupsConfirmed: boolean
   lineups: { home: Lineup; away: Lineup }

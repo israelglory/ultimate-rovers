@@ -14,7 +14,7 @@ export type ContactField = 'name' | 'email' | 'phone' | 'topic' | 'message'
 const contactLimiter = createRateLimiter({ limit: 5, windowMs: 10 * 60_000 })
 const newsletterLimiter = createRateLimiter({ limit: 5, windowMs: 10 * 60_000 })
 
-export const NEWSLETTER_CONSENT_TEXT = 'Team news, ticket releases and match reports in your inbox.'
+export const NEWSLETTER_CONSENT_TEXT = 'Team news, fixtures and match reports in your inbox.'
 
 /** One-way hash so abuse can be traced without storing raw IP addresses. */
 export const hashIp = (ip: string) =>

@@ -29,7 +29,7 @@ pnpm dev                        # http://localhost:3000
 
 Open `http://localhost:3000/admin` and create the first account. The first account is always an admin.
 
-The seed loads the real first-team squad (names, numbers, positions and nationality from the club's team list) and fills everything else with realistic sample content set in Ogbomoso: player dates of birth, heights and previous clubs, opponent clubs, staff, partners, honours, club history, ticket prices in naira and news stories. The sample content is invented. Replace it in the admin before launch. The content lives in `src/seed/content.ts`.
+The seed loads the real first-team squad (names, numbers, positions and nationality from the club's team list) and fills everything else with realistic sample content set in Ogbomoso: player dates of birth, heights and previous clubs, opponent clubs, staff, partners, honours, club history and news stories. The sample content is invented. Replace it in the admin before launch. The content lives in `src/seed/content.ts`.
 
 If a server is running when you reseed, restart it or wait a minute: the seed writes straight to the database and cannot clear the site's cache.
 
@@ -71,7 +71,7 @@ Everything below happens in `/admin`. Editors can do all of it; only admins can 
 
 **Before the match**
 
-1. Open **Matchday > Matches** and the fixture. On the **Match** tab, check kick-off, venue, broadcast and tickets. Set ticket availability to "On sale" and add the ticket link to show "Buy tickets".
+1. Open **Matchday > Matches** and the fixture. On the **Match** tab, check kick-off, venue and broadcast.
 2. On **Content**, add the match preview and team news.
 3. On **Line-ups**, enter both starting elevens (goalkeeper first, then each line from defence to attack, from the left as the team attacks) and the formation. Tick "Line-ups confirmed" when they are official; until then the site says "Predicted line-ups".
 

@@ -679,10 +679,6 @@ export async function seed(
     roversHome: true,
     atSoun: true,
     extra: {
-      ticketAvailability: 'on_sale',
-      ticketUrl: 'https://tickets.example.com/',
-      ticketInfo:
-        'Regular ₦1,000, covered stand ₦2,500, under-16s ₦500. Members get priority until Thursday.',
       preview:
         'Third host fourth as Ultimate Rovers welcome Oyo Royals to Soun Stadium. Rovers have won three in a row and know victory would open a five-point gap over their neighbours. Expect a battle in midfield between Azeez Mascherano and the Royals captain.',
       homeTeamNews: [
@@ -724,9 +720,6 @@ export async function seed(
       matchweek: comp === 0 ? (matchweek += 1) : undefined,
       opponent,
       roversHome: home,
-      extra: home
-        ? { ticketAvailability: 'on_sale', ticketUrl: 'https://tickets.example.com/' }
-        : {},
     })
   }
 
@@ -762,14 +755,14 @@ export async function seed(
       featured: true,
       relatedMatch: nextMatch.id,
       standfirst:
-        'Kick-off time, tickets, team news and the key battles as third meets fourth in front of what should be the biggest crowd of the season.',
+        'Kick-off time, team news and the key battles as third meets fourth in front of what should be the biggest crowd of the season.',
       body: [
         'Saturday’s derby moves from Nurudeen Grammar School to Soun Stadium to make room for the expected crowd. Gates open two hours before kick-off.',
         'Rovers go into the game on a run of three straight wins, with Loving Aderogba scoring in each of the last two matches.',
         { h2: 'Team news' },
         'Goodness Akinloye is back in training after a hamstring strain. Sunday Olabanjo faces a late fitness test.',
         { quote: 'Derbies are about nerve. We have to stay calm and play our football.' },
-        'Tickets are on sale online and at the club office until Friday evening, while stocks last.',
+        'Supporters are asked to arrive early: the gates at Soun Stadium open two hours before kick-off.',
       ],
     },
     {
@@ -828,14 +821,14 @@ export async function seed(
       ],
     },
     {
-      title: 'Season ticket renewals open for 2026/27',
+      title: 'Rovers unveil the new navy and pink kit for 2026/27',
       category: 'club',
       daysAgo: 8,
       standfirst:
-        'Supporters can renew their seats for every home league match, with priority for cup games.',
+        'The squad will wear the new home kit for the first time at Soun Stadium this season.',
       body: [
-        'Season tickets cost ₦15,000 for adults and ₦7,500 for under-16s.',
-        'Renew at the club office or online before the end of the month to keep your seat.',
+        'The new kit keeps the club’s navy with bold pink detailing, chosen by the players.',
+        'Supporters can see it in action at every home game this season.',
       ],
     },
     {
@@ -996,7 +989,6 @@ export async function seed(
       timezone: TZ,
       shortBio:
         'A football club from Ogbomoso, Oyo State, playing for the city and the young people who love the game.',
-      ticketsUrl: '',
       broadcastPartner: BROADCAST,
       ground: {
         name: HOME_GROUND,
@@ -1024,10 +1016,10 @@ export async function seed(
           showCard: true,
         },
         {
-          topic: 'tickets',
-          title: 'Tickets and membership',
-          text: 'Matchday tickets, season tickets and member services.',
-          email: 'tickets@example.com',
+          topic: 'membership',
+          title: 'Membership',
+          text: 'Joining the club, member events and the annual general meeting.',
+          email: 'members@example.com',
           showCard: true,
         },
         {
@@ -1054,9 +1046,9 @@ export async function seed(
       ],
       faqs: [
         {
-          question: 'How do I buy match tickets?',
+          question: 'Where are home games played?',
           answer:
-            'Home tickets go on sale five days before each match on the Fixtures page and at the club office. Members get priority access.',
+            'Home games are played at Nurudeen Grammar School, Ogbomoso. Derbies and big cup ties move to Soun Stadium. Check the Fixtures page for the venue and kick-off time of each match.',
         },
         {
           question: 'How can my child attend academy trials?',
@@ -1129,12 +1121,7 @@ export async function seed(
         'Age groups from under-13 to under-17. Trials run every December at Nurudeen Grammar School.',
       communityText:
         'School visits, free coaching clinics and programmes for young people across Ogbomoso.',
-      membershipText: 'Priority tickets, member events and a vote at the annual general meeting.',
-      seasonTicketText: 'Every home league match, priority for cup games. From ₦15,000.',
-      matchdayTicketText:
-        'On sale five days before each home game, online and at the club office. From ₦1,000.',
-      matchTicketText:
-        'Regular ₦1,000, covered stand ₦2,500, under-16s ₦500. Members get priority until Thursday.',
+      membershipText: 'Member events, club news first and a vote at the annual general meeting.',
       partnershipText:
         'Shirt, ground, digital and community packages are open for the 2026/27 season.',
       privacy: richText([
@@ -1152,8 +1139,6 @@ export async function seed(
         'This website is run by Ultimate Rovers to share club news, fixtures and information. You may read and share our pages for personal use.',
         { h2: 'Our content' },
         'Photos, videos, the crest and articles belong to the club or our partners. Please ask before using them elsewhere.',
-        { h2: 'Tickets' },
-        'Ticket purchases are handled by our ticketing partner and are covered by their own terms.',
       ]),
       cookies: richText([
         'This site only sets cookies that it needs to work, such as keeping staff signed in to the club admin. It sets no advertising or tracking cookies, so there is nothing to opt out of.',

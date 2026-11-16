@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata({
     title: 'Contact us',
     description:
-      'Tickets, partnerships, media, trials or anything else. Contact the right team at Ultimate Rovers.',
+      'Membership, partnerships, media, trials or anything else. Contact the right team at Ultimate Rovers.',
     path: '/contact',
   })
 }
@@ -37,7 +37,7 @@ export default async function ContactPage({ searchParams }: Props) {
       <PageHero
         id="ct-title"
         title="Contact us"
-        intro="Tickets, partnerships, media, trials or anything else. Pick a team below or send us a message."
+        intro="Membership, partnerships, media, trials or anything else. Pick a team below or send us a message."
       />
 
       <div className="wrap flex flex-col gap-[72px] pt-14 pb-20">

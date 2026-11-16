@@ -9,7 +9,6 @@ import type { MatchDetail } from '@/lib/types'
 
 import { Countdown } from './Countdown'
 import { LiveBadge, LiveScore, LiveScorers } from './LiveMatch'
-import { ticketLink } from './MatchRows'
 import { TeamCrest } from './TeamCrest'
 
 function TeamColumn({
@@ -44,7 +43,6 @@ export function MatchHero({
 }) {
   const started = hasStarted(match.status)
   const calledOff = isCalledOff(match.status)
-  const tickets = ticketLink(match)
   const btn = { size: 'md' as const, minH: 'min-h-[50px]', px: 'px-6' }
   const place = [match.venue, match.home.isUs ? city : null].filter(Boolean).join(', ')
 
@@ -122,19 +120,10 @@ export function MatchHero({
           ) : null}
           {match.status === 'scheduled' ? (
             <>
-              {tickets ? (
-                <a
-                  href={tickets.href}
-                  rel="noopener"
-                  className={buttonClass({ variant: 'primary-dark', ...btn })}
-                >
-                  {tickets.label}
-                </a>
-              ) : null}
               <a
                 href={`/matches/${match.slug}/calendar.ics`}
                 download
-                className={buttonClass({ variant: 'outline-dark', ...btn })}
+                className={buttonClass({ variant: 'primary-dark', ...btn })}
               >
                 Add to calendar
               </a>

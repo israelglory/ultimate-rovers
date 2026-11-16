@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata({
     title: 'Fixtures and results',
     description:
-      'Every Ultimate Rovers fixture and result, the league table, and tickets for the next home game.',
+      'Every Ultimate Rovers fixture and result, the league table and directions to the ground.',
     path: '/fixtures',
   })
 }
@@ -221,46 +221,27 @@ export default async function FixturesPage({ searchParams }: Props) {
           ) : null}
         </TabPanel>
 
-        <section aria-labelledby="tix-title" className="mt-16">
-          <h2
-            id="tix-title"
-            className="m-0 mb-5 font-display text-[40px] leading-none font-black md:text-[48px]"
-          >
-            Tickets and matchday
-          </h2>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] gap-4">
-            <div className="rounded-card bg-night p-6 text-white">
-              <h3 className="m-0 text-[20px]">Season tickets</h3>
-              <p className="mt-2.5 mb-[18px] text-[15px] leading-[1.55] text-mist-text">
-                {club.tickets.season ?? 'Every home league match, with priority for cup games.'}
-              </p>
-              <Link
-                href="/contact?topic=tickets"
-                className={buttonClass({ variant: 'primary-dark', size: 'sm', px: 'px-[18px]' })}
-              >
-                Get a season ticket
-              </Link>
-            </div>
-            <div className="rounded-card border border-line bg-white p-6">
-              <h3 className="m-0 text-[20px]">Matchday tickets</h3>
-              <p className="mt-2.5 mb-[18px] text-[15px] leading-[1.55] text-slate">
-                {club.tickets.matchday ??
-                  'On sale before each home game, online and at the ground.'}
-              </p>
-              <Link href="/contact?topic=tickets" className="text-[15px] font-bold">
-                Ticket prices and gates
-              </Link>
-            </div>
-            <div className="rounded-card border border-line bg-white p-6">
-              <h3 className="m-0 text-[20px]">Getting to the ground</h3>
-              <p className="mt-2.5 mb-[18px] text-[15px] leading-[1.55] text-slate">
-                {club.ground.guide ?? 'Parking, transport and accessible entry.'}
-              </p>
-              <Link href="/club#ground" className="text-[15px] font-bold">
-                Stadium guide
-              </Link>
-            </div>
+        <section
+          aria-labelledby="ground-title"
+          className="mt-16 flex flex-wrap items-center justify-between gap-5 rounded-feature bg-night p-6 text-white md:p-8"
+        >
+          <div className="max-w-[640px]">
+            <h2
+              id="ground-title"
+              className="m-0 font-display text-[32px] leading-none font-black md:text-[40px]"
+            >
+              Getting to the ground
+            </h2>
+            <p className="m-0 mt-2.5 text-[15px] leading-[1.55] text-mist-text md:text-[16px]">
+              {club.ground.guide ?? 'Parking, transport and accessible entry.'}
+            </p>
           </div>
+          <Link
+            href="/club#ground"
+            className={buttonClass({ variant: 'primary-dark', size: 'md' })}
+          >
+            Ground guide
+          </Link>
         </section>
       </div>
     </>

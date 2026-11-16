@@ -1,12 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { buttonClass } from '@/components/ui/Button'
-
 import { MobileNav } from './MobileNav'
 import { DesktopNavLinks } from './NavLinks'
 
-export function SiteHeader({ clubName, ticketsHref }: { clubName: string; ticketsHref: string }) {
+export function SiteHeader({ clubName }: { clubName: string }) {
   return (
     <header className="border-b-[3px] border-cyan bg-night text-white">
       <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-2 nav:justify-start nav:py-2.5 xl:gap-x-7">
@@ -31,20 +29,7 @@ export function SiteHeader({ clubName, ticketsHref }: { clubName: string; ticket
         <nav aria-label="Main" className="hidden flex-auto flex-wrap gap-0.5 nav:flex">
           <DesktopNavLinks />
         </nav>
-        <div className="hidden nav:block">
-          <Link
-            href={ticketsHref}
-            className={buttonClass({
-              variant: 'primary-dark',
-              size: 'md',
-              minH: 'min-h-touch',
-              px: 'px-5',
-            })}
-          >
-            Get tickets
-          </Link>
-        </div>
-        <MobileNav clubName={clubName} ticketsHref={ticketsHref} />
+        <MobileNav clubName={clubName} />
       </div>
     </header>
   )

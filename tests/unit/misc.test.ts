@@ -92,8 +92,8 @@ describe('form validation', () => {
       contactSchema.safeParse({
         name: 'Fan',
         email: 'fan@example.com',
-        topic: 'tickets',
-        message: 'When do tickets go on sale?',
+        topic: 'membership',
+        message: 'How do I become a member of the club?',
       }).success,
     ).toBe(true)
   })

@@ -14,7 +14,7 @@ import { isNavActive, mainNav } from '@/lib/navigation'
  * Uses a modal <dialog> so focus is trapped and Escape closes it. The dialog repeats the
  * header bar so the close button sits exactly where the menu button was.
  */
-export function MobileNav({ clubName, ticketsHref }: { clubName: string; ticketsHref: string }) {
+export function MobileNav({ clubName }: { clubName: string }) {
   const [open, setOpen] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const pathname = usePathname() ?? '/'
@@ -98,13 +98,6 @@ export function MobileNav({ clubName, ticketsHref }: { clubName: string; tickets
               </Link>
             )
           })}
-          <Link
-            href={ticketsHref}
-            onClick={() => setOpen(false)}
-            className="mt-6 flex min-h-[52px] items-center justify-center rounded-button bg-cyan text-[16px] font-bold text-night no-underline hover:text-night"
-          >
-            Get tickets
-          </Link>
         </nav>
       </dialog>
     </>

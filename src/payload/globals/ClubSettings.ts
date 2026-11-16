@@ -77,21 +77,7 @@ export const ClubSettings: GlobalConfig = {
                 description: 'One line about the club, shown in the footer and search results.',
               },
             },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'ticketsUrl',
-                  type: 'text',
-                  validate: urlValidate,
-                  admin: {
-                    width: '50%',
-                    description: 'Where "Get tickets" goes. Leave empty to use the Fixtures page.',
-                  },
-                },
-                { name: 'broadcastPartner', type: 'text', admin: { width: '50%' } },
-              ],
-            },
+            { name: 'broadcastPartner', type: 'text' },
             {
               name: 'crest',
               type: 'upload',
@@ -338,18 +324,6 @@ export const ClubSettings: GlobalConfig = {
               ],
             },
             { name: 'membershipText', type: 'textarea' },
-          ],
-        },
-        {
-          label: 'Tickets',
-          fields: [
-            { name: 'seasonTicketText', type: 'textarea' },
-            { name: 'matchdayTicketText', type: 'textarea' },
-            {
-              name: 'matchTicketText',
-              type: 'textarea',
-              admin: { description: 'Default text for the Tickets card on match pages.' },
-            },
           ],
         },
         {

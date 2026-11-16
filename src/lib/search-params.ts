@@ -74,7 +74,7 @@ export function parseNewsParams(raw: Raw) {
 
 export const contactTopicValues = [
   'general',
-  'tickets',
+  'membership',
   'partnerships',
   'media',
   'academy',

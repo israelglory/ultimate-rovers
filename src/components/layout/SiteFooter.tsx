@@ -75,7 +75,7 @@ export function SiteFooter({
         <div className="w-full min-w-0 sm:w-auto sm:flex-[1_1_300px]">
           <p className="m-0 mb-2 text-[15px] font-bold">Club newsletter</p>
           <p className="m-0 mb-3.5 text-[15px] leading-normal text-mist-text">
-            Team news, ticket releases and match reports in your inbox.
+            Team news, fixtures and match reports in your inbox.
           </p>
           <NewsletterForm action={subscribeToNewsletter} />
         </div>

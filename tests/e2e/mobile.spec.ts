@@ -30,7 +30,7 @@ test('home on a phone follows the mobile design', async ({ page }) => {
   await expectNoA11yViolations(page)
 })
 
-test('fixture cards on a phone: no date tile, full team names, one row of buttons', async ({
+test('fixture cards on a phone: no date tile, full team names, buttons in one row', async ({
   page,
 }) => {
   await page.goto('/fixtures')
@@ -42,9 +42,9 @@ test('fixture cards on a phone: no date tile, full team names, one row of button
   const lineHeight = await name.evaluate((el) => parseFloat(getComputedStyle(el).lineHeight))
   expect((await name.boundingBox())!.height).toBeLessThan(lineHeight * 1.5)
   const buttons = card.getByRole('link', { name: /Match centre/ })
-  const tickets = card.getByRole('link', { name: /tickets/ })
+  const calendar = card.getByRole('link', { name: /to calendar/ })
   expect(
-    Math.abs((await buttons.boundingBox())!.y - (await tickets.boundingBox())!.y),
+    Math.abs((await buttons.boundingBox())!.y - (await calendar.boundingBox())!.y),
   ).toBeLessThan(2)
 })
 

@@ -205,3 +205,14 @@ Checked every main page at 320, 360, 390, 430, 540, 640, 768, 900, 1024, 1280 an
 - Header: between 900 and 1280px the nav uses slightly tighter spacing so "Get tickets" never wraps; the menu still collapses below 900px as specified.
 
 **Tests**: five new end-to-end checks lock this in (fixture card layout, hero overlap from 320 to 430px, two-column squad, upright pitch, single-line header from 900 to 1440px).
+
+## Tickets removed
+
+The club does not sell tickets through the site, so ticketing is gone everywhere.
+
+- Site: no "Get tickets" in the header or mobile menu; no "Buy tickets", "Away tickets" or "Sold out" on fixture rows, the next-match strip or the match centre; no Tickets card on match pages; the Fixtures "Tickets and matchday" section is replaced by a single "Getting to the ground" panel. Upcoming matches lead with "Add to calendar", and the next-match strip with "Match centre".
+- CMS: removed the match fields ticket availability, ticket link and ticket info, and the Club settings tickets link and Tickets tab.
+- Contact: the "Tickets and membership" topic is now "Membership" (the About page still invites people to join the club).
+- Migration `remove_tickets` drops the columns and remaps any existing "tickets" contact messages and departments to "membership" before changing the topic list, so it is safe on a database with real messages.
+- Seed: ticket prices, the season ticket story and the ticket FAQ are replaced (a kit launch story; a "Where are home games played?" FAQ).
+- A crawl of 54 pages found no mention of tickets in any page's HTML.

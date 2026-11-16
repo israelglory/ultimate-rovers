@@ -1,5 +1,6 @@
 import * as migration_20261115_233809_initial from './20261115_233809_initial';
 import * as migration_20261116_003837_lagos_timezone_default from './20261116_003837_lagos_timezone_default';
+import * as migration_20261116_011204_remove_tickets from './20261116_011204_remove_tickets';
 
 export const migrations = [
   {
@@ -10,6 +11,11 @@ export const migrations = [
   {
     up: migration_20261116_003837_lagos_timezone_default.up,
     down: migration_20261116_003837_lagos_timezone_default.down,
-    name: '20261116_003837_lagos_timezone_default'
+    name: '20261116_003837_lagos_timezone_default',
+  },
+  {
+    up: migration_20261116_011204_remove_tickets.up,
+    down: migration_20261116_011204_remove_tickets.down,
+    name: '20261116_011204_remove_tickets'
   },
 ];

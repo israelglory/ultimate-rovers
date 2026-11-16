@@ -11,7 +11,7 @@ import type { ContactTopic } from '@/lib/search-params'
 
 const topics: Array<{ value: ContactTopic; label: string }> = [
   { value: 'general', label: 'General enquiry' },
-  { value: 'tickets', label: 'Tickets and membership' },
+  { value: 'membership', label: 'Membership' },
   { value: 'partnerships', label: 'Partnerships and sponsorship' },
   { value: 'media', label: 'Media and press' },
   { value: 'academy', label: 'Trials and academy' },

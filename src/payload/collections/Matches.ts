@@ -315,31 +315,6 @@ export const Matches: CollectionConfig = {
                 },
               ],
             },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'ticketAvailability',
-                  type: 'select',
-                  defaultValue: 'not_on_sale',
-                  options: [
-                    { label: 'Not on sale yet', value: 'not_on_sale' },
-                    { label: 'On sale', value: 'on_sale' },
-                    { label: 'Members only', value: 'members_only' },
-                    { label: 'Sold out', value: 'sold_out' },
-                  ],
-                  admin: { width: '50%' },
-                },
-                { name: 'ticketUrl', type: 'text', validate: urlValidate, admin: { width: '50%' } },
-              ],
-            },
-            {
-              name: 'ticketInfo',
-              type: 'textarea',
-              admin: {
-                description: 'Shown in the Tickets card, for example prices and member priority.',
-              },
-            },
           ],
         },
         {

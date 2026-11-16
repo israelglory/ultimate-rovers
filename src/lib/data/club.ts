@@ -26,7 +26,6 @@ export type ClubInfo = {
   country: string | null
   timezone: string
   currentSeason: string
-  ticketsHref: string
   broadcastPartner: string | null
   crest: ImageRef | null
   ground: {
@@ -63,7 +62,6 @@ export type ClubInfo = {
     communityImage: ImageRef | null
     membershipText: string | null
   }
-  tickets: { season: string | null; matchday: string | null; match: string | null }
   partnershipText: string | null
   legal: {
     privacy: RichTextValue | null
@@ -88,7 +86,6 @@ async function loadClub(): Promise<ClubInfo> {
     country: text(s.country),
     timezone: s.timezone || 'Africa/Lagos',
     currentSeason: s.currentSeason || '2026/27',
-    ticketsHref: text(s.ticketsUrl) ?? '/fixtures',
     broadcastPartner: text(s.broadcastPartner),
     crest: toImage(s.crest),
     ground: {
@@ -144,11 +141,6 @@ async function loadClub(): Promise<ClubInfo> {
       communityImage: toImage(s.communityImage, 'card'),
       membershipText: text(s.membershipText),
     },
-    tickets: {
-      season: text(s.seasonTicketText),
-      matchday: text(s.matchdayTicketText),
-      match: text(s.matchTicketText),
-    },
     partnershipText: text(s.partnershipText),
     legal: {
       privacy: (s.privacy as RichTextValue | null | undefined) ?? null,
@@ -174,7 +166,6 @@ export function departmentFor(club: ClubInfo, topic: ContactTopic): Department |
 export type SiteChrome = {
   clubName: string
   shortBio: string
-  ticketsHref: string
   socials: SocialLink[]
 }
 
@@ -183,7 +174,6 @@ export async function getSiteChrome(): Promise<SiteChrome> {
   return {
     clubName: club.name,
     shortBio: club.shortBio ?? '',
-    ticketsHref: club.ticketsHref,
     socials: club.socials,
   }
 }

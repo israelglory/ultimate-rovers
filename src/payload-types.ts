@@ -183,12 +183,6 @@ export interface Match {
    * Link for "Watch live".
    */
   watchUrl?: string | null;
-  ticketAvailability?: ('not_on_sale' | 'on_sale' | 'members_only' | 'sold_out') | null;
-  ticketUrl?: string | null;
-  /**
-   * Shown in the Tickets card, for example prices and member priority.
-   */
-  ticketInfo?: string | null;
   status: 'scheduled' | 'live' | 'half_time' | 'full_time' | 'postponed' | 'cancelled';
   /**
    * Shown next to the live badge.
@@ -819,7 +813,7 @@ export interface ContactSubmission {
   name: string;
   email: string;
   phone?: string | null;
-  topic: 'general' | 'tickets' | 'partnerships' | 'media' | 'academy';
+  topic: 'general' | 'membership' | 'partnerships' | 'media' | 'academy';
   message: string;
   routedTo?: string | null;
   emailStatus?: ('sent' | 'failed') | null;
@@ -1020,9 +1014,6 @@ export interface MatchesSelect<T extends boolean = true> {
   referee?: T;
   broadcast?: T;
   watchUrl?: T;
-  ticketAvailability?: T;
-  ticketUrl?: T;
-  ticketInfo?: T;
   status?: T;
   minute?: T;
   attendance?: T;
@@ -1540,10 +1531,6 @@ export interface ClubSetting {
    * One line about the club, shown in the footer and search results.
    */
   shortBio?: string | null;
-  /**
-   * Where "Get tickets" goes. Leave empty to use the Fixtures page.
-   */
-  ticketsUrl?: string | null;
   broadcastPartner?: string | null;
   /**
    * Optional. The supplied crest is used when empty. Never stretch or recolour it.
@@ -1586,7 +1573,7 @@ export interface ClubSetting {
    */
   departments?:
     | {
-        topic: 'general' | 'tickets' | 'partnerships' | 'media' | 'academy';
+        topic: 'general' | 'membership' | 'partnerships' | 'media' | 'academy';
         email: string;
         /**
          * Show a card
@@ -1648,12 +1635,6 @@ export interface ClubSetting {
   academyImage?: (number | null) | Media;
   communityImage?: (number | null) | Media;
   membershipText?: string | null;
-  seasonTicketText?: string | null;
-  matchdayTicketText?: string | null;
-  /**
-   * Default text for the Tickets card on match pages.
-   */
-  matchTicketText?: string | null;
   /**
    * The "Partner with us" panel.
    */
@@ -1718,7 +1699,6 @@ export interface ClubSettingsSelect<T extends boolean = true> {
   country?: T;
   timezone?: T;
   shortBio?: T;
-  ticketsUrl?: T;
   broadcastPartner?: T;
   crest?: T;
   ground?:
@@ -1791,9 +1771,6 @@ export interface ClubSettingsSelect<T extends boolean = true> {
   academyImage?: T;
   communityImage?: T;
   membershipText?: T;
-  seasonTicketText?: T;
-  matchdayTicketText?: T;
-  matchTicketText?: T;
   partnershipText?: T;
   privacy?: T;
   terms?: T;

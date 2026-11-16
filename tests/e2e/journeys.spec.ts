@@ -195,7 +195,7 @@ test.describe('contact', () => {
 
   test('the FAQ accordion keeps one answer open', async ({ page }) => {
     await page.goto('/contact')
-    const first = page.getByRole('button', { name: 'How do I buy match tickets?' })
+    const first = page.getByRole('button', { name: 'Where are home games played?' })
     const second = page.getByRole('button', { name: 'How can my child attend academy trials?' })
     await expect(first).toHaveAttribute('aria-expanded', 'true')
     await second.click()

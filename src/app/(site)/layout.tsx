@@ -40,7 +40,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <SiteHeader clubName={chrome.clubName} ticketsHref={chrome.ticketsHref} />
+        <SiteHeader clubName={chrome.clubName} />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>

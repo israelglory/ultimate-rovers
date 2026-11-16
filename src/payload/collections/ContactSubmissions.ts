@@ -4,7 +4,7 @@ import { admins, nobody } from '../access'
 
 export const contactTopics = [
   { label: 'General enquiry', value: 'general' },
-  { label: 'Tickets and membership', value: 'tickets' },
+  { label: 'Membership', value: 'membership' },
   { label: 'Partnerships and sponsorship', value: 'partnerships' },
   { label: 'Media and press', value: 'media' },
   { label: 'Trials and academy', value: 'academy' },

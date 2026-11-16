@@ -283,10 +283,10 @@ export default async function AboutPage() {
             </h2>
             <p className="m-0 mt-2.5 text-[17px] leading-[1.55]">
               {a.membershipText ??
-                'Priority tickets, member events and a vote at the annual general meeting.'}
+                'Member events, club news first and a vote at the annual general meeting.'}
             </p>
           </div>
-          <ButtonLink href="/contact?topic=tickets" variant="night" size="lg">
+          <ButtonLink href="/contact?topic=membership" variant="night" size="lg">
             Join the club
           </ButtonLink>
         </section>

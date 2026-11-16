@@ -124,8 +124,6 @@ export function toMatchSummary(m: Match): MatchSummary {
     awayScore: m.awayScore ?? null,
     halfTimeHomeScore: m.halfTimeHomeScore ?? null,
     halfTimeAwayScore: m.halfTimeAwayScore ?? null,
-    ticketUrl: m.ticketUrl ?? null,
-    ticketAvailability: m.ticketAvailability ?? 'not_on_sale',
     broadcast: m.broadcast ?? null,
     watchUrl: m.watchUrl ?? null,
     statusNote: m.statusNote ?? null,

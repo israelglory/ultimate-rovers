@@ -37,8 +37,6 @@ export function match(overrides: Partial<MatchSummary> = {}): MatchSummary {
     awayScore: 1,
     halfTimeHomeScore: 1,
     halfTimeAwayScore: 1,
-    ticketUrl: null,
-    ticketAvailability: 'not_on_sale',
     broadcast: null,
     watchUrl: null,
     statusNote: null,

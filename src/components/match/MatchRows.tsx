@@ -19,16 +19,6 @@ import { TeamCrest } from './TeamCrest'
 const matchHref = (m: MatchSummary) => `/matches/${m.slug}`
 const fixtureLabel = (m: MatchSummary) => `${m.home.name} vs ${m.away.name}`
 
-/** Ticket link for a fixture, or nothing when tickets are not on sale. */
-export function ticketLink(m: MatchSummary): { href: string; label: string } | null {
-  if (
-    !m.ticketUrl ||
-    (m.ticketAvailability !== 'on_sale' && m.ticketAvailability !== 'members_only')
-  )
-    return null
-  return { href: m.ticketUrl, label: m.home.isUs ? 'Buy tickets' : 'Away tickets' }
-}
-
 /** Big date tile on wide screens; phones show the date inline in the meta line instead. */
 function DateBox({ m, tone }: { m: MatchSummary; tone: 'dark' | 'light' }) {
   return (
@@ -121,7 +111,6 @@ function KickoffChip({ m }: { m: MatchSummary }) {
 }
 
 export function FixtureRow({ m }: { m: MatchSummary }) {
-  const tickets = ticketLink(m)
   const where = m.home.isUs ? 'Home' : 'Away'
   return (
     <article
@@ -142,25 +131,6 @@ export function FixtureRow({ m }: { m: MatchSummary }) {
         >
           Match centre<span className="sr-only">: {fixtureLabel(m)}</span>
         </Link>
-        {tickets ? (
-          <a
-            href={tickets.href}
-            rel="noopener"
-            className={buttonClass({
-              variant: 'primary-light',
-              size: 'sm',
-              px: 'px-[18px]',
-              className: actionButton,
-            })}
-          >
-            {tickets.label}
-            <span className="sr-only">: {fixtureLabel(m)}</span>
-          </a>
-        ) : m.ticketAvailability === 'sold_out' ? (
-          <span className="inline-flex min-h-touch flex-1 items-center justify-center px-2 text-[14px] font-bold text-slate sm:flex-none">
-            Sold out
-          </span>
-        ) : null}
         {m.status !== 'cancelled' ? (
           <a
             href={`${matchHref(m)}/calendar.ics`}

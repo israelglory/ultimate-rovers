@@ -5,7 +5,6 @@ import { formatDayMonth, formatTime } from '@/lib/format'
 import type { MatchSummary } from '@/lib/types'
 
 import { Countdown } from './Countdown'
-import { ticketLink } from './MatchRows'
 import { TeamCrest } from './TeamCrest'
 
 /**
@@ -13,7 +12,6 @@ import { TeamCrest } from './TeamCrest'
  * the stacked card below it (MobileHome.dc.html, plus the countdown). Not rendered when nothing is scheduled.
  */
 export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: number }) {
-  const tickets = ticketLink(m)
   const when = `${formatDayMonth(m.kickoff, m.timezone)} at ${formatTime(m.kickoff, m.timezone)}`
   return (
     <section aria-labelledby="next-match-title" className="rounded-[14px] bg-navy text-white">
@@ -47,19 +45,10 @@ export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: n
         <div className="flex flex-wrap gap-2">
           <Link
             href={`/matches/${m.slug}`}
-            className={buttonClass({ variant: 'muted-dark', size: 'md', px: 'px-[18px]' })}
+            className={buttonClass({ variant: 'primary-dark', size: 'md' })}
           >
             Match centre
           </Link>
-          {tickets ? (
-            <a
-              href={tickets.href}
-              rel="noopener"
-              className={buttonClass({ variant: 'primary-dark', size: 'md' })}
-            >
-              {tickets.label}
-            </a>
-          ) : null}
         </div>
       </div>
 
@@ -92,30 +81,16 @@ export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: n
         <div className="mt-3.5 flex justify-center">
           <Countdown kickoff={m.kickoff} serverNow={serverNow} />
         </div>
-        {tickets ? (
-          <a
-            href={tickets.href}
-            rel="noopener"
-            className={buttonClass({
-              variant: 'primary-dark',
-              size: 'md',
-              className: 'mt-3.5 flex w-full',
-            })}
-          >
-            {tickets.label}
-          </a>
-        ) : (
-          <Link
-            href={`/matches/${m.slug}`}
-            className={buttonClass({
-              variant: 'primary-dark',
-              size: 'md',
-              className: 'mt-3.5 flex w-full',
-            })}
-          >
-            Match centre
-          </Link>
-        )}
+        <Link
+          href={`/matches/${m.slug}`}
+          className={buttonClass({
+            variant: 'primary-dark',
+            size: 'md',
+            className: 'mt-3.5 flex w-full',
+          })}
+        >
+          Match centre
+        </Link>
       </div>
     </section>
   )
