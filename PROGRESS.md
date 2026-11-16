@@ -178,3 +178,8 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 **Replace before launch**
 
 - Every sample value listed above, especially the founding year, club history and honours, which visitors would read as facts.
+
+## News photo
+
+- The club's team photo (`src/seed/images/team-photo.jpg`) is uploaded once by the seed and used as the main image for every seeded news story and the match report, until real photos are uploaded per story. It is a normal media item with alt text, so staff can replace it story by story in the admin.
+- The photo is included in the standalone build output so first-boot seeding works inside the container.

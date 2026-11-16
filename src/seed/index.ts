@@ -596,6 +596,7 @@ export async function seed(
           'Head coach Babatunde Oyewole sent on Clement Bolaji for more control in midfield and the change paid off. On 64 minutes Aderogba was brought down in the box and sent the goalkeeper the wrong way from the spot.',
           'Eruwa finished with ten men after a second booking, and Rovers saw the game out comfortably to make it three home wins in a row.',
         ]),
+        heroImage: teamPhoto.id,
         coachQuote:
           'We stayed patient when it got difficult. The supporters carried us in the second half and the boys deserved the three points.',
       },
