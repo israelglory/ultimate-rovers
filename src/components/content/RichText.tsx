@@ -85,12 +85,13 @@ export function RichText({
 }) {
   if (!value?.root?.children?.length) return null
   return (
-    <LexicalRichText
-      // The stored value is Lexical JSON; the renderer's own type is stricter than what Payload returns.
-      data={value as unknown as Parameters<typeof LexicalRichText>[0]['data']}
-      converters={converters}
-      disableContainer
-      className={cn('prose-report', className)}
-    />
+    <div className={cn('prose-report', className)}>
+      <LexicalRichText
+        // The stored value is Lexical JSON; the renderer's own type is stricter than what Payload returns.
+        data={value as unknown as Parameters<typeof LexicalRichText>[0]['data']}
+        converters={converters}
+        disableContainer
+      />
+    </div>
   )
 }

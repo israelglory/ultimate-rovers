@@ -85,6 +85,8 @@ export type PlayerProfile = PlayerRef & {
   career: CareerRow[]
   seasonStats: StatLine
   careerStats: StatLine
+  /** Shots on target are never derived from events; false means nobody has entered a figure. */
+  shotsOnTargetKnown: { season: boolean; career: boolean }
   photo: ImageRef | null
 }
 
@@ -156,6 +158,12 @@ async function loadProfile(
     videos: toVideos(p),
     career,
     seasonStats,
+    shotsOnTargetKnown: {
+      season: typeof p.seasonOverrides?.shotsOnTarget === 'number',
+      career:
+        typeof p.seasonOverrides?.shotsOnTarget === 'number' ||
+        typeof p.careerBeforeClub?.shotsOnTarget === 'number',
+    },
     careerStats: careerStats({
       rows: career,
       clubSeasons,

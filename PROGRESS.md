@@ -95,3 +95,19 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 **Deferred**
 
 - Opponent crests are the dashed placeholder until crests are uploaded to Teams.
+
+## Phase 4: Squad
+
+**Done**
+
+- Squad (`/squad`): position chips with counts (`?position=goalkeepers|defenders|midfielders|forwards`), groups with headings and counts, outlined squad numbers, crest, silhouette fallback, "Behind the squad" panel. Empty states for the whole squad and for a single position.
+- Player profile (`/squad/[slug]`): breadcrumbs with previous and next player (squad order), hero with outlined number, cut-out or silhouette, position and number chips, facts, social links and Share profile. Stats with a segmented toggle (`?stats=season|career`), videos (facade, durations, "coming soon" when no source), biography and quote, career table, and "More forwards" (same position group). Person JSON-LD.
+- Season stats are counted from line-ups and events with manual overrides; career Rovers rows fill themselves from matches.
+
+**Decisions**
+
+- Only active players are listed. On-loan players keep a profile (with an "On loan" chip); players who left return 404.
+- Shots on target show "-" until a figure is entered, because events never capture them, rather than a misleading 0.
+- Eight stat tiles sit in a 4 by 2 grid (2 by 4 on phones). The design drew six tiles in an auto-fit grid, which leaves one orphan tile with eight.
+- Empty facts are hidden rather than shown as placeholders.
+- Fixed: the Lexical renderer ignores `className` when its container is disabled, so rich text is wrapped in its own styled element (this also fixes the match report body).
