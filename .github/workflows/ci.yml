@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DATABASE_URL: postgres://rovers:rovers@localhost:5432/rovers
+  PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-else
+  SITE_URL: http://localhost:3000
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  verify:
+    name: Typecheck, lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm test
+      # The build renders nothing at build time, so it needs no database.
+      - run: pnpm build
+
+  e2e:
+    name: End to end and accessibility
+    needs: verify
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: rovers
+          POSTGRES_PASSWORD: rovers
+          POSTGRES_DB: rovers
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U rovers" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      # Same path as production: apply migrations, then seed with schema push off.
+      - run: pnpm migrate
+      - run: pnpm seed
+        env:
+          PAYLOAD_DB_PUSH: 'false'
+      - run: pnpm build
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7

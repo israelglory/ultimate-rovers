@@ -1,0 +1,170 @@
+@import 'tailwindcss';
+@import './theme.css';
+
+@layer base {
+  html {
+    /* The designs inherit the browser's normal line height; Tailwind's preflight sets 1.5. */
+    line-height: normal;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 16px;
+  }
+
+  body {
+    margin: 0;
+    min-width: 0;
+    background: var(--color-chalk);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The designs rely on browser defaults for heading weight and link styling. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    font-weight: 700;
+  }
+
+  a {
+    color: var(--color-navy);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: var(--color-night);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-cyan);
+    outline-offset: 2px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Outlined squad numbers: transparent fill, cyan stroke. */
+  .number-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-cyan);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: -100px;
+    z-index: 100;
+    background: var(--color-cyan);
+    color: var(--color-night);
+    padding: 12px 16px;
+    border-radius: var(--radius-button);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    top: 12px;
+  }
+
+  /* Long-form copy from the CMS: report and article bodies, legal pages. */
+  .prose-report {
+    color: var(--color-ink-soft);
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .prose-report > * + * {
+    margin-top: 16px;
+  }
+
+  .prose-report h2 {
+    margin-top: 40px;
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 72;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--color-ink);
+  }
+
+  .prose-report h3 {
+    margin-top: 28px;
+    font-size: 20px;
+    color: var(--color-ink);
+  }
+
+  .prose-report ul {
+    list-style: disc;
+    padding-left: 22px;
+  }
+
+  .prose-report ol {
+    list-style: decimal;
+    padding-left: 22px;
+  }
+
+  .prose-report blockquote {
+    margin: 28px 0;
+    padding: 24px 28px;
+    background: var(--color-night);
+    color: var(--color-white);
+    border-radius: 14px;
+    font-family: var(--font-display);
+    font-variation-settings: 'opsz' 72;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1.05;
+  }
+
+  .prose-report figure {
+    margin: 28px 0;
+  }
+
+  .prose-report img {
+    border-radius: 14px;
+  }
+}
+
+/* Content column: 1280px max, 24px gutters, 16px on phones as drawn in MobileHome. */
+@utility wrap {
+  /* The 1280px is the content width; gutters sit outside it, as in the design files (content-box). */
+  width: 100%;
+  max-width: calc(var(--container-content) + 32px);
+  margin-inline: auto;
+  padding-inline: 16px;
+
+  @media (width >= 40rem) {
+    max-width: calc(var(--container-content) + 2 * var(--spacing-gutter));
+    padding-inline: var(--spacing-gutter);
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
