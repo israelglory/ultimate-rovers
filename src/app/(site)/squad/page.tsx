@@ -80,7 +80,7 @@ export default async function SquadPage({ searchParams }: Props) {
                 </span>
               </div>
               {g.players.length > 0 ? (
-                <ul className="m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(230px,100%),1fr))] gap-5 p-0">
+                <ul className="m-0 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-[repeat(auto-fill,minmax(230px,1fr))] lg:gap-5">
                   {g.players.map((p) => (
                     <li key={p.id} className="flex">
                       <PlayerCardSquad p={p} />

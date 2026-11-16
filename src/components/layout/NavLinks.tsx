@@ -19,7 +19,7 @@ export function DesktopNavLinks() {
             href={item.href}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'inline-flex min-h-touch items-center px-3 text-[15px] font-semibold no-underline',
+              'inline-flex min-h-touch items-center px-1.5 text-[14px] font-semibold no-underline lg:px-2 xl:px-3 xl:text-[15px]',
               active ? 'text-cyan hover:text-cyan' : 'text-white hover:text-cyan',
             )}
           >

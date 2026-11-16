@@ -72,37 +72,45 @@ export default async function HomePage() {
         aria-labelledby="hero-title"
         className="relative overflow-hidden bg-night text-white"
       >
-        {/* Phone: motif and crest sit behind the title, as in MobileHome.dc.html. */}
-        <Motif
-          variant="mobile"
-          className="pointer-events-none absolute top-5 -right-[90px] h-auto w-[300px] md:hidden"
-        />
-        <Image
-          src="/crest.png"
-          alt=""
-          width={170}
-          height={193}
-          loading="eager"
-          className="pointer-events-none absolute top-[70px] -right-5 h-auto w-[170px] opacity-90 md:hidden"
-          style={{ height: 'auto' }}
-        />
-        <div className="wrap relative flex flex-wrap items-center gap-10 pt-9 md:pt-16">
-          <div className="min-w-0 flex-[1_1_560px]">
+        <div className="wrap relative flex flex-wrap items-center gap-10 pt-8 md:pt-16">
+          <div className="min-w-0 flex-[1_1_420px]">
             <p className="m-0 mb-3 text-[15px] font-semibold text-cyan md:mb-4 md:text-[17px]">
               Official club website
             </p>
-            <h1
-              id="hero-title"
-              className="m-0 font-display text-[84px] leading-[0.84] font-black tracking-[-0.01em] uppercase md:text-hero"
-            >
-              Ultimate
-              <br />
-              Rovers
-            </h1>
-            <p className="m-0 mt-[18px] max-w-[240px] text-[16px] leading-[1.5] text-mist-text md:mt-7 md:max-w-[520px] md:text-[19px] md:leading-[1.55]">
+            {/*
+              Phones: title and crest side by side, both sized from the screen width so they never
+              overlap (the title is about 3.35 times its font size wide). From 768px the crest has its own column.
+            */}
+            <div className="flex items-center justify-between gap-3">
+              <h1
+                id="hero-title"
+                className="m-0 font-display text-[clamp(52px,18vw,84px)] leading-[0.84] font-black tracking-[-0.01em] uppercase md:text-hero"
+              >
+                Ultimate
+                <br />
+                Rovers
+              </h1>
+              <div className="relative flex w-[clamp(84px,26vw,124px)] shrink-0 items-center justify-center md:hidden">
+                <Motif
+                  variant="about"
+                  className="pointer-events-none absolute top-1/2 left-1/2 h-auto w-[150%] max-w-none -translate-x-1/2 -translate-y-1/2"
+                />
+                <Image
+                  src="/crest.png"
+                  alt=""
+                  width={124}
+                  height={141}
+                  loading="eager"
+                  sizes="124px"
+                  className="relative block h-auto w-full"
+                  style={{ height: 'auto' }}
+                />
+              </div>
+            </div>
+            <p className="m-0 mt-[18px] max-w-[520px] text-[16px] leading-[1.5] text-mist-text md:mt-7 md:text-[19px] md:leading-[1.55]">
               {club.home.heroIntro}
             </p>
-            <div className="mt-6 flex flex-col gap-2.5 md:mt-8 md:flex-row md:flex-wrap md:gap-3">
+            <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-3 md:mt-8">
               <ButtonLink href="/fixtures" variant="primary-dark" size="lg">
                 See fixtures
               </ButtonLink>
@@ -111,10 +119,10 @@ export default async function HomePage() {
               </ButtonLink>
             </div>
           </div>
-          <div className="relative hidden min-h-[460px] min-w-0 flex-[1_1_380px] items-center justify-center md:flex">
+          <div className="relative hidden min-h-[300px] min-w-0 flex-[1_1_260px] items-center justify-center md:flex lg:min-h-[460px] lg:flex-[1_1_380px]">
             <Motif
               variant="home"
-              className="pointer-events-none absolute inset-0 m-auto h-auto w-[460px] max-w-full"
+              className="pointer-events-none absolute inset-0 m-auto h-auto w-[320px] max-w-full lg:w-[460px]"
             />
             <Image
               src="/crest.png"
@@ -123,8 +131,8 @@ export default async function HomePage() {
               height={341}
               loading="eager"
               fetchPriority="high"
-              sizes="300px"
-              className="relative block h-auto w-[300px] max-w-[70%]"
+              sizes="(max-width: 1023px) 200px, 300px"
+              className="relative block h-auto w-[200px] max-w-[70%] lg:w-[300px]"
               style={{ height: 'auto' }}
             />
           </div>
@@ -157,7 +165,7 @@ export default async function HomePage() {
                   <ResultCard key={m.id} m={m} />
                 ))}
               </div>
-              <div className="relative -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 scrollbar-thin md:hidden">
+              <div className="relative -mx-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 scrollbar-thin md:hidden">
                 {results.map((m) => (
                   <ResultCardCompact key={m.id} m={m} />
                 ))}
@@ -224,7 +232,7 @@ export default async function HomePage() {
             className="mb-3.5 md:mb-6"
           />
           {spotlight.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-[repeat(auto-fit,minmax(220px,1fr))] md:gap-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:gap-5">
               {spotlight.map((p) => (
                 <PlayerCardSpotlight key={p.id} p={p} />
               ))}
@@ -265,7 +273,7 @@ export default async function HomePage() {
                 ) : null}
               </div>
               {moreVideos.length > 0 ? (
-                <div className="hidden min-w-0 flex-[1_1_300px] flex-col gap-5 md:flex">
+                <div className="hidden min-w-0 flex-[1_1_300px] grid-cols-2 gap-5 md:grid lg:flex lg:flex-col">
                   {moreVideos.map((v) => (
                     <div key={v.id}>
                       <VideoEmbed
@@ -289,16 +297,16 @@ export default async function HomePage() {
 
       <section
         aria-labelledby="crest-title"
-        className="wrap flex flex-wrap items-center gap-12 py-14 md:py-[88px]"
+        className="wrap flex flex-wrap items-center gap-6 py-12 md:gap-12 md:py-[88px]"
       >
-        <div className="flex flex-[0_1_300px] justify-center">
+        <div className="flex flex-[0_1_300px] justify-start md:justify-center">
           <Image
             src="/crest.png"
             alt={`${club.name} crest`}
             width={240}
             height={273}
             sizes="240px"
-            className="h-auto w-[180px] md:w-[240px]"
+            className="h-auto w-[120px] md:w-[240px]"
             style={{ height: 'auto' }}
           />
         </div>

@@ -77,11 +77,11 @@ export default async function FixturesPage({ searchParams }: Props) {
       <PageHero id="fx-title" title="Fixtures &amp; results" flush>
         <ParamForm
           defaults={{ season: seasonToParam(club.currentSeason), view: 'fixtures' }}
-          className="mt-7 flex flex-wrap items-end gap-x-6 gap-y-4"
+          className="mt-6 flex flex-wrap items-end gap-x-6 gap-y-4 sm:mt-7"
           aria-label="Filter fixtures"
         >
           <input type="hidden" name="view" value={view} />
-          <div className="flex flex-col gap-1.5">
+          <div className="flex w-full flex-col gap-1.5 sm:w-auto">
             <label htmlFor="season" className="text-[14px] text-mist-text">
               Season
             </label>
@@ -90,7 +90,7 @@ export default async function FixturesPage({ searchParams }: Props) {
                 id="season"
                 name="season"
                 defaultValue={seasonToParam(season)}
-                className="min-h-[46px] min-w-[180px] rounded-button border border-border-dark bg-navy px-3.5 text-[15px] text-white"
+                className="min-h-[46px] min-w-0 flex-1 rounded-button border border-border-dark bg-navy px-3.5 text-[15px] text-white sm:min-w-[180px] sm:flex-none"
               >
                 {seasons.map((s) => (
                   <option key={s} value={seasonToParam(s)}>
@@ -110,6 +110,21 @@ export default async function FixturesPage({ searchParams }: Props) {
                   Apply
                 </button>
               </noscript>
+              {/* Phones: a compact calendar link beside the season; the full button shows from 640px. */}
+              <Link
+                href="/fixtures.ics"
+                prefetch={false}
+                aria-label="Sync fixtures to calendar"
+                className={buttonClass({
+                  variant: 'ghost-dark',
+                  size: 'md',
+                  minH: 'min-h-[46px]',
+                  px: 'px-3',
+                  className: 'sm:hidden',
+                })}
+              >
+                <CalendarIcon />
+              </Link>
             </div>
           </div>
           <div role="group" aria-label="Competition" className="flex flex-wrap gap-2">
@@ -134,7 +149,7 @@ export default async function FixturesPage({ searchParams }: Props) {
               size: 'md',
               minH: 'min-h-[46px]',
               px: 'px-4',
-              className: 'sm:ml-auto',
+              className: 'max-sm:hidden sm:ml-auto',
             })}
           >
             <CalendarIcon />
@@ -147,7 +162,7 @@ export default async function FixturesPage({ searchParams }: Props) {
           variant="folder"
           active={view}
           items={views.map((v) => ({ key: v.key, label: v.label, href: hrefFor(v.key) }))}
-          className="mt-9"
+          className="mt-7 sm:mt-9"
         />
       </PageHero>
 

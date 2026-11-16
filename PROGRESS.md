@@ -183,3 +183,25 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 
 - The club's team photo (`src/seed/images/team-photo.jpg`) is uploaded once by the seed and used as the main image for every seeded news story and the match report, until real photos are uploaded per story. It is a normal media item with alt text, so staff can replace it story by story in the admin.
 - The photo is included in the standalone build output so first-boot seeding works inside the container.
+
+## Responsive pass
+
+Checked every main page at 320, 360, 390, 430, 540, 640, 768, 900, 1024, 1280 and 1440px. No page scrolls sideways at any of them.
+
+**Phones**
+
+- Fixtures and results: phones get their own card layout. The date tile is hidden and the date sits beside the competition tag; the two teams stack as full-width rows with the kick-off time or score on the right, so club names no longer break mid-word; buttons share one full-width row. From 640px the drawn single-row layout returns.
+- Fixtures header: the calendar sync button becomes an icon beside the season picker, and page heroes use less padding on phones.
+- Home hero: title and crest sit side by side, both sized from the screen width so they cannot overlap (checked from 320px). The results scroller keeps its 16px gutter.
+- Squad: two players per row with a compact card (was one per row: the page went from about 23,700px to 8,700px tall).
+- Line-ups: below 768px the pitch stands upright (Rovers defend the bottom goal) so the whole pitch fits without sideways scrolling. This replaces the spec's "scrolls horizontally under 720px" on purpose.
+- Match tabs: tighter on phones, and the selected tab scrolls into view within the tab row.
+- Player profile: facts in two columns, smaller photo panel. Stakeholders: two people per row.
+
+**Tablets and small laptops**
+
+- Home: the crest stays beside the title from 768px; squad spotlight is four across from 640px (no orphan card); Watch shows the two smaller videos side by side under the main one until 1024px; the next-match card keeps its stacked layout, now with the countdown, until 1280px.
+- Squad: 3 then 4 players per row before the desktop grid.
+- Header: between 900 and 1280px the nav uses slightly tighter spacing so "Get tickets" never wraps; the menu still collapses below 900px as specified.
+
+**Tests**: five new end-to-end checks lock this in (fixture card layout, hero overlap from 320 to 430px, two-column squad, upright pitch, single-line header from 900 to 1440px).

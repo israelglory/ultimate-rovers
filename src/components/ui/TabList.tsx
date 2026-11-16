@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { type KeyboardEvent, useRef } from 'react'
+import { type KeyboardEvent, useEffect, useRef } from 'react'
 
 import { cn } from '@/lib/cn'
 
@@ -26,7 +26,7 @@ const styles: Record<TabVariant, { list: string; tab: (on: boolean) => string }>
     list: 'relative flex gap-1 overflow-x-auto scrollbar-thin',
     tab: (on) =>
       cn(
-        'inline-flex min-h-14 items-center whitespace-nowrap border-b-[3px] px-5 text-[16px] no-underline',
+        'inline-flex min-h-14 items-center whitespace-nowrap border-b-[3px] px-3.5 text-[15px] no-underline sm:px-5 sm:text-[16px]',
         on
           ? 'border-navy font-bold text-night hover:text-night'
           : 'border-transparent font-semibold text-slate hover:text-night',
@@ -68,6 +68,19 @@ export function TabList({
   const router = useRouter()
   const refs = useRef<Array<HTMLAnchorElement | null>>([])
   const s = styles[variant]
+
+  // In a sideways-scrolling tab row (match centre on phones), bring the selected tab into view.
+  // Only the row scrolls; the page itself never moves.
+  useEffect(() => {
+    const el = refs.current[items.findIndex((i) => i.key === active)]
+    const row = el?.parentElement
+    if (!el || !row || row.scrollWidth <= row.clientWidth) return
+    // The row is position: relative, so offsetLeft is measured from the row itself.
+    const left = el.offsetLeft
+    if (left < row.scrollLeft || left + el.offsetWidth > row.scrollLeft + row.clientWidth) {
+      row.scrollLeft = Math.max(0, left - 16)
+    }
+  }, [active, items])
 
   function onKeyDown(event: KeyboardEvent<HTMLAnchorElement>, index: number) {
     const last = items.length - 1

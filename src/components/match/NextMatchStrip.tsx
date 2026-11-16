@@ -9,8 +9,8 @@ import { ticketLink } from './MatchRows'
 import { TeamCrest } from './TeamCrest'
 
 /**
- * The next scheduled fixture inside the Home hero. Wide layout from 768px (Main.dc.html),
- * the stacked card below it (MobileHome.dc.html). Not rendered when nothing is scheduled.
+ * The next scheduled fixture inside the Home hero. Wide layout from 1024px (Main.dc.html),
+ * the stacked card below it (MobileHome.dc.html, plus the countdown). Not rendered when nothing is scheduled.
  */
 export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: number }) {
   const tickets = ticketLink(m)
@@ -18,7 +18,7 @@ export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: n
   return (
     <section aria-labelledby="next-match-title" className="rounded-[14px] bg-navy text-white">
       {/* Wide */}
-      <div className="hidden flex-wrap items-center gap-x-10 gap-y-6 px-7 py-6 md:flex">
+      <div className="hidden flex-wrap items-center gap-x-10 gap-y-6 px-7 py-6 xl:flex">
         <div className="flex-[0_1_180px]">
           <h2 id="next-match-title" className="m-0 font-display text-card-title font-extrabold">
             Next match
@@ -64,7 +64,7 @@ export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: n
       </div>
 
       {/* Phone */}
-      <div className="p-[18px] md:hidden">
+      <div className="p-[18px] sm:p-6 xl:hidden">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="m-0 font-display text-[24px] font-extrabold">Next match</h2>
           <span className="text-[13px] text-mist-text">{m.competition.shortName}</span>
@@ -89,6 +89,9 @@ export function NextMatchStrip({ m, serverNow }: { m: MatchSummary; serverNow: n
           {formatDayMonth(m.kickoff, m.timezone)}
           {m.venue ? `, ${m.venue}` : ''}
         </p>
+        <div className="mt-3.5 flex justify-center">
+          <Countdown kickoff={m.kickoff} serverNow={serverNow} />
+        </div>
         {tickets ? (
           <a
             href={tickets.href}

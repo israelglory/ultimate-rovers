@@ -9,7 +9,7 @@ import { DesktopNavLinks } from './NavLinks'
 export function SiteHeader({ clubName, ticketsHref }: { clubName: string; ticketsHref: string }) {
   return (
     <header className="border-b-[3px] border-cyan bg-night text-white">
-      <div className="wrap flex flex-wrap items-center justify-between gap-x-7 gap-y-3 py-2 nav:justify-start nav:py-2.5">
+      <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-2 nav:justify-start nav:py-2.5 xl:gap-x-7">
         <Link
           href="/"
           aria-label={`${clubName} home`}
@@ -21,10 +21,10 @@ export function SiteHeader({ clubName, ticketsHref }: { clubName: string; ticket
             width={46}
             height={52}
             loading="eager"
-            className="block h-auto w-[38px] nav:w-[46px]"
+            className="block h-auto w-[38px] nav:w-[38px] lg:w-[40px] xl:w-[46px]"
             style={{ height: 'auto' }}
           />
-          <span className="font-display text-[22px] leading-none font-extrabold tracking-[0.02em] uppercase nav:text-[26px]">
+          <span className="font-display text-[22px] leading-none font-extrabold tracking-[0.02em] uppercase nav:text-[20px] lg:text-[22px] xl:text-[26px]">
             {clubName}
           </span>
         </Link>

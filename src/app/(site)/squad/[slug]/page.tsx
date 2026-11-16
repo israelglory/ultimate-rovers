@@ -111,7 +111,7 @@ export default async function PlayerPage({ params, searchParams }: Props) {
           { label: fullName },
         ]}
         actions={
-          <div className="flex gap-1">
+          <div className="-ml-3 flex gap-1 sm:ml-0">
             {previous ? (
               <Link
                 href={`/squad/${previous.slug}`}
@@ -140,11 +140,11 @@ export default async function PlayerPage({ params, searchParams }: Props) {
 
       <section aria-labelledby="pl-name" className="overflow-hidden bg-night text-white">
         <div className="wrap flex flex-wrap items-stretch gap-12 pt-12 pb-14">
-          <div className="relative flex aspect-[4/5] max-w-[480px] min-w-0 flex-[1_1_380px] items-end justify-center overflow-hidden rounded-feature bg-navy">
+          <div className="relative mx-auto flex aspect-[4/5] w-full max-w-[300px] min-w-0 flex-[1_1_380px] items-end justify-center overflow-hidden rounded-feature bg-navy sm:mx-0 sm:max-w-[480px]">
             {player.squadNumber != null ? (
               <span
                 aria-hidden="true"
-                className="number-outline absolute -top-2.5 left-5 font-display text-[200px] leading-none font-black [-webkit-text-stroke-width:3px] sm:text-[300px]"
+                className="number-outline absolute -top-2 left-4 font-display text-[160px] leading-none font-black [-webkit-text-stroke-width:2px] sm:-top-2.5 sm:left-5 sm:text-[300px] sm:[-webkit-text-stroke-width:3px]"
               >
                 {player.squadNumber}
               </span>
@@ -178,13 +178,13 @@ export default async function PlayerPage({ params, searchParams }: Props) {
                 {player.surname}
               </span>
             </h1>
-            <dl className="m-0 mt-8 grid grid-cols-[repeat(auto-fit,minmax(min(170px,100%),1fr))] gap-x-6 gap-y-5">
+            <dl className="m-0 mt-8 grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-[repeat(auto-fit,minmax(170px,1fr))] sm:gap-x-6 sm:gap-y-5">
               {facts
                 .filter((f): f is [string, string] => Boolean(f[1]))
                 .map(([k, v]) => (
                   <div key={k} className="border-t border-line-dark pt-2.5">
                     <dt className="text-[13px] text-mist-text">{k}</dt>
-                    <dd className="m-0 mt-1 text-[17px] font-bold">{v}</dd>
+                    <dd className="m-0 mt-1 text-[16px] font-bold sm:text-[17px]">{v}</dd>
                   </div>
                 ))}
             </dl>

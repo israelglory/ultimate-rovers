@@ -29,11 +29,13 @@ export function ticketLink(m: MatchSummary): { href: string; label: string } | n
   return { href: m.ticketUrl, label: m.home.isUs ? 'Buy tickets' : 'Away tickets' }
 }
 
+/** Big date tile on wide screens; phones show the date inline in the meta line instead. */
 function DateBox({ m, tone }: { m: MatchSummary; tone: 'dark' | 'light' }) {
   return (
     <div
+      aria-hidden="true"
       className={cn(
-        'flex-[0_0_72px] rounded-[10px] py-2.5 text-center',
+        'hidden flex-[0_0_72px] rounded-[10px] py-2.5 text-center sm:block',
         tone === 'dark' ? 'bg-night text-white' : 'bg-mist text-ink',
       )}
     >
@@ -47,25 +49,47 @@ function DateBox({ m, tone }: { m: MatchSummary; tone: 'dark' | 'light' }) {
   )
 }
 
-function Teams({ m, centre }: { m: MatchSummary; centre: React.ReactNode }) {
+/** Competition tag, the date (phones only, beside the tag) and a detail line. */
+function Meta({ m, detail, note }: { m: MatchSummary; detail: string; note?: string | null }) {
   return (
-    <div className="grid min-w-0 flex-[3_1_420px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 sm:gap-4">
-      <div className="flex items-center justify-end gap-2.5 text-right">
-        <span className="min-w-0 text-[15px] font-bold break-words sm:text-[17px]">
-          {m.home.name}
-        </span>
-        <TeamCrest team={m.home} size={40} />
+    <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:flex-[1_1_170px]">
+      <div className="flex items-center justify-between gap-3">
+        <Tag>{m.competition.shortName}</Tag>
+        <time dateTime={m.kickoff} className="text-[14px] font-semibold text-ink sm:hidden">
+          {formatWeekdayShort(m.kickoff, m.timezone)}, {formatShortDate(m.kickoff, m.timezone)}
+        </time>
       </div>
-      {centre}
-      <div className="flex items-center gap-2.5">
-        <TeamCrest team={m.away} size={40} />
-        <span className="min-w-0 text-[15px] font-bold break-words sm:text-[17px]">
-          {m.away.name}
-        </span>
+      <span className="text-[14px] text-slate">{detail}</span>
+      {note ? <span className="text-[14px] text-ink">{note}</span> : null}
+    </div>
+  )
+}
+
+/**
+ * Phones: the two teams stack as full-width rows with the kick-off or score on the right, so long
+ * club names never break mid-word. From 640px: home, centre, away in one line, as drawn.
+ */
+function Teams({ m, centre }: { m: MatchSummary; centre: React.ReactNode }) {
+  const name = 'min-w-0 text-[16px] leading-tight font-bold sm:text-[17px]'
+  const crest = 'w-8 sm:w-10'
+  return (
+    <div className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2.5 sm:w-auto sm:flex-[3_1_420px] sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+      <div className="col-start-1 row-start-1 flex min-w-0 items-center gap-2.5 sm:flex-row-reverse sm:text-right">
+        <TeamCrest team={m.home} size={40} fluid className={crest} />
+        <span className={name}>{m.home.name}</span>
+      </div>
+      <div className="col-start-2 row-span-2 row-start-1 sm:row-span-1">{centre}</div>
+      <div className="col-start-1 row-start-2 flex min-w-0 items-center gap-2.5 sm:col-start-3 sm:row-start-1">
+        <TeamCrest team={m.away} size={40} fluid className={crest} />
+        <span className={name}>{m.away.name}</span>
       </div>
     </div>
   )
 }
+
+/** Buttons share one full-width row on phones and sit at the end of the row from 640px. */
+const actionsClass = 'flex w-full gap-2 sm:ml-auto sm:w-auto sm:flex-wrap'
+const actionButton = 'flex-1 sm:flex-none'
 
 /** The kick-off chip, or the state when a fixture is not simply scheduled. */
 function KickoffChip({ m }: { m: MatchSummary }) {
@@ -80,17 +104,17 @@ function KickoffChip({ m }: { m: MatchSummary }) {
     const score = resolveScore(m, [])
     return (
       <div className="flex flex-col items-center gap-1">
-        <div className="rounded-lg bg-night px-4 py-2 font-display text-[26px] leading-none font-black text-white">
+        <div className="rounded-lg bg-night px-3.5 py-2 font-display text-[24px] leading-none font-black whitespace-nowrap text-white sm:px-4 sm:text-[26px]">
           {score.home} : {score.away}
         </div>
-        <span className="rounded-pill bg-cyan px-2 py-0.5 text-[12px] font-bold text-night">
+        <span className="rounded-pill bg-cyan px-2 py-0.5 text-[12px] font-bold whitespace-nowrap text-night">
           {m.status === 'half_time' ? 'Half time' : `Live${m.minute ? `, ${m.minute}'` : ''}`}
         </span>
       </div>
     )
   }
   return (
-    <div className="rounded-lg border border-line bg-chalk px-3.5 py-2 font-display text-[26px] leading-none font-extrabold text-navy">
+    <div className="rounded-lg border border-line bg-chalk px-3 py-2 font-display text-[24px] leading-none font-extrabold text-navy sm:px-3.5 sm:text-[26px]">
       <time dateTime={m.kickoff}>{formatTime(m.kickoff, m.timezone)}</time>
     </div>
   )
@@ -102,35 +126,38 @@ export function FixtureRow({ m }: { m: MatchSummary }) {
   return (
     <article
       aria-label={`${fixtureLabel(m)}, ${formatLongDate(m.kickoff, m.timezone)}`}
-      className="flex flex-wrap items-center gap-x-7 gap-y-4 rounded-card border border-line bg-white px-4 py-4 sm:px-5"
+      className="flex flex-wrap items-center gap-x-7 gap-y-3.5 rounded-card border border-line bg-white p-4 sm:gap-y-4 sm:px-5"
     >
       <DateBox m={m} tone="dark" />
-      <div className="flex flex-[1_1_170px] flex-col gap-1.5">
-        <Tag>{m.competition.shortName}</Tag>
-        <span className="text-[14px] text-slate">
-          {where}
-          {m.venue ? `, ${m.venue}` : ''}
-        </span>
-        {m.statusNote && (m.status === 'postponed' || m.status === 'cancelled') ? (
-          <span className="text-[14px] text-ink">{m.statusNote}</span>
-        ) : null}
-      </div>
+      <Meta
+        m={m}
+        detail={`${where}${m.venue ? `, ${m.venue}` : ''}`}
+        note={m.status === 'postponed' || m.status === 'cancelled' ? m.statusNote : null}
+      />
       <Teams m={m} centre={<KickoffChip m={m} />} />
-      <div className="ml-auto flex flex-wrap gap-2">
-        <Link href={matchHref(m)} className={buttonClass({ variant: 'secondary', size: 'sm' })}>
+      <div className={actionsClass}>
+        <Link
+          href={matchHref(m)}
+          className={buttonClass({ variant: 'secondary', size: 'sm', className: actionButton })}
+        >
           Match centre<span className="sr-only">: {fixtureLabel(m)}</span>
         </Link>
         {tickets ? (
           <a
             href={tickets.href}
             rel="noopener"
-            className={buttonClass({ variant: 'primary-light', size: 'sm', px: 'px-[18px]' })}
+            className={buttonClass({
+              variant: 'primary-light',
+              size: 'sm',
+              px: 'px-[18px]',
+              className: actionButton,
+            })}
           >
             {tickets.label}
             <span className="sr-only">: {fixtureLabel(m)}</span>
           </a>
         ) : m.ticketAvailability === 'sold_out' ? (
-          <span className="inline-flex min-h-touch items-center px-2 text-[14px] font-bold text-slate">
+          <span className="inline-flex min-h-touch flex-1 items-center justify-center px-2 text-[14px] font-bold text-slate sm:flex-none">
             Sold out
           </span>
         ) : null}
@@ -139,7 +166,7 @@ export function FixtureRow({ m }: { m: MatchSummary }) {
             href={`${matchHref(m)}/calendar.ics`}
             download
             aria-label={`Add ${fixtureLabel(m)} to calendar`}
-            className="inline-flex size-touch items-center justify-center rounded-button border border-line bg-white text-navy hover:border-navy"
+            className="inline-flex size-touch shrink-0 items-center justify-center rounded-button border border-line bg-white text-navy hover:border-navy"
           >
             <CalendarAddIcon />
           </a>
@@ -154,29 +181,33 @@ export function ResultRow({ m }: { m: MatchSummary }) {
   return (
     <article
       aria-label={`${m.home.name} ${score.home}, ${m.away.name} ${score.away}, ${formatLongDate(m.kickoff, m.timezone)}`}
-      className="flex flex-wrap items-center gap-x-7 gap-y-4 rounded-card border border-line bg-white px-4 py-4 sm:px-5"
+      className="flex flex-wrap items-center gap-x-7 gap-y-3.5 rounded-card border border-line bg-white p-4 sm:gap-y-4 sm:px-5"
     >
       <DateBox m={m} tone="light" />
-      <div className="flex flex-[1_1_170px] flex-col gap-1.5">
-        <Tag>{m.competition.shortName}</Tag>
-        <span className="text-[14px] text-slate">Full time</span>
-      </div>
+      <Meta m={m} detail="Full time" />
       <Teams
         m={m}
         centre={
-          <div className="rounded-lg bg-night px-4 py-2 font-display text-[28px] leading-none font-black whitespace-nowrap text-white">
+          <div className="rounded-lg bg-night px-3.5 py-2 font-display text-[26px] leading-none font-black whitespace-nowrap text-white sm:px-4 sm:text-[28px]">
             {score.home} : {score.away}
           </div>
         }
       />
-      <div className="ml-auto flex flex-wrap gap-2">
-        <Link href={matchHref(m)} className={buttonClass({ variant: 'secondary', size: 'sm' })}>
+      <div className={actionsClass}>
+        <Link
+          href={matchHref(m)}
+          className={buttonClass({ variant: 'secondary', size: 'sm', className: actionButton })}
+        >
           Match centre<span className="sr-only">: {fixtureLabel(m)}</span>
         </Link>
         {m.hasHighlights ? (
           <Link
             href={`${matchHref(m)}#highlights`}
-            className={buttonClass({ variant: 'primary-light', size: 'sm' })}
+            className={buttonClass({
+              variant: 'primary-light',
+              size: 'sm',
+              className: actionButton,
+            })}
           >
             Highlights<span className="sr-only">: {fixtureLabel(m)}</span>
           </Link>

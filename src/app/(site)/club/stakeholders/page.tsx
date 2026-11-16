@@ -103,7 +103,7 @@ export default async function StakeholdersPage() {
               <p className="m-0 max-w-[520px] text-[15px] text-slate">{g.blurb}</p>
             </div>
             {people[g.id].length > 0 ? (
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(min(240px,100%),1fr))] gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] sm:gap-4">
                 {people[g.id].map((p) => (
                   <PersonCard key={p.id} person={p} />
                 ))}

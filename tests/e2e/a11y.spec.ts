@@ -1,4 +1,4 @@
-import { test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 import { expectNoA11yViolations, expectNoHorizontalScroll } from './helpers'
 
@@ -56,5 +56,14 @@ test('no horizontal scroll at 360px', async ({ page }) => {
   ]) {
     await page.goto(path)
     await expectNoHorizontalScroll(page)
+  }
+})
+
+test('the header stays on one line at every desktop width', async ({ page }) => {
+  for (const width of [900, 960, 1024, 1180, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 800 })
+    await page.goto('/')
+    const height = (await page.locator('header').boundingBox())!.height
+    expect(height, `header wraps at ${width}px`).toBeLessThan(90)
   }
 })

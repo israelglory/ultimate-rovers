@@ -37,7 +37,7 @@ export function PageHero({
         variant="page"
         className="pointer-events-none absolute -top-10 -right-20 h-auto w-[600px]"
       />
-      <div className={cn('wrap relative pt-14', flush ? 'pb-0' : 'pb-12')}>
+      <div className={cn('wrap relative pt-10 sm:pt-14', flush ? 'pb-0' : 'pb-10 sm:pb-12')}>
         {aside ? (
           <div className="flex flex-wrap items-end justify-between gap-5">
             <h1 id={id} className="m-0 font-display text-page-title font-black">
