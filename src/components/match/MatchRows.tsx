@@ -5,7 +5,13 @@ import { CalendarAddIcon } from '@/components/ui/icons'
 import { Tag } from '@/components/ui/Tag'
 import { cn } from '@/lib/cn'
 import { isLive, resolveScore } from '@/lib/domain/match'
-import { formatDayOfMonth, formatLongDate, formatTime, formatWeekdayShort } from '@/lib/format'
+import {
+  formatDayOfMonth,
+  formatLongDate,
+  formatShortDate,
+  formatTime,
+  formatWeekdayShort,
+} from '@/lib/format'
 import type { MatchSummary } from '@/lib/types'
 
 import { TeamCrest } from './TeamCrest'
@@ -187,13 +193,7 @@ export function ResultCard({ m }: { m: MatchSummary }) {
     <article className="flex flex-col gap-4 rounded-card border border-line bg-white p-5">
       <div className="flex justify-between text-[13px] text-slate">
         <span>{m.competition.shortName}</span>
-        <time dateTime={m.kickoff}>
-          {new Intl.DateTimeFormat('en-GB', {
-            timeZone: m.timezone,
-            day: 'numeric',
-            month: 'short',
-          }).format(new Date(m.kickoff))}
-        </time>
+        <time dateTime={m.kickoff}>{formatShortDate(m.kickoff, m.timezone)}</time>
       </div>
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-center">
         <div className="flex flex-col items-center gap-1.5">

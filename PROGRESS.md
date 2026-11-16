@@ -131,3 +131,28 @@ Log of what each phase delivered, the decisions taken and anything deferred. New
 - Accordion answers stay in the HTML with `hidden`, so find-in-page and search engines still see them.
 - Phone numbers only become `tel:` links when they contain at least six digits.
 - The cookie page states that the site sets only essential cookies; "Cookie settings" in the footer links there (PLAN gap 10).
+
+## Phase 6: Hardening
+
+**Done**
+
+- SEO: per-page titles and descriptions, canonical URLs, Open Graph and X cards on every page, `metadataBase` from `SITE_URL`, `/sitemap.xml` (static pages, matches, players, articles), `/robots.txt` (admin and API disallowed). JSON-LD: SportsTeam (Home), SportsEvent (matches), Person (players), NewsArticle (articles).
+- Share images: dynamic cards for matches (crests, teams, score or kick-off, state) and players (number, name, position), plus a default card at `/og.png` for every other page.
+- Accessibility: Playwright with axe (WCAG 2.2 A and AA rules) on every page and every match centre tab: no violations. Also covered: keyboard tabs, focus moving to the first invalid field and to the success message, the menu dialog, one-open accordion, and no horizontal scroll at 360px.
+- End-to-end tests (26, desktop at 1440px and a 390px phone): home to match centre (tabs by mouse, keyboard and shared URL), next fixture preview and calendar download, squad filter to player profile and the career toggle, fixtures filters, views and table (with and without JavaScript), contact form errors and success, newsletter, news filters, search and pagination, 404, health check, mobile menu.
+- Lighthouse, mobile preset with simulated 4G and CPU throttling, production build: Home, Fixtures, Match centre and Player all score 100 in performance, accessibility, best practices and SEO; LCP about 1.1 s, CLS 0, TBT about 35 ms. `pnpm lighthouse` reruns it and fails below the targets.
+- Docker: the image builds; the compose stack boots on an empty database, applies migrations, seeds with `SEED_ON_EMPTY=true`, serves uploads through the image optimiser from its volume, renders share images, and reports healthy.
+- README: local setup, scripts, environment variables, a matchday guide for staff, and the Coolify deployment guide.
+
+**Decisions**
+
+- Share image fonts are static TTF instances of Big Shoulders (Display cut) and Archivo committed under `src/assets/fonts` (Open Font License), because the image renderer cannot read the variable WOFF2 files that `next/font` serves. They are listed in `outputFileTracingIncludes` so the standalone server ships them, and read through literal paths so the bundler does not trace the whole project.
+- The image renderer cannot draw text outlines, so the player share card shows the squad number as a solid cyan numeral.
+- A page's own `openGraph` metadata replaces its parent's, so the default card is set explicitly by the metadata helper; match and player pages opt out so their generated images win.
+- Lighthouse runs through `npx lighthouse@13.6.0` and the end-to-end suite uses `@axe-core/playwright` (dev only, requested for the axe audit). No other dependencies were added in this phase.
+
+**Deferred, for the club to decide**
+
+- PLAN.md section 8 lists open questions on the handoff (three colours not in the tokens, standings storage, a match preview category). The build follows the proposed resolutions; each can be reversed cheaply.
+- Real content: crests for opponents, player photos, partner logos, videos, legal text and the club timezone are placeholders until entered in the admin.
+- Lighthouse numbers come from a local production server; rerun `pnpm lighthouse` against the live site after launch.

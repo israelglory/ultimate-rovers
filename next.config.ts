@@ -3,6 +3,8 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // OG images read these at runtime; make sure the standalone server ships them.
+  outputFileTracingIncludes: { '/**': ['./src/assets/fonts/**', './public/crest.png'] },
   poweredByHeader: false,
   reactStrictMode: true,
   // Do not write AGENTS.md into the repo on `next dev`.

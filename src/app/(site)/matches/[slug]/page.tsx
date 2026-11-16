@@ -48,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${match.home.name}${score ? `${score}` : ' vs'} ${match.away.name}`,
     description: `${match.competition.name}, ${formatDayMonth(match.kickoff, match.timezone)} at ${formatTime(match.kickoff, match.timezone)}. Line-ups, key moments, stats and head to head.`,
     path: `/matches/${slug}`,
+    hasImageFile: true,
   })
 }
 

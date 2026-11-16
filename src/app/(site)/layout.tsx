@@ -7,6 +7,7 @@ import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { brand } from '@/lib/brand'
 import { getSiteChrome } from '@/lib/data/club'
+import { siteUrl } from '@/lib/site'
 
 /**
  * Pages render per request on top of the tagged data cache (see PLAN.md section 3), so the build
@@ -14,9 +15,15 @@ import { getSiteChrome } from '@/lib/data/club'
  */
 export const dynamic = 'force-dynamic'
 
-export const metadata: Metadata = {
-  title: { default: 'Ultimate Rovers', template: '%s | Ultimate Rovers' },
-  description: 'Fixtures, results, the squad and every story from Ultimate Rovers, in one place.',
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    metadataBase: new URL(siteUrl()),
+    title: { default: 'Ultimate Rovers', template: '%s | Ultimate Rovers' },
+    description: 'Fixtures, results, the squad and every story from Ultimate Rovers, in one place.',
+    applicationName: 'Ultimate Rovers',
+    icons: { icon: '/crest.png', apple: '/crest.png' },
+    formatDetection: { telephone: false },
+  }
 }
 
 export const viewport: Viewport = {

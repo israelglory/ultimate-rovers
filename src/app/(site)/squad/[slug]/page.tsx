@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `${player.firstName} ${player.surname}${player.squadNumber != null ? `, number ${player.squadNumber}` : ''}, ${role.toLowerCase()} for ${club.name}. Profile, stats, videos and career.`,
     path: `/squad/${slug}`,
     type: 'profile',
+    hasImageFile: true,
   })
 }
 
